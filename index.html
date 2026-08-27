@@ -2746,6 +2746,35 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .deck-modal-card{max-height:94svh}.deck-modal-card .deck-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px 8px 36px;gap:9px}.deck-modal-card .deck-item{padding:6px 1px 13px}.deck-modal-card .deck-item .position{font-size:11px}.deck-modal-footer{padding:10px 12px 13px}.deck-modal-footer .primary{min-width:190px}
  .live-card-stage .card.large .stat{grid-template-columns:18px minmax(58px,1fr) 21px minmax(38px,.65fr);gap:2px}.live-card-stage .card.large .stat span{font-size:11px}.live-card-stage .card.large .stat b{font-size:16px}.live-card-stage .card.large .public{grid-template-columns:23px 37px minmax(0,1fr) 33px}.live-card-stage .card.large .public label{font-size:11px}.live-card-stage .card.large .public strong{font-size:33px}.live-card-stage .card.large .public small{font-size:8px}
 }
+
+/* V41 — composição de partida: aproxima o núcleo e devolve escala ao jogo. */
+:root{--ui:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+.headliner-zone.opp{top:19%;transform:translateX(-50%) scale(.82)}
+.headliner-zone.you{top:56.8%;bottom:auto;transform:translateX(-50%) scale(.84)}
+.slot{width:112px;height:160px}
+.opponent-area{top:7%;transform:translateX(-50%) scale(.78)}
+.opponent-area .opp-back{width:84px;height:122px}
+.opponent-area .count-badge{right:-28px;top:27px}
+.player-area{bottom:3%;}
+.player-area>.hand-fan>.count-badge{display:none}
+.attr-panel{left:-170px;top:63px}
+.round-controls{right:-158px;top:101px;padding:0;border:0;background:none;box-shadow:none}
+.round-controls .primary,.round-controls .secondary{box-shadow:0 6px 0 rgba(67,36,22,.42),inset 0 1px rgba(255,250,215,.5)}
+.topbar{min-height:44px;padding:3px 7px 3px 4px}
+.status{font-family:var(--ui);font-size:12px}
+
+@media(max-width:760px){
+ .headliner-zone.opp{top:18.8%;transform:translateX(-50%) scale(.86)}
+ .headliner-zone.you{top:57%;transform:translateX(-50%) scale(.9)}
+ .slot{width:84px;height:120px}
+ .opponent-area{top:11.4%;transform:translateX(-50%) scale(.88)}
+ .opponent-area .opp-back{width:58px;height:85px}
+ .opponent-area .count-badge{right:-24px;top:20px}
+ .player-area{bottom:6%}
+ .attr-panel{left:auto;top:auto}
+ .round-controls{right:auto;top:242px;padding:4px;border:1px solid #8b5935;background:linear-gradient(135deg,#f1d692,#d2a863);box-shadow:0 4px 0 rgba(67,36,22,.42)}
+ .topbar{min-height:0}
+}
 </style>
 </head>
 <body>
@@ -3264,7 +3293,7 @@ function playerHandHTML(){
    const angle=Math.round(ratio*11);
    const drop=Math.round(Math.abs(ratio)*12);
    return `<div class="hand-card" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openDeck(false)">${liveCardHTML(c,'hand')}</div>`
- }).join('')}<div class="count-badge" style="right:6%;top:8%">${state.you.deck.length}</div></div></div>`
+ }).join('')}</div></div>`
 }
 function headZonesHTML(){const make=(who,opp=false)=>Array.from({length:3},(_,i)=>{const c=state[who].head[i],fresh=state.justLocked&&state.justLocked.who===who&&state.justLocked.slot===i;return `<div class="slot ${opp?'':'you-slot'} ${c?'filled':''} ${fresh?'just-locked':''}" data-who="${who}" data-slot="${i}">${c?liveCardHTML(c,'headliner'):''}</div>`}).join('');const yt=state.you.head.reduce((s,c)=>s+(c?.pub||0),0),ct=state.cpu.head.reduce((s,c)=>s+(c?.pub||0),0);return `<div class="headliner-zone opp" data-total="FESTIVAL RIVAL · ${fmt(ct)}">${make('cpu',true)}</div><div class="headliner-zone you" data-total="SEU FESTIVAL · ${fmt(yt)}">${make('you',false)}</div>`}
 function battleHTML(){const y=state.currentYou,c=state.currentCpu;const disabled=state.turn!=='you'||state.revealed;let attrBtns=ATTRS.map(([k,l])=>`<button class="attr-btn ${state.selectedAttr===k?'selected':''}" ${disabled?'disabled':''} onclick="chooseAttr('${k}')">${l}</button>`).join('');let yv='',cv='';if(state.revealed&&state.lastWinner){yv=state.lastWinner==='you'?'winner-card':state.lastWinner==='cpu'?'loser-card':'';cv=state.lastWinner==='cpu'?'winner-card':state.lastWinner==='you'?'loser-card':''}const show=card=>state.revealed?liveCardHTML(card,'battle',card===y?yv:cv):cardBackBattle();const message=state.lastResult||turnMessage();return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${y?show(y):cardBackBattle()}<div class="vs">VS</div>${c?show(c):cardBackBattle()}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${message}</div><div class="round-controls">${!state.revealed?`<button class="secondary" onclick="openDeck(false)">Explorar monte</button><button class="primary" onclick="beginBattle()">${state.turn==='you'?'Preparar rodada':'Ver escolha do rival'}</button>`:`<button class="primary" onclick="nextRound()">Próxima rodada</button>`}</div></div>`}
