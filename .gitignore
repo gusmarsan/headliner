@@ -1,0 +1,5 @@
+.vercel/
+node_modules/
+browser-profile-*/
+screenshots/
+assets/fonts/

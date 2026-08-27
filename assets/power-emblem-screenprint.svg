@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+  <defs>
+    <filter id="rough"><feTurbulence baseFrequency=".055" numOctaves="2" seed="17" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale=".85"/></filter>
+    <mask id="drop"><rect width="72" height="72" fill="white"/><g fill="black" opacity=".62"><circle cx="22" cy="18" r="1.1"/><circle cx="44" cy="29" r=".8"/><circle cx="29" cy="47" r="1.2"/><path d="m14 39 5-1 1 2-5 1zm37-21 4 1-1 2-4-1z"/></g></mask>
+  </defs>
+  <g filter="url(#rough)" mask="url(#drop)">
+    <g fill="#ad8c5d" opacity=".8"><path d="M35 0h2v11h-2zM35 61h2v11h-2zM0 35h11v2H0zM61 35h11v2H61z"/><path d="m9 8 8 8-2 2-8-8zm46 46 8 8-2 2-8-8zm8-44-8 8-2-2 8-8zM17 56l-8 8-2-2 8-8z"/><path d="m20 3 4 10-2 1-4-10zm28 56 4 10-2 1-4-10zM3 20l10 4-1 2-10-4zm56 28 10 4-1 2-10-4zM52 3l-4 10-2-1 4-10zM24 59l-4 10-2-1 4-10zM3 52l10-4 1 2-10 4zm56-28 10-4 1 2-10 4z"/></g>
+    <path d="M36 8 64 36 36 64 8 36Z" fill="#c5a570"/>
+    <path d="M36 12 60 36 36 60 12 36Z" fill="#0b0d0c"/>
+    <path d="M36 16 56 36 36 56 16 36Z" fill="none" stroke="#8c724f" stroke-width="1.5"/>
+    <path d="M18 37h7l3-8 4 16 5-27 5 34 5-22 4 14 4-7h5" fill="none" stroke="#e1c38f" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="m30 34 5 5 4-7 4 12" fill="none" stroke="#8f3e3d" stroke-width="1.2" opacity=".8"/>
+  </g>
+</svg>

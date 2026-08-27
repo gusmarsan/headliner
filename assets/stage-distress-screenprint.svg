@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 220" preserveAspectRatio="none">
+  <defs><filter id="r"><feTurbulence baseFrequency=".018" numOctaves="3" seed="44" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4"/></filter><mask id="d"><rect width="320" height="220" fill="white"/><g fill="black"><circle cx="75" cy="99" r="5"/><circle cx="238" cy="44" r="3"/><circle cx="184" cy="174" r="4"/><path d="m30 150 32-5 2 7-31 4zm207-55 26 2-1 6-27-3z"/></g></mask></defs>
+  <g filter="url(#r)" mask="url(#d)" fill="#080909">
+    <path d="M-22 28 88 88 69 104-25 57z" opacity=".58"/>
+    <path d="m334 19-91 84-15-20 88-94z" opacity=".48"/>
+    <path d="m8 181 129-47 7 17L1 210z" opacity=".38"/>
+    <path d="m319 133-96 20-4-13 103-34z" opacity=".46"/>
+    <path d="M38 0h5v199h-5zm29 0h2v184h-2zm208 7h4v198h-4z" opacity=".42"/>
+    <path d="M12 64 97 6l3 5-85 59zm207-33 87 76-4 4-88-75z" opacity=".52"/>
+  </g>
+</svg>

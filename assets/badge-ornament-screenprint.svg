@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 83">
+  <defs>
+    <filter id="r"><feTurbulence baseFrequency=".055" numOctaves="2" seed="21" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale=".42"/></filter>
+    <mask id="d"><rect width="64" height="83" fill="white"/><g fill="black"><circle cx="23" cy="12" r=".65"/><circle cx="43" cy="53" r=".75"/><circle cx="19" cy="67" r=".55"/><path d="m8 35 6-1v1.6l-6 1zm36-14 5 1-.4 1.5-5-1z"/></g></mask>
+  </defs>
+  <g filter="url(#r)" mask="url(#d)" fill="none" stroke="#d1ae76">
+    <path d="M5 4h54v58L32 79 5 62Z" stroke-width="1.55"/>
+    <path d="M8 7h48v53L32 75 8 60Z" stroke-width=".7" opacity=".54"/>
+    <path d="M13 27h38M14 48h36" stroke-width=".8" opacity=".72"/>
+  </g>
+  <g filter="url(#r)" mask="url(#d)" fill="#d7b67e">
+    <path d="m32 8 2.2 4.4 4.9.7-3.5 3.4.8 4.9-4.4-2.3-4.4 2.3.8-4.9-3.5-3.4 4.9-.7z"/>
+    <path d="M12 55h7l2-3 3 6 3-10 3 13 3-11 3 8 3-5 3 2h10v2H41l-3-2-3 7-2-6-3 9-3-13-3 10-4-6-1 2h-7z"/>
+  </g>
+</svg>

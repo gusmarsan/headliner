@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 20" preserveAspectRatio="none">
+  <defs><filter id="r"><feTurbulence baseFrequency=".035 .18" numOctaves="2" seed="61" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale=".9"/></filter><mask id="d"><rect width="320" height="20" fill="white"/><g fill="black"><circle cx="33" cy="14" r="1"/><circle cx="118" cy="8" r=".8"/><circle cx="247" cy="15" r="1.1"/><path d="m178 13 8-1v2l-8 1z"/></g></mask></defs>
+  <path d="M0 11c29-4 52 2 79-1s55 3 83 0 54 2 81-1 50 3 77-1v12H0z" fill="#8a5440" opacity=".64"/>
+  <g fill="#17100e" filter="url(#r)" mask="url(#d)">
+    <g transform="translate(0)"><circle cx="9" cy="7" r="3"/><path d="M2 20c0-7 3-10 7-10s7 3 7 10z"/><circle cx="27" cy="6" r="3"/><path d="M20 20c0-7 3-11 7-11s7 4 7 11z"/></g>
+    <g transform="translate(38)"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-6 3-9 7-9s7 3 7 9z"/><circle cx="27" cy="5" r="3"/><path d="M20 20c0-8 3-12 7-12s7 4 7 12z"/></g>
+    <g transform="translate(76)"><circle cx="9" cy="6" r="3"/><path d="M2 20c0-7 3-11 7-11s7 4 7 11z"/><circle cx="27" cy="8" r="3"/><path d="M20 20c0-6 3-9 7-9s7 3 7 9z"/></g>
+    <g transform="translate(114)"><circle cx="9" cy="5" r="3"/><path d="M2 20c0-8 3-12 7-12s7 4 7 12z"/><circle cx="27" cy="7" r="3"/><path d="M20 20c0-7 3-10 7-10s7 3 7 10z"/></g>
+    <g transform="translate(152)"><circle cx="9" cy="8" r="3"/><path d="M2 20c0-6 3-9 7-9s7 3 7 9z"/><circle cx="27" cy="6" r="3"/><path d="M20 20c0-7 3-11 7-11s7 4 7 11z"/></g>
+    <g transform="translate(190)"><circle cx="9" cy="7" r="3"/><path d="M2 20c0-7 3-10 7-10s7 3 7 10z"/><circle cx="27" cy="5" r="3"/><path d="M20 20c0-8 3-12 7-12s7 4 7 12z"/></g>
+    <g transform="translate(228)"><circle cx="9" cy="6" r="3"/><path d="M2 20c0-7 3-11 7-11s7 4 7 11z"/><circle cx="27" cy="8" r="3"/><path d="M20 20c0-6 3-9 7-9s7 3 7 9z"/></g>
+    <g transform="translate(266)"><circle cx="9" cy="5" r="3"/><path d="M2 20c0-8 3-12 7-12s7 4 7 12z"/><circle cx="27" cy="7" r="3"/><path d="M20 20c0-7 3-10 7-10s7 3 7 10z"/></g>
+    <circle cx="311" cy="6" r="3"/><path d="M304 20c0-7 3-11 7-11s7 4 7 11z"/>
+  </g>
+</svg>
