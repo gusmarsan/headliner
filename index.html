@@ -2866,6 +2866,43 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .table-wrap{inset:0;width:100vw;height:100svh;perspective:none;transform:none}
  .table{inset:0;border:0;border-radius:0;background-position:center center;transform:none}
 }
+
+/* V44 — refinamento visual solicitado: composição, leitura e responsividade. */
+@media(min-width:761px){
+ .cover-screen{background-color:#07141b;background-image:linear-gradient(180deg,rgba(4,12,17,.34),rgba(4,12,17,.08) 48%,rgba(4,12,17,.78)),url('assets/headliner-cover-approved.webp');background-position:center,center 82%;background-size:cover,cover;background-repeat:no-repeat}
+ .cover-screen:before{background:radial-gradient(ellipse at center,rgba(4,24,33,.08),rgba(3,10,14,.42) 78%);filter:none;opacity:1;transform:none}
+ .cover-screen:after{background:linear-gradient(90deg,rgba(4,12,17,.78),transparent 24%,transparent 76%,rgba(4,12,17,.78)),linear-gradient(180deg,rgba(4,12,17,.18),transparent 55%,rgba(4,12,17,.48))}
+}
+.deck-grid{align-items:start}
+.deck-item{min-width:0;align-content:start;contain:layout}
+.deck-item .live-card-stage{position:relative;overflow:visible;isolation:isolate}
+.deck-item .live-card-stage .card.large{position:absolute!important;left:0;top:0;transform:none!important;overflow:hidden}
+@media(min-width:761px){.deck-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+@media(max-width:760px){.deck-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.opponent-fan{position:relative;width:360px;height:132px}
+.opponent-fan .opp-back{position:absolute;left:50%;top:0;margin:0;transform:translateX(calc(-50% + var(--opp-x))) translateY(var(--opp-drop)) rotate(var(--opp-r))!important;transform-origin:50% 100%}
+.opponent-fan .count-badge{position:absolute;left:calc(50% + 160px);right:auto;top:25px}
+.vs{display:none!important}
+.battle-cards{gap:34px}
+.attr-btn{font-weight:500}
+.attr-btn.selected{font-weight:600}
+.headliner-zone.you{top:53.5%}
+.headliner-zone.you:before{top:calc(100% + 6px)!important;bottom:auto!important}
+.modal:has(.end-box){background:rgba(5,14,18,.76);backdrop-filter:blur(9px)}
+.modal:has(.end-box) .modal-card{width:min(760px,calc(100vw - 24px))!important;border:2px solid #8b5a36;border-radius:5px;background:linear-gradient(145deg,#f4e3b5,#d9b26f 72%,#c28b50);box-shadow:0 28px 80px rgba(31,18,10,.56)}
+.end-box{position:relative;overflow:hidden;padding:clamp(30px,5vw,54px) clamp(22px,6vw,70px) 34px;text-align:center;background:radial-gradient(circle at 50% 0,rgba(255,248,206,.56),transparent 46%),linear-gradient(180deg,rgba(255,241,191,.45),rgba(213,167,96,.22));border:1px solid rgba(104,65,35,.45)}
+.end-box:before,.end-box:after{content:"";position:absolute;top:24px;width:22%;height:1px;background:linear-gradient(90deg,transparent,#8b5a36,transparent);opacity:.7}.end-box:before{left:3%}.end-box:after{right:3%}
+.end-box .winner{display:inline-block;padding:10px 22px 8px;background:#123d50;color:#f8e4ae;border:1px solid #7a4d32;box-shadow:0 5px 0 #7a4d32,0 12px 22px rgba(54,34,20,.2);font-family:var(--display);font-size:clamp(34px,6vw,62px);letter-spacing:.035em;line-height:.95;text-shadow:0 2px 0 #082531}
+.end-box p{margin:22px 0 6px;color:#35515a;font-size:clamp(12px,1.8vw,16px);letter-spacing:.08em;text-transform:uppercase}
+.end-box .festival-name{margin:0 0 22px;color:#123d50;font-family:var(--display);font-size:clamp(30px,5vw,52px);letter-spacing:.045em;text-shadow:0 2px 0 rgba(255,239,184,.75)}
+.end-box .score-row{gap:12px}.end-box .score-pill{background:rgba(255,247,215,.52);border:1px solid rgba(112,73,39,.4);color:#35515a;box-shadow:inset 0 1px rgba(255,255,255,.55)}
+.end-box .score-pill strong{color:#123d50}.end-box .primary{margin-top:24px;min-width:210px}
+@media(max-width:760px){
+ .opponent-fan{width:310px;height:100px}.opponent-fan .count-badge{left:calc(50% + 138px);top:17px}
+ .battle-cards{gap:12px}
+ .headliner-zone.you{top:57.5%}.headliner-zone.you:before{top:calc(100% + 6px)!important}
+ .end-box{padding:28px 16px 25px}.end-box:before,.end-box:after{width:14%}.end-box .winner{font-size:clamp(29px,9vw,44px);padding:9px 14px 7px}.end-box p{margin-top:18px;font-size:10px}.end-box .festival-name{font-size:clamp(27px,8vw,40px);margin-bottom:17px}.end-box .score-row{gap:7px}.end-box .score-pill{padding:8px 5px;font-size:9px}.end-box .score-pill strong{font-size:18px}.end-box .primary{margin-top:19px;min-width:180px}
+}
 </style>
 </head>
 <body>
@@ -3497,7 +3534,7 @@ document.addEventListener('keydown',e=>{
 });
 
 function renderGame(){if(!state){renderStart();return}const app=$('#app');app.innerHTML=`<div class="screen"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div><div class="topbar-actions"><button class="menu-btn" onclick="openDeck(false)">Meu monte (${state.you.deck.length})</button><button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;wireSlots()}
-function opponentHandHTML(){let n=Math.min(5,state.cpu.deck.length);let backs=Array.from({length:n},(_,i)=>`<div class="opp-back" style="transform:rotate(${(i-(n-1)/2)*4}deg) translateY(${Math.abs(i-(n-1)/2)*4}px)"></div>`).join('');return `<div class="opponent-area"><div style="position:relative;display:flex;gap:4px">${backs}<div class="count-badge">${state.cpu.deck.length}</div></div></div>`}
+function opponentHandHTML(){const n=Math.min(5,state.cpu.deck.length),middle=(n-1)/2,step=n>1?Math.min(86,Math.max(52,Math.round(300/(n-1)))):0;const backs=Array.from({length:n},(_,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*12),drop=Math.round(Math.abs(ratio)*9);return `<div class="opp-back" style="--opp-x:${x}px;--opp-r:${angle}deg;--opp-drop:${drop}px;z-index:${i+1}"></div>`}).join('');return `<div class="opponent-area"><div class="opponent-fan">${backs}<div class="count-badge">${state.cpu.deck.length}</div></div></div>`}
 function playerHandHTML(){
  const cards=state.you.deck.slice(0,5),n=cards.length;
  const middle=(n-1)/2;
