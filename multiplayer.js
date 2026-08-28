@@ -49,7 +49,7 @@
       .network-card p{max-width:500px;margin:15px auto 21px;color:#486165;font-family:var(--ui);font-size:14px;font-weight:650;line-height:1.5}
       .network-kicker{display:block;margin-bottom:9px;color:#a44836;font-family:var(--ui);font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
       .network-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.network-actions.spaced{margin-top:18px}.network-actions .primary,.network-actions .secondary,.network-actions .danger{min-height:46px;min-width:180px;border-radius:2px;white-space:normal}
-      .network-actions .primary{background:#c6533d;color:#fff1c8;border-color:#7d3328}.network-actions .primary:hover{background:#aa4133}.network-actions .secondary{background:#164e62;color:#fff0c1;border-color:#0b3544}.network-actions .secondary:hover{background:#103e4f}.network-actions .danger{background:#f0dfb4;color:#8d392f;border:1px solid rgba(124,64,42,.48)}
+      .network-actions .primary{background:linear-gradient(180deg,#d45b43,#ad3e31);color:#fff1c8;border-color:#6d3027}.network-actions .primary:hover:not(:disabled){background:linear-gradient(180deg,#df654a,#b74435)}.network-actions .secondary{background:#164e62;color:#fff0c1;border-color:#0b3544}.network-actions .secondary:hover{background:#103e4f}.network-actions .danger{background:#f0dfb4;color:#8d392f;border:1px solid rgba(124,64,42,.48)}
       .network-room-code{display:block;margin:14px auto 10px;padding:13px 23px 10px;width:max-content;max-width:100%;border:3px solid #123f50;background:#f8ebc9;color:#123f50;font-family:var(--display);font-size:clamp(50px,11vw,82px);font-weight:600;letter-spacing:.13em;line-height:.9;box-shadow:6px 6px 0 #c6533d;transform:rotate(-1deg)}
       .network-room-help{margin:8px auto 20px!important;font-size:12px!important}.network-room-input{width:min(360px,100%);height:64px;margin:8px auto 18px;padding:0 15px;border:3px solid #123f50;border-radius:2px;background:#fff0c8;color:#123f50;font-family:var(--display);font-size:36px;font-weight:600;letter-spacing:.14em;text-align:center;text-transform:uppercase;outline:none;box-shadow:5px 5px 0 #d0a653}.network-room-input:focus{box-shadow:5px 5px 0 #c6533d,0 0 0 4px rgba(198,83,61,.2)}
       .network-status-dot{display:inline-block;width:9px;height:9px;margin-right:7px;border-radius:50%;background:#d1a543;box-shadow:0 0 0 3px rgba(209,165,67,.2)}.network-status-dot.online{background:#2f9b68;box-shadow:0 0 0 3px rgba(47,155,104,.18)}
@@ -436,9 +436,9 @@
     base.renderGame();
     const end=state.networkEnd||networkEndPayload(),mine=network.side,opponent=otherSide(mine),winner=end.winner;
     const title=!winner?'EMPATE!':winner===mine?'VOCÊ GANHOU!':'VOCÊ PERDEU!';
-    const festival=winner?`<p>O festival vencedor vai se chamar:</p><div class="festival-name">${end.name}</div>`:`<p>Os dois festivais terminaram com o mesmo Público.</p>`;
     const mineTotal=mine===P1?end.p1Total:end.p2Total,oppTotal=opponent===P1?end.p1Total:end.p2Total;
-    const root=$('#modal-root');root.innerHTML=`<div class="modal network-end-modal"><div class="modal-card"><div class="end-box"><div class="winner">${title}</div>${festival}<div class="score-row"><div class="score-pill">Seu festival<strong>${fmt(mineTotal)}</strong>pessoas</div><div class="score-pill">Festival rival<strong>${fmt(oppTotal)}</strong>pessoas</div></div>${networkRematchHTML(mine,opponent)}</div></div></div>`;
+    const poster=resultPosterHTML({title,name:winner?end.name:'',leftLabel:'Seu festival',leftTotal:mineTotal,rightLabel:'Festival rival',rightTotal:oppTotal,tie:!winner,actions:networkRematchHTML(mine,opponent)});
+    const root=$('#modal-root');root.innerHTML=`<div class="modal network-end-modal festival-result-modal" role="dialog" aria-modal="true" aria-labelledby="festival-result-title"><div class="modal-card result-poster-card">${poster}</div></div>`;
     decorateNetworkTable();
   }
   playAgain=function(){if(!isNetworkGame())return base.playAgain();requestNetworkRematch()};

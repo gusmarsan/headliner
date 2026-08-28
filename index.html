@@ -3061,6 +3061,178 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
 @media(max-width:370px){
  .onboarding-scroll{padding-left:15px;padding-right:15px}.onboarding-header{padding-right:88px}.onboarding-brand{font-size:36px}.onboarding-rule p{font-size:11px}
 }
+
+/* ===== UI critique 2026-08 — ajustes auditados, sem mudanças de mecânica ===== */
+
+/* Uma única linguagem para ações primárias vermelhas, baseada nos tickets da mesa. */
+.primary,
+.round-controls .primary,
+.deck-modal-footer .primary{
+ --primary-notch:2.8px;
+ box-sizing:border-box;
+ min-height:42px;
+ padding:10px 18px;
+ border:1px solid #6d3027;
+ border-radius:1px;
+ background:linear-gradient(180deg,#d45b43 0%,#ad3e31 100%);
+ color:#fff2ca;
+ box-shadow:0 5px 0 rgba(82,38,27,.72),0 11px 18px rgba(34,18,12,.2),inset 0 1px rgba(255,244,207,.5);
+ font-family:var(--display);
+ font-size:14px;
+ font-weight:700;
+ line-height:1;
+ letter-spacing:.045em;
+ text-transform:uppercase;
+ cursor:pointer;
+ transition:transform .14s ease-out,filter .14s ease-out,box-shadow .14s ease-out;
+ clip-path:none!important;
+ -webkit-mask:radial-gradient(circle at 0 50%,transparent 0 var(--primary-notch),#000 calc(var(--primary-notch) + .7px)) left top/51% 16px repeat-y,radial-gradient(circle at 100% 50%,transparent 0 var(--primary-notch),#000 calc(var(--primary-notch) + .7px)) right top/51% 16px repeat-y;
+ mask:radial-gradient(circle at 0 50%,transparent 0 var(--primary-notch),#000 calc(var(--primary-notch) + .7px)) left top/51% 16px repeat-y,radial-gradient(circle at 100% 50%,transparent 0 var(--primary-notch),#000 calc(var(--primary-notch) + .7px)) right top/51% 16px repeat-y;
+}
+.primary:hover:not(:disabled),.round-controls .primary:hover:not(:disabled),.deck-modal-footer .primary:hover:not(:disabled){background:linear-gradient(180deg,#df654a,#b74435);filter:brightness(1.03);transform:translateY(-2px)}
+.primary:active:not(:disabled),.round-controls .primary:active:not(:disabled),.deck-modal-footer .primary:active:not(:disabled){box-shadow:0 2px 0 rgba(82,38,27,.72),0 6px 10px rgba(34,18,12,.18),inset 0 1px rgba(255,244,207,.4);transform:translateY(2px)}
+.primary:focus-visible,.round-controls .primary:focus-visible,.deck-modal-footer .primary:focus-visible{outline:3px solid #fff2b9;outline-offset:4px}
+.primary:disabled,.round-controls .primary:disabled,.deck-modal-footer .primary:disabled{opacity:.5;filter:saturate(.35);cursor:not-allowed;box-shadow:0 3px 0 rgba(82,38,27,.55);transform:none}
+
+/* O X mantém uma área confortável, mas perde a caixa genérica. */
+.close{
+ width:44px;height:44px;min-width:44px;padding:0;border:0;border-radius:0;background:transparent;color:#b33f32;
+ display:grid;place-items:center;font-family:var(--display);font-size:0;font-weight:900;line-height:1;box-shadow:none;
+ text-shadow:1px 1px 0 rgba(91,42,30,.2);transform:rotate(-5deg);cursor:pointer;
+ transition:color .14s ease,transform .14s ease,text-shadow .14s ease;
+}
+.close:before{content:"✕";font-family:Impact,var(--display);font-size:27px;font-weight:900;line-height:1}
+.close:hover{background:transparent;color:#d04b39;text-shadow:2px 2px 0 rgba(91,42,30,.2);transform:rotate(2deg) scale(1.08)}
+.close:active{transform:rotate(-2deg) scale(.94)}
+.close:focus-visible{outline:3px solid #155b70;outline-offset:1px;background:rgba(255,246,215,.2)}
+
+/* Placar informativo compacto; ações utilitárias independentes no topo direito. */
+.topbar{left:max(18px,3.4vw);right:auto;top:max(14px,2.7%);width:max-content;max-width:calc(100vw - 170px);transform:rotate(-.2deg)}
+.table-actions{
+ position:absolute;right:max(18px,3.4vw);top:max(14px,2.7%);z-index:16;display:flex;align-items:center;gap:7px;
+ padding:4px;border:1px solid #73472f;background:linear-gradient(180deg,#f5e5b9,#e7c885);
+ box-shadow:0 5px 0 rgba(65,34,20,.46),0 12px 22px rgba(0,0,0,.24),inset 0 0 0 1px rgba(255,248,213,.58);
+ pointer-events:auto;transform:rotate(.25deg);
+}
+.headliner-zone.opp:before{content:"FESTIVAL RIVAL"}
+
+/* A carta do topo acompanha o avanço do monte e permanece consultável. */
+.hand-card{
+ appearance:none;-webkit-appearance:none;margin:0;padding:0;border:0;background:transparent;color:inherit;text-align:initial;
+ backface-visibility:hidden;isolation:isolate;
+}
+.player-area{bottom:18px}
+.hand-card:hover,
+.hand-card:focus-visible{
+ z-index:30!important;
+ transform:translateX(calc(-50% + var(--hand-x))) translateY(calc(var(--hand-drop) - 38px)) rotate(0) scale(1.08)!important;
+ filter:drop-shadow(0 22px 18px rgba(0,0,0,.38));
+ outline:0;
+}
+.hand-card:focus-visible .live-card-stage{outline:3px solid #ffe5a0;outline-offset:4px}
+.next-card-marker{
+ position:absolute;left:50%;top:-28px;z-index:3;display:flex;align-items:center;justify-content:center;gap:5px;
+ width:max-content;min-width:104px;padding:5px 8px 4px;border:1px solid #795034;background:#efd68e;color:#173c49;
+ box-shadow:0 3px 0 rgba(76,42,25,.48);font-family:var(--display);font-size:10px;font-weight:700;line-height:1;
+ letter-spacing:.045em;text-transform:uppercase;transform:translateX(-50%) rotate(-1deg);pointer-events:none;
+}
+.next-card-marker i{color:#b64233;font-family:var(--ui);font-size:14px;font-style:normal;font-weight:900;line-height:.7}
+
+/* Na batalha, a microcamada de registro do master vira ghosting quando
+   rasterizada em escala. Mantemos o acabamento impresso nos outros contextos. */
+.live-card-battle .card.large .artist-zone .name{text-shadow:none!important}
+.live-card-battle .card.large.has-artist-art.art-ink-dark .artist-zone .name .title-line:before{content:none!important}
+.live-card-battle .card.large.has-artist-art.art-title-punch .artist-zone .name .title-line{transform:none!important}
+@media(min-width:761px){
+ .live-card-battle{--live-card-scale:.39;width:133px;height:188px}
+ .battle-cards{height:197px;gap:31px}
+ .result-strip{top:198px}
+}
+
+/* Resultado como cartaz físico de festival, compartilhado por Solo e multiplayer. */
+.festival-result-modal{
+ padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));
+ background:rgba(5,13,16,.82);backdrop-filter:blur(9px) saturate(.72);
+}
+.festival-result-modal .result-poster-card{
+ width:min(820px,calc(100vw - 32px))!important;max-height:calc(100dvh - 28px);overflow:auto;
+ border:0!important;border-radius:0!important;background:transparent!important;box-shadow:12px 14px 0 rgba(42,23,13,.35),0 30px 80px rgba(0,0,0,.56)!important;
+ transform:rotate(.18deg);scrollbar-color:#9c6b3e transparent;scrollbar-width:thin;
+}
+.festival-poster{
+ position:relative;isolation:isolate;overflow:hidden;min-height:520px;padding:28px clamp(30px,7vw,72px) 24px;
+ border:3px solid #72452c;background:
+  radial-gradient(circle at 16% 22%,rgba(111,67,34,.1) 0 1px,transparent 1.6px) 0 0/19px 21px,
+  repeating-linear-gradient(97deg,rgba(82,53,28,.028) 0 1px,transparent 1px 8px),
+  linear-gradient(118deg,#f1d893 0%,#f8e9ba 38%,#e9c676 72%,#dca95c 100%);
+ color:#123b4d;text-align:center;box-shadow:inset 0 0 52px rgba(91,50,24,.17);
+}
+.festival-poster:before{
+ content:"";position:absolute;z-index:-1;width:380px;height:380px;left:50%;top:46%;border:2px solid rgba(190,70,48,.22);border-radius:50%;
+ background:repeating-conic-gradient(from -4deg,rgba(196,68,46,.09) 0 7deg,transparent 7deg 15deg);transform:translate(-50%,-50%);pointer-events:none;
+}
+.festival-poster:after{
+ content:"PALCO PRINCIPAL · CÓPIA DE PRODUÇÃO";position:absolute;right:22px;bottom:64px;padding:5px 7px 4px;border:2px solid rgba(157,54,41,.44);
+ color:rgba(143,48,38,.62);font:800 8px/1 var(--ui);letter-spacing:.11em;transform:rotate(-3deg);pointer-events:none;
+}
+.festival-poster>*{position:relative;z-index:1}
+.poster-production{display:flex;justify-content:space-between;gap:20px;padding-bottom:9px;border-bottom:2px solid rgba(35,61,59,.55);font:850 10px/1 var(--ui);letter-spacing:.14em;text-transform:uppercase}
+.poster-production span:first-child{color:#b33f32}
+.poster-stars{margin:10px 0 5px;color:#b54133;font-size:15px;letter-spacing:.45em}
+.festival-poster .winner{
+ display:inline-block;margin:0;padding:9px 24px 7px;border:0;background:#b74435;color:#fff0bd;
+ box-shadow:6px 6px 0 #123b4d;font-family:var(--display);font-size:clamp(40px,6vw,66px);font-weight:700;line-height:.86;
+ letter-spacing:.045em;text-transform:uppercase;text-shadow:1px 2px 0 rgba(71,28,23,.35);transform:rotate(-.8deg);
+}
+.festival-poster .festival-kicker{margin:19px 0 5px;color:#37565b;font:850 11px/1 var(--ui);letter-spacing:.16em;text-transform:uppercase}
+.festival-poster .festival-kicker.festival-tie{margin:30px auto 24px;font-size:15px;line-height:1.35}
+.festival-poster .festival-name{
+ max-width:690px;margin:0 auto 20px;color:#123b4d;font-family:var(--display);font-size:clamp(52px,8.2vw,92px);font-weight:700;line-height:.82;
+ letter-spacing:.015em;text-wrap:balance;overflow-wrap:break-word;text-transform:uppercase;text-shadow:2px 2px 0 #f5df99,-1px 0 0 rgba(184,62,43,.34);
+}
+.festival-scoreboard{display:grid;grid-template-columns:1fr 1fr;max-width:590px;margin:0 auto;padding:12px 0 11px;border-top:2px dashed rgba(74,61,39,.55);border-bottom:2px dashed rgba(74,61,39,.55)}
+.festival-score{display:grid;grid-template-columns:1fr;align-content:center;min-width:0;padding:0 22px;color:#34545a;text-transform:uppercase}
+.festival-score+ .festival-score{border-left:1px solid rgba(70,61,42,.48)}
+.festival-score span{font:850 12px/1 var(--ui);letter-spacing:.11em}
+.festival-score strong{margin:3px 0 -1px;color:#b54233;font-family:var(--display);font-size:clamp(36px,5vw,54px);font-weight:700;line-height:.9;letter-spacing:.025em}
+.festival-score small{font:750 9px/1.15 var(--ui);letter-spacing:.08em}
+.poster-actions{margin:17px auto 15px}
+.poster-actions>.primary{min-width:230px;min-height:48px}
+.poster-footer{display:flex;align-items:center;justify-content:center;gap:14px;color:#173f4c;font:900 9px/1 var(--ui);letter-spacing:.16em}
+.poster-footer i{color:#b54133;font-style:normal}
+.festival-poster .network-rematch-panel{margin:4px auto 0;padding:14px 10px 2px;border:0;border-top:1px solid rgba(92,67,38,.45);background:transparent}
+.festival-poster .network-rematch-panel strong{font-size:25px}.festival-poster .network-rematch-panel p{margin:5px auto 12px!important}
+
+@media(min-width:761px) and (max-height:800px){
+ .festival-poster{padding-top:22px;padding-bottom:18px}
+ .poster-actions{margin-top:14px;margin-bottom:12px}
+}
+
+@media(max-width:760px){
+ .primary,.round-controls .primary,.deck-modal-footer .primary{--primary-notch:2.4px;min-height:44px;padding:9px 13px;font-size:12px}
+ .close{width:48px;height:48px;min-width:48px;font-size:36px}
+ .topbar{left:max(8px,env(safe-area-inset-left));right:auto;top:max(8px,env(safe-area-inset-top));width:max-content;max-width:calc(100vw - 92px);min-height:38px;justify-content:flex-start;padding:3px 6px;transform:rotate(-.15deg)}
+ .topbar .status{display:flex;font-size:8.5px;gap:5px}.topbar .status>span+span{padding-left:5px}.topbar .status strong{font-size:12px}
+ .topbar .menu-btn{min-height:30px;padding:4px 7px;font-size:9px}
+ .table-actions{right:max(8px,env(safe-area-inset-right));top:max(8px,env(safe-area-inset-top));gap:3px;padding:3px;transform:none}
+ .table-actions .utility-icon-btn{width:30px;height:30px;min-width:30px}
+ .local-public-counts{font-size:7px;gap:2px}.local-public-counts b{font-size:10px}
+ .headliner-zone.opp:before{display:block!important;left:calc(100% + 3px);top:42px;bottom:auto;padding:3px 5px!important;font-size:7px!important;letter-spacing:.45px!important;white-space:nowrap;transform:none}
+ .player-area{bottom:3%}
+ .hand-card:hover,.hand-card:focus-visible{transform:translateX(calc(-50% + var(--hand-x-mobile))) translateY(calc(var(--hand-drop-mobile) - 20px)) rotate(0) scale(1.05)!important}
+ .next-card-marker{left:calc(50% + 30px);top:-23px;min-width:86px;padding:4px 6px 3px;font-size:7.5px;gap:3px}.next-card-marker i{font-size:11px}
+ .festival-result-modal{align-items:center;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+ .festival-result-modal .result-poster-card{width:min(100%,430px)!important;max-height:calc(100dvh - 16px);box-shadow:7px 8px 0 rgba(42,23,13,.34),0 22px 52px rgba(0,0,0,.54)!important;transform:none}
+ .festival-poster{min-height:0;padding:18px 14px 15px;border-width:2px}
+ .festival-poster:before{width:280px;height:280px;top:43%}.festival-poster:after{right:12px;bottom:50px;font-size:5.5px;padding:3px 4px}
+ .poster-production{font-size:7px;letter-spacing:.1em;padding-bottom:7px}.poster-stars{margin:7px 0 4px;font-size:11px}
+ .festival-poster .winner{padding:8px 13px 6px;box-shadow:4px 4px 0 #123b4d;font-size:clamp(35px,11vw,50px)}
+ .festival-poster .festival-kicker{margin:15px 0 4px;font-size:8px;letter-spacing:.12em}.festival-poster .festival-kicker.festival-tie{margin:23px auto 18px;font-size:12px}
+ .festival-poster .festival-name{max-width:350px;margin-bottom:15px;font-size:clamp(39px,12vw,58px);line-height:.84;overflow-wrap:anywhere}
+ .festival-scoreboard{padding:9px 0}.festival-score{padding:0 8px}.festival-score span{font-size:9px;letter-spacing:.07em}.festival-score strong{font-size:clamp(30px,10vw,42px)}.festival-score small{font-size:6.5px;letter-spacing:.045em}
+ .poster-actions{margin:13px auto 11px}.poster-actions>.primary{width:min(240px,86%);min-height:46px}
+ .poster-footer{gap:9px;font-size:6.5px}.festival-poster .network-rematch-panel{padding-top:10px}.festival-poster .network-rematch-panel strong{font-size:21px}
+}
 </style>
 </head>
 <body>
@@ -3887,7 +4059,8 @@ function renderGame(){
  closeModal();
  const p1Total=headlinerTotal(P1),p2Total=headlinerTotal(P2),local=isLocalGame();
  const app=$('#app');
- app.innerHTML=`<div class="screen ${local?'local-game':''}"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div><div class="topbar-actions">${local?`<div class="local-public-counts"><span>J1 <b>${player(P1).deck.length}</b> · ${fmt(p1Total)}</span><span>J2 <b>${player(P2).deck.length}</b> · ${fmt(p2Total)}</span></div>`:`<button class="menu-btn" onclick="openDeck(false)">Meu monte (${player(P1).deck.length})</button>`}<button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;
+ const deckAction=typeof isNetworkGame==='function'&&isNetworkGame()?'openNetworkOwnDeck()':'openDeck(false)';
+ app.innerHTML=`<div class="screen ${local?'local-game':''}"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div>${local?`<div class="local-public-counts"><span>J1 <b>${player(P1).deck.length}</b> · ${fmt(p1Total)}</span><span>J2 <b>${player(P2).deck.length}</b> · ${fmt(p2Total)}</span></div>`:`<button class="menu-btn" onclick="${deckAction}">Meu monte (${player(P1).deck.length})</button>`}</div><div class="table-actions"><button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;
  if(!local)wireSlots();
 }
 function cardBackFanHTML(count,opponent=false){
@@ -3897,8 +4070,8 @@ function cardBackFanHTML(count,opponent=false){
 function opponentHandHTML(){const count=player(P2).deck.length;return `<div class="opponent-area"><div class="opponent-fan">${cardBackFanHTML(count,true)}<div class="count-badge">${count}</div></div></div>`}
 function playerHandHTML(){
  if(isLocalGame()){const count=player(P1).deck.length;return `<div class="player-area"><div class="local-bottom-hand">${cardBackFanHTML(count)}<div class="count-badge">${count}</div></div></div>`}
- const cards=player(P1).deck.slice(0,5),n=cards.length,middle=(n-1)/2,step=n>1?Math.max(58,Math.min(116,Math.round(560/(n-1)))):0;
- return `<div class="player-area"><div class="hand-fan">${cards.map((card,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*11),drop=Math.round(Math.abs(ratio)*12);return `<div class="hand-card" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openDeck(false)">${liveCardHTML(card,'hand')}</div>`}).join('')}</div></div>`;
+ const cards=player(P1).deck.slice(0,5),n=cards.length,middle=(n-1)/2,step=n>1?Math.max(64,Math.min(130,Math.round(620/(n-1)))):0;
+ return `<div class="player-area"><div class="hand-fan">${cards.map((card,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*7),drop=Math.round(Math.abs(ratio)*8);return `<button type="button" class="hand-card ${i===0?'is-next':''}" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openDeck(false)" aria-label="${i===0?'Próxima carta: ':''}${card.name}. Abrir monte">${i===0?'<span class="next-card-marker" aria-hidden="true"><i>↓</i> Próxima carta</span>':''}${liveCardHTML(card,'hand')}</button>`}).join('')}</div></div>`;
 }
 function headZonesHTML(){
  const make=(side,opponent=false)=>Array.from({length:3},(_,slot)=>{const card=player(side).head[slot],fresh=state.justLocked&&state.justLocked.side===side&&state.justLocked.slot===slot;return `<div class="slot ${!opponent&&!isLocalGame()?'you-slot':''} ${card?'filled':''} ${fresh?'just-locked':''}" data-side="${side}" data-slot="${slot}">${card?liveCardHTML(card,'headliner'):''}</div>`}).join('');
@@ -3909,7 +4082,8 @@ function battleHTML(){
  const disabled=isLocalGame()?state.phase!=='ATTRIBUTE'||state.revealed||state.actionLocked:state.turn!==P1||state.revealed;
  const attrBtns=ATTRS.map(([key,label])=>`<button class="attr-btn ${state.selectedAttr===key?'selected':''}" ${disabled?'disabled':''} onclick="chooseAttr('${key}')">${label}</button>`).join('');
  let p1Verdict='',p2Verdict='';if(state.revealed&&state.lastWinner){p1Verdict=state.lastWinner===P1?'winner-card':state.lastWinner===P2?'loser-card':'';p2Verdict=state.lastWinner===P2?'winner-card':state.lastWinner===P1?'loser-card':''}
- const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):cardBackBattle();
+ const confrontationReady=!!(p1Card&&p2Card)||state.phase==='ATTRIBUTE';
+ const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):confrontationReady?cardBackBattle():'';
  const controls=state.revealed?`<button class="primary ticket-control ticket-primary" onclick="nextRound()">Próxima rodada</button>`:isLocalGame()?'':`<button class="secondary ticket-control ticket-compact" onclick="openDeck(false)">Explorar monte</button><button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Preparar rodada':'Ver escolha do rival'}</button>`;
  return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
 }
@@ -3993,13 +4167,17 @@ function festivalName(head){
  if(roll<.78)return `${pick(first)} ${pick(middle)} ${pick(endings)}`;
  return `${pick(middle)} ${pick(endings)}`;
 }
+function resultPosterHTML({title,name,leftLabel,leftTotal,rightLabel,rightTotal,actions,tie=false}){
+ const festival=name?`<p class="festival-kicker">O festival vencedor vai se chamar</p><div class="festival-name">${name}</div>`:`<p class="festival-kicker festival-tie">${tie?'Os dois festivais terminaram com o mesmo Público.':'Resultado do festival'}</p>`;
+ return `<div class="end-box festival-poster"><div class="poster-production"><span>HEADLINER</span><span>EDIÇÃO 96 · AO VIVO</span></div><div class="poster-stars" aria-hidden="true">★ ✦ ★</div><div class="winner" id="festival-result-title">${title}</div>${festival}<div class="festival-scoreboard" aria-label="Público total dos festivais"><div class="festival-score"><span>${leftLabel}</span><strong>${fmt(leftTotal)}</strong><small>Público total · pessoas</small></div><div class="festival-score"><span>${rightLabel}</span><strong>${fmt(rightTotal)}</strong><small>Público total · pessoas</small></div></div><div class="poster-actions">${actions}</div><div class="poster-footer" aria-hidden="true"><span>VERÃO</span><i>★</i><span>MÚSICA</span><i>★</i><span>FESTIVAL</span></div></div>`;
+}
 function finishGame(){
  if(!state||state.gameOver)return;const wasPrivate=phaseIsPrivate();state.gameOver=true;state.phase='GAME_OVER';clearGameTimers();
  const p1Total=headlinerTotal(P1),p2Total=headlinerTotal(P2),local=isLocalGame(),winner=local?(p1Total===p2Total?null:p1Total>p2Total?P1:P2):(p1Total>=p2Total?P1:P2),name=winner?festivalName(player(winner).head):'';
  if(wasPrivate)renderNeutralPrivacyBackground();
  const title=local?(winner?`${playerLabel(winner)} GANHOU!`:'EMPATE!'):(winner===P1?'VOCÊ GANHOU!':'VOCÊ PERDEU!');
- const festival=winner?`<p>O festival vencedor vai se chamar:</p><div class="festival-name">${name}</div>`:`<p>Os dois festivais terminaram com o mesmo Público.</p>`;
- const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(880px,96vw)"><div class="end-box"><div class="winner">${title}</div>${festival}<div class="score-row"><div class="score-pill">${local?'Jogador 1':'Seu festival'}<strong>${fmt(p1Total)}</strong>pessoas</div><div class="score-pill">${local?'Jogador 2':'Festival rival'}<strong>${fmt(p2Total)}</strong>pessoas</div></div><button class="primary" onclick="playAgain()">Jogar de novo</button></div></div></div>`;
+ const poster=resultPosterHTML({title,name,leftLabel:local?'Jogador 1':'Seu festival',leftTotal:p1Total,rightLabel:local?'Jogador 2':'Festival rival',rightTotal:p2Total,tie:!winner,actions:'<button class="primary" onclick="playAgain()">Jogar de novo</button>'});
+ const root=$('#modal-root');root.innerHTML=`<div class="modal festival-result-modal" role="dialog" aria-modal="true" aria-labelledby="festival-result-title"><div class="modal-card result-poster-card">${poster}</div></div>`;
 }
 function playAgain(){if(!state)return;const mode=state.mode;startGame(mode)}
 function toast(msg){setTimeout(()=>{let t=$('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)},20)}

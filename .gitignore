@@ -3,3 +3,7 @@ node_modules/
 browser-profile-*/
 screenshots/
 assets/fonts/
+
+.vercel
+.env*
+dist/
