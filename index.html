@@ -2899,6 +2899,37 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .headliner-zone.you{top:57.5%}.headliner-zone.you:before{top:calc(100% + 6px)!important;font-size:8px!important;padding:4px 8px 3px!important;letter-spacing:.45px!important}
  .end-box{padding:28px 16px 25px}.end-box:before,.end-box:after{width:14%}.end-box .winner{font-size:clamp(29px,9vw,44px);padding:9px 14px 7px}.end-box p{margin-top:18px;font-size:10px}.end-box .festival-name{font-size:clamp(27px,8vw,40px);margin-bottom:17px}.end-box .score-row{gap:7px}.end-box .score-pill{padding:8px 5px;font-size:9px}.end-box .score-pill strong{font-size:18px}.end-box .primary{margin-top:19px;min-width:180px}
 }
+
+/* Local multiplayer: opaque privacy curtain and private, fixed-order deck views. */
+.privacy-screen,.private-deck-screen{position:fixed;inset:0;z-index:60;min-height:100svh;color:#fff0c8;background:#081d27 url('assets/festival-top.webp') center/cover no-repeat;overflow:hidden}
+.privacy-screen:before,.private-deck-screen:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,14,19,.82),rgba(6,24,32,.94)),radial-gradient(circle at 50% 34%,rgba(41,157,190,.34),transparent 48%)}
+.privacy-screen{display:grid;place-items:center;padding:24px}
+.privacy-card{position:relative;z-index:1;width:min(560px,94vw);padding:34px 30px;border:3px solid #e1bd67;background:#123d50;box-shadow:12px 12px 0 rgba(4,13,18,.7),0 28px 70px rgba(0,0,0,.46);text-align:center;clip-path:polygon(0 0,97% 0,100% 6%,100% 94%,97% 100%,0 100%,3% 92%,0 82%,3% 72%,0 62%,3% 52%,0 42%,3% 32%,0 22%,3% 12%)}
+.privacy-kicker{display:block;margin-bottom:8px;color:#e4bd57;font-family:var(--ui);font-size:13px;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
+.privacy-card h1{margin:0;color:#fff0c4;font-family:var(--display);font-size:clamp(43px,8vw,72px);font-weight:600;line-height:.82;letter-spacing:.025em;text-transform:uppercase}
+.privacy-card p{max-width:410px;margin:18px auto 24px;color:#d7e9e3;font-size:16px;line-height:1.45}
+.privacy-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}.privacy-actions .primary{min-width:210px;min-height:48px}.privacy-actions .secondary{min-height:42px}
+.private-deck-screen{overflow:auto;background-color:#0a2a37}
+.private-deck-shell{position:relative;z-index:1;width:min(1180px,100%);min-height:100%;margin:0 auto;padding:20px 22px 44px}
+.private-deck-head{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;gap:16px;margin:-20px -22px 18px;padding:16px 22px;border-bottom:2px solid #9b6b3d;background:linear-gradient(180deg,#f4e2b2,#dfbd76);color:#173d49;box-shadow:0 8px 20px rgba(0,0,0,.28)}
+.private-deck-head h1{margin:0;font-family:var(--display);font-size:clamp(30px,5vw,48px);font-weight:600;line-height:.86}.private-deck-head p{margin:5px 0 0;font-size:13px;font-weight:700}.private-deck-head-actions{display:flex;gap:7px;flex:none}
+.private-round-panel{margin:0 auto 18px;padding:14px;border:2px solid #d4ae59;background:rgba(9,36,47,.94);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.private-round-panel h2{margin:0 0 10px;color:#f6dc96;font-family:var(--display);font-size:24px;font-weight:600;letter-spacing:.04em;text-align:center;text-transform:uppercase}
+.private-slots{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}.private-slot{position:relative;width:112px;height:160px;border:2px dashed rgba(244,222,164,.65);background:rgba(21,91,113,.24);color:#f9e6b2;cursor:pointer}.private-slot.filled{border-style:solid;background:#0c2732;cursor:default}.private-slot.selected{border-color:#ffd566;box-shadow:0 0 0 4px rgba(255,213,102,.25)}.private-slot:not(.filled):disabled{opacity:.46;cursor:not-allowed}.private-slot-label{position:absolute;inset:0;display:grid;place-items:center;padding:10px;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}.private-slot .live-card-headliner{position:absolute;inset:0}
+.private-round-note{margin:12px auto 0;color:#d8e8e1;font-size:13px;font-weight:700;text-align:center}.private-round-actions{display:flex;justify-content:center;gap:9px;margin:14px 0 0;flex-wrap:wrap}.private-round-actions .primary,.private-round-actions .secondary{min-height:44px}
+.private-deck-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:14px;align-items:start}.private-deck-item{min-width:0;padding:9px 6px 14px;border:1px solid rgba(229,195,119,.4);background:rgba(242,220,166,.92);color:#173d49;text-align:center}.private-deck-item .position{margin-bottom:6px;font-family:var(--display);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}.private-card-button{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer}.private-card-button:disabled{cursor:default}.private-card-button:not(:disabled):focus-visible{outline:4px solid #ffd464;outline-offset:4px}.private-card-button:not(:disabled):hover{transform:translateY(-3px)}
+.private-confirm{position:relative;z-index:1;width:min(700px,94vw);margin:7vh auto;padding:26px;border:3px solid #d5ab55;background:#f0d89d;color:#173c48;box-shadow:12px 12px 0 rgba(2,11,15,.65);text-align:center}.private-confirm h1{margin:0;font-family:var(--display);font-size:42px;font-weight:600;line-height:.9}.private-confirm-card{display:flex;justify-content:center;margin:18px}.private-confirm p{font-weight:700;line-height:1.4}.private-confirm-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.local-game .headliner-zone.opp:before,.local-game .headliner-zone.you:before{content:attr(data-total)}
+.local-public-counts{display:flex;align-items:center;gap:6px;color:#173c49;font-size:11px;font-weight:850;white-space:nowrap}.local-public-counts b{color:#a94735;font-family:var(--display);font-size:15px}.local-bottom-hand{position:relative;display:flex;gap:4px;transform:rotate(180deg)}.local-bottom-hand .count-badge{transform:rotate(180deg)}
+.local-game .count-badge{background:#a63d31;color:#fff6d7}
+
+@media(max-width:760px){
+ .privacy-screen{padding:14px}.privacy-card{padding:28px 20px}.privacy-card p{font-size:15px}.privacy-actions{flex-direction:column}.privacy-actions .primary,.privacy-actions .secondary{width:min(280px,100%)}
+ .private-deck-shell{padding:12px 8px 30px}.private-deck-head{margin:-12px -8px 12px;padding:10px 9px;align-items:flex-start}.private-deck-head h1{font-size:28px}.private-deck-head p{font-size:11px}.private-deck-head-actions .secondary{padding:5px 7px;font-size:10px}.private-round-panel{padding:10px 7px}.private-round-panel h2{font-size:20px}.private-slots{gap:6px}.private-slot{width:88px;height:126px}.private-slot .live-card-headliner{--live-card-scale:.26}.private-round-note{font-size:11px}.private-round-actions{position:sticky;bottom:6px;z-index:7;padding:7px;background:#123d50;box-shadow:0 0 0 2px #c99d4d,0 -8px 18px rgba(0,0,0,.25)}.private-round-actions .primary,.private-round-actions .secondary{min-height:42px;font-size:12px;white-space:normal}
+ .private-deck-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.private-deck-item{padding:6px 1px 10px}.private-deck-item .position{font-size:10px}.private-deck-item .live-card-deck{--live-card-scale:.43;width:145px;height:207px}.private-confirm{margin:3vh auto;padding:18px 12px}.private-confirm h1{font-size:31px}.private-confirm-card{margin:12px}.private-confirm-card .live-card-confirm{--live-card-scale:.48;width:164px;height:234px}.private-confirm-actions .primary,.private-confirm-actions .secondary{min-height:42px;font-size:12px}
+ .local-public-counts{font-size:8px;gap:3px}.local-public-counts b{font-size:11px}.local-game .status{display:none}.local-game .headliner-zone.opp:before{display:none}.local-bottom-hand{transform:rotate(180deg) scale(.78)}
+ .local-game .attr-btn{min-height:38px;font-size:9.5px}.local-game .result-strip{top:221px}.local-game .round-controls{top:250px}
+}
 </style>
 </head>
 <body>
@@ -3485,7 +3516,34 @@ function liveCardHTML(card,context,verdict=''){
  const safeContext=supportedContexts.includes(context)?context:'gallery';
  return `<div class="card-preview-stage live-card-stage live-card-${safeContext}" data-card-context="${safeContext}">${cardHTML(card,'large',false,verdict)}</div>`;
 }
-function reset(){const pool=balanced30();state={round:1,turn:'you',you:{deck:pool.slice(0,15),head:[],lockedThisRound:false},cpu:{deck:pool.slice(15),head:[],lockedThisRound:false},pot:[],selectedAttr:null,revealed:false,lastResult:'',encore:null,gameOver:false,mode:'cpu'};renderGame();setTimeout(()=>openDeck(true),450)}
+const P1='p1',P2='p2';
+let gameSerial=0;
+const gameTimers=new Set();
+function clearGameTimers(){gameTimers.forEach(clearTimeout);gameTimers.clear()}
+function scheduleGame(fn,delay,requiredMode=null){
+ const id=state?.gameId;
+ const timer=setTimeout(()=>{gameTimers.delete(timer);if(!state||state.gameId!==id||(requiredMode&&state.mode!==requiredMode))return;fn()},delay);
+ gameTimers.add(timer);
+ return timer;
+}
+function isLocalGame(){return state?.mode==='local'}
+function player(side){return state?.players?.[side]}
+function otherSide(side){return side===P1?P2:P1}
+function playerLabel(side){if(isLocalGame())return side===P1?'JOGADOR 1':'JOGADOR 2';return side===P1?'VOCÊ':'RIVAL'}
+function festivalLabel(side){if(isLocalGame())return `FESTIVAL DO ${playerLabel(side)}`;return side===P1?'SEU FESTIVAL':'FESTIVAL RIVAL'}
+function headlinerTotal(side){return player(side).head.reduce((sum,card)=>sum+(card?.pub||0),0)}
+function phaseIsPrivate(){return isLocalGame()&&['INITIAL_PASS','INITIAL_REVIEW','ROUND_PASS','ROUND_PRIVATE'].includes(state.phase)}
+function currentHumanSide(){if(!state)return null;if(isLocalGame())return state.privateOwner||state.battleChooser||null;return P1}
+function reset(){startGame('cpu')}
+function startLocalGame(){startGame('local')}
+function startGame(mode='cpu'){
+ clearGameTimers();closeModal();
+ const pool=balanced30();
+ const gameId=++gameSerial;
+ state={gameId,mode,round:1,turn:P1,players:{[P1]:{deck:pool.slice(0,15),head:[],lockedThisRound:false},[P2]:{deck:pool.slice(15),head:[],lockedThisRound:false}},pot:[],selectedAttr:null,revealed:false,current:null,lastResult:'',lastWinner:null,pendingWinner:null,encore:null,gameOver:false,phase:mode==='local'?'INITIAL_PASS':'ROUND',privateOwner:mode==='local'?P1:null,privatePurpose:mode==='local'?'initial':null,privateSlot:null,privateConfirmIndex:null,battleChooser:null,actionLocked:false,justLocked:null};
+ if(mode==='local')renderPrivacyPass();
+ else{renderGame();scheduleGame(()=>openDeck(true),450,'cpu')}
+}
 
 const UI_ICON={
   settings:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.04.04-2.78 2.78-.04-.04A1.8 1.8 0 0 0 15 19.4a1.8 1.8 0 0 0-1 .6 1.8 1.8 0 0 0-.4 1.1V21h-3.2v-.06A1.8 1.8 0 0 0 9 19.4a1.8 1.8 0 0 0-1.98.36l-.04.04-2.78-2.78.04-.04A1.8 1.8 0 0 0 4.6 15a1.8 1.8 0 0 0-.6-1 1.8 1.8 0 0 0-1.1-.4H3v-3.2h.06A1.8 1.8 0 0 0 4.6 9a1.8 1.8 0 0 0-.36-1.98l-.04-.04L6.98 4.2l.04.04A1.8 1.8 0 0 0 9 4.6a1.8 1.8 0 0 0 1-.6 1.8 1.8 0 0 0 .4-1.1V3h3.2v.06A1.8 1.8 0 0 0 15 4.6a1.8 1.8 0 0 0 1.98-.36l.04-.04 2.78 2.78-.04.04A1.8 1.8 0 0 0 19.4 9c.2.36.5.7 1 .95.34.18.72.3 1.1.35h.1v3.2h-.06a1.8 1.8 0 0 0-1.14.4 1.8 1.8 0 0 0-1 1.1Z"></path></svg>`,
@@ -3502,10 +3560,12 @@ function openSettings(){
 }
 function requestExitToMenu(){
  if(!state){renderStart();return}
+ if(phaseIsPrivate())renderNeutralPrivacyBackground();
  const root=$('#modal-root');
- root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(560px,94vw)"><div class="exit-confirm"><h2>Voltar ao menu?</h2><p>A partida atual será encerrada. As cartas do baralho não serão alteradas.</p><div class="exit-actions"><button class="secondary" onclick="closeModal()">Continuar partida</button><button class="primary" onclick="exitToMenu()">Voltar ao menu</button></div></div></div></div>`;
+ root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(560px,94vw)"><div class="exit-confirm"><h2>Voltar ao menu?</h2><p>A partida atual será encerrada. As cartas do baralho não serão alteradas.</p><div class="exit-actions"><button class="secondary" onclick="cancelExitToGame()">Continuar partida</button><button class="primary" onclick="exitToMenu()">Voltar ao menu</button></div></div></div></div>`;
 }
-function exitToMenu(){state=null;closeModal();renderStart()}
+function cancelExitToGame(){closeModal();if(phaseIsPrivate())renderCurrentState()}
+function exitToMenu(){clearGameTimers();state=null;closeModal();renderStart()}
 function openCardGallery(index=0,returnTo='settings'){
  cardGalleryReturn=returnTo;
  cardGalleryIndex=((index%CARDS.length)+CARDS.length)%CARDS.length;
@@ -3531,37 +3591,196 @@ document.addEventListener('keydown',e=>{
  if(e.key==='Escape'){e.preventDefault();closeCardGallery()}
 });
 
-function renderGame(){if(!state){renderStart();return}const app=$('#app');app.innerHTML=`<div class="screen"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div><div class="topbar-actions"><button class="menu-btn" onclick="openDeck(false)">Meu monte (${state.you.deck.length})</button><button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;wireSlots()}
-function opponentHandHTML(){const n=Math.min(5,state.cpu.deck.length),middle=(n-1)/2,step=n>1?Math.min(86,Math.max(52,Math.round(300/(n-1)))):0;const backs=Array.from({length:n},(_,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*12),drop=Math.round(Math.abs(ratio)*9);return `<div class="opp-back" style="--opp-x:${x}px;--opp-r:${angle}deg;--opp-drop:${drop}px;z-index:${i+1}"></div>`}).join('');return `<div class="opponent-area"><div class="opponent-fan">${backs}<div class="count-badge">${state.cpu.deck.length}</div></div></div>`}
-function playerHandHTML(){
- const cards=state.you.deck.slice(0,5),n=cards.length;
- const middle=(n-1)/2;
- const step=n>1?Math.max(58,Math.min(116,Math.round(560/(n-1)))):0;
- return `<div class="player-area"><div class="hand-fan">${cards.map((c,i)=>{
-   const offset=i-middle;
-   const ratio=middle?offset/middle:0;
-   const x=Math.round(offset*step);
-   const angle=Math.round(ratio*11);
-   const drop=Math.round(Math.abs(ratio)*12);
-   return `<div class="hand-card" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openDeck(false)">${liveCardHTML(c,'hand')}</div>`
- }).join('')}</div></div>`
+function renderCurrentState(){
+ if(!state){renderStart();return}
+ if(!isLocalGame()){renderGame();return}
+ if(state.phase==='INITIAL_PASS'||state.phase==='ROUND_PASS')renderPrivacyPass();
+ else if(state.phase==='INITIAL_REVIEW')renderInitialPrivateDeck();
+ else if(state.phase==='ROUND_PRIVATE')renderPrivateHeadliner();
+ else renderGame();
 }
-function headZonesHTML(){const make=(who,opp=false)=>Array.from({length:3},(_,i)=>{const c=state[who].head[i],fresh=state.justLocked&&state.justLocked.who===who&&state.justLocked.slot===i;return `<div class="slot ${opp?'':'you-slot'} ${c?'filled':''} ${fresh?'just-locked':''}" data-who="${who}" data-slot="${i}">${c?liveCardHTML(c,'headliner'):''}</div>`}).join('');const yt=state.you.head.reduce((s,c)=>s+(c?.pub||0),0),ct=state.cpu.head.reduce((s,c)=>s+(c?.pub||0),0);return `<div class="headliner-zone opp" data-total="FESTIVAL RIVAL · ${fmt(ct)}">${make('cpu',true)}</div><div class="headliner-zone you" data-total="SEU FESTIVAL · ${fmt(yt)}">${make('you',false)}</div>`}
-function battleHTML(){const y=state.currentYou,c=state.currentCpu;const disabled=state.turn!=='you'||state.revealed;let attrBtns=ATTRS.map(([k,l])=>`<button class="attr-btn ${state.selectedAttr===k?'selected':''}" ${disabled?'disabled':''} onclick="chooseAttr('${k}')">${l}</button>`).join('');let yv='',cv='';if(state.revealed&&state.lastWinner){yv=state.lastWinner==='you'?'winner-card':state.lastWinner==='cpu'?'loser-card':'';cv=state.lastWinner==='cpu'?'winner-card':state.lastWinner==='you'?'loser-card':''}const show=card=>state.revealed?liveCardHTML(card,'battle',card===y?yv:cv):cardBackBattle();const message=state.lastResult||turnMessage();return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${y?show(y):cardBackBattle()}<div class="vs">VS</div>${c?show(c):cardBackBattle()}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${message}</div><div class="round-controls">${!state.revealed?`<button class="secondary" onclick="openDeck(false)">Explorar monte</button><button class="primary" onclick="beginBattle()">${state.turn==='you'?'Preparar rodada':'Ver escolha do rival'}</button>`:`<button class="primary" onclick="nextRound()">Próxima rodada</button>`}</div></div>`}
+function renderNeutralPrivacyBackground(){
+ closeModal();
+ $('#app').innerHTML=`<main class="privacy-screen"><section class="privacy-card"><span class="privacy-kicker">Privacidade ativa</span><h1>CONTEÚDO PROTEGIDO</h1><p>Nenhuma carta privada está visível enquanto esta confirmação estiver aberta.</p></section></main>`;
+}
+function queueLocalPass(side,purpose){
+ state.privateOwner=side;state.privatePurpose=purpose;state.privateSlot=null;state.privateConfirmIndex=null;state.battleChooser=purpose==='attribute'?side:null;state.actionLocked=false;state.phase=purpose==='initial'?'INITIAL_PASS':'ROUND_PASS';closeModal();renderPrivacyPass();
+}
+function renderPrivacyPass(){
+ if(!state||!isLocalGame())return;
+ closeModal();
+ const purpose=state.privatePurpose;
+ const kicker=purpose==='initial'?'CONSULTA INICIAL':purpose==='headliner'?`RODADA ${state.round} · FASE PRIVADA`:`RODADA ${state.round} · ESCOLHA DE ATRIBUTO`;
+ const copy=purpose==='attribute'?'Quando só você estiver olhando, continue. As cartas do confronto permanecerão viradas.':'Quando só você estiver olhando para a tela, continue.';
+ $('#app').innerHTML=`<main class="privacy-screen" aria-label="Passagem privada para ${playerLabel(state.privateOwner)}"><section class="privacy-card"><span class="privacy-kicker">${kicker} · PASSE O APARELHO</span><h1>${playerLabel(state.privateOwner)}</h1><p>${copy}</p><div class="privacy-actions"><button class="primary" onclick="continuePrivacyPass()">${purpose==='initial'?'Conferir minhas cartas':'Continuar'}</button><button class="secondary" onclick="requestExitToMenu()">Voltar ao menu</button></div></section></main>`;
+}
+function continuePrivacyPass(){
+ if(!state||!isLocalGame()||!['INITIAL_PASS','ROUND_PASS'].includes(state.phase)||state.actionLocked)return;
+ state.actionLocked=true;
+ if(state.privatePurpose==='initial')state.phase='INITIAL_REVIEW';
+ else if(state.privatePurpose==='headliner')state.phase='ROUND_PRIVATE';
+ else if(state.privatePurpose==='attribute'){state.phase='ATTRIBUTE';state.privateOwner=null;state.battleChooser=state.turn}
+ state.actionLocked=false;renderCurrentState();
+}
+function privateDeckHeader(side,title,copy){
+ return `<header class="private-deck-head"><div><h1>${title}</h1><p>${playerLabel(side)} · ${copy}</p></div><div class="private-deck-head-actions"><button class="secondary" onclick="requestExitToMenu()">Menu</button></div></header>`;
+}
+function privateDeckItems(side,selectable=false){
+ const deck=player(side).deck;
+ return `<div class="private-deck-grid">${deck.map((card,index)=>`<article class="private-deck-item"><div class="position">${index===0?'PRÓXIMA CARTA':`posição ${index+1}`}</div><button class="private-card-button" ${selectable?'':`disabled`} onclick="previewPrivateHeadliner(${index})" aria-label="${selectable?`Escolher ${card.name} como Headliner`:`${card.name}, posição ${index+1}`}">${liveCardHTML(card,'deck')}</button></article>`).join('')}</div>`;
+}
+function renderInitialPrivateDeck(){
+ if(!state||state.phase!=='INITIAL_REVIEW')return;
+ closeModal();const side=state.privateOwner;
+ $('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Terminei</button></div>${privateDeckItems(side,false)}<div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Terminei</button></div></div></main>`;
+}
+function finishInitialReview(){
+ if(!state||state.phase!=='INITIAL_REVIEW'||state.actionLocked)return;
+ state.actionLocked=true;
+ if(state.privateOwner===P1)queueLocalPass(P2,'initial');
+ else{player(P1).lockedThisRound=false;player(P2).lockedThisRound=false;queueLocalPass(P1,'headliner')}
+}
+function privateSlotsHTML(side){
+ const owner=player(side);
+ return `<div class="private-slots">${Array.from({length:3},(_,slot)=>{const card=owner.head[slot],selected=state.privateSlot===slot;return card?`<div class="private-slot filled" aria-label="Vaga ${slot+1}: ${card.name}">${liveCardHTML(card,'headliner')}</div>`:`<button class="private-slot ${selected?'selected':''}" ${owner.lockedThisRound?'disabled':''} onclick="selectPrivateSlot(${slot})"><span class="private-slot-label">${selected?'Vaga escolhida':`Vaga ${slot+1}`}<br>${selected?'Escolha uma carta':''}</span></button>`}).join('')}</div>`;
+}
+function renderPrivateHeadliner(){
+ if(!state||state.phase!=='ROUND_PRIVATE')return;
+ closeModal();const side=state.privateOwner,owner=player(side);
+ if(state.privateConfirmIndex!==null){renderPrivateHeadlinerConfirm();return}
+ const canChoose=!owner.lockedThisRound&&owner.head.filter(Boolean).length<3&&owner.deck.length>0;
+ const note=owner.lockedThisRound?'Você já adicionou 1 Headliner nesta rodada. Finalize sua fase.':canChoose?(state.privateSlot===null?'Escolha uma vaga vazia e depois qualquer carta do seu monte.':'Agora escolha qualquer carta do seu monte. A ordem não será alterada.'):'Seu festival já tem 3 Headliners travados. Continue para a próxima fase.';
+ $('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'FASE DE HEADLINER',`rodada ${state.round} · máximo de 1 nova vaga`)}<section class="private-round-panel"><h2>Seu Festival · ${fmt(headlinerTotal(side))} pessoas</h2>${privateSlotsHTML(side)}<p class="private-round-note">${note}</p><div class="private-round-actions"><button class="primary" onclick="finishPrivateRound('${side}')">${owner.lockedThisRound?'Finalizar minha fase':'Continuar sem escolher Headliner'}</button></div></section>${privateDeckItems(side,canChoose&&state.privateSlot!==null)}</div></main>`;
+}
+function selectPrivateSlot(slot){
+ if(!state||state.phase!=='ROUND_PRIVATE'||state.actionLocked)return;
+ const owner=player(state.privateOwner);if(owner.lockedThisRound||owner.head[slot]||slot<0||slot>2)return;
+ state.privateSlot=slot;state.privateConfirmIndex=null;renderPrivateHeadliner();
+}
+function previewPrivateHeadliner(index){
+ if(!state||state.phase!=='ROUND_PRIVATE'||state.actionLocked||state.privateSlot===null)return;
+ const owner=player(state.privateOwner);if(owner.lockedThisRound||owner.head[state.privateSlot]||!owner.deck[index])return;
+ state.privateConfirmIndex=index;renderPrivateHeadliner();
+}
+function renderPrivateHeadlinerConfirm(){
+ const side=state.privateOwner,index=state.privateConfirmIndex,card=player(side).deck[index];
+ if(!card){state.privateConfirmIndex=null;renderPrivateHeadliner();return}
+ $('#app').innerHTML=`<main class="private-deck-screen"><section class="private-confirm"><span class="privacy-kicker">${playerLabel(side)} · VAGA ${state.privateSlot+1}</span><h1>TRAVAR COMO HEADLINER?</h1><div class="private-confirm-card">${liveCardHTML(card,'confirm')}</div><p><strong>${card.name}</strong> garante <strong>${fmt(card.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div class="private-confirm-actions"><button class="secondary" onclick="cancelPrivateHeadlinerConfirm()">Voltar</button><button class="primary" onclick="commitPrivateHeadliner()">Confirmar Headliner</button></div></section></main>`;
+}
+function cancelPrivateHeadlinerConfirm(){if(!state||state.phase!=='ROUND_PRIVATE')return;state.privateConfirmIndex=null;renderPrivateHeadliner()}
+function commitHeadliner(side,index,slot){
+ if(!state||state.gameOver)return null;const owner=player(side);
+ if(!owner||owner.lockedThisRound||owner.head[slot]||!owner.deck[index]||slot<0||slot>2)return null;
+ owner.lockedThisRound=true;const [card]=owner.deck.splice(index,1);owner.head[slot]=card;state.justLocked={side,slot};maybeStartEncore(side);return card;
+}
+function commitPrivateHeadliner(){
+ if(!state||state.phase!=='ROUND_PRIVATE'||state.actionLocked||state.privateConfirmIndex===null||state.privateSlot===null)return;
+ state.actionLocked=true;const side=state.privateOwner,card=commitHeadliner(side,state.privateConfirmIndex,state.privateSlot);
+ if(!card){state.actionLocked=false;return}
+ state.privateConfirmIndex=null;state.privateSlot=null;state.actionLocked=false;renderPrivateHeadliner();
+ scheduleGame(()=>{if(state){state.justLocked=null;renderCurrentState()}},760,'local');
+}
+function finishPrivateRound(side){
+ if(!state||state.phase!=='ROUND_PRIVATE'||state.privateOwner!==side||state.actionLocked||state.privateConfirmIndex!==null)return;
+ state.actionLocked=true;
+ if(side===P1)queueLocalPass(P2,'headliner');
+ else prepareLocalAttribute();
+}
+function prepareLocalAttribute(){
+ if(!player(P1).deck.length||!player(P2).deck.length){finishGame();return}
+ state.privateSlot=null;state.privateConfirmIndex=null;state.battleChooser=state.turn;state.actionLocked=false;
+ if(state.turn===P2){state.privateOwner=null;state.phase='ATTRIBUTE';renderGame()}
+ else queueLocalPass(P1,'attribute');
+}
+function renderGame(){
+ if(!state){renderStart();return}
+ closeModal();
+ const p1Total=headlinerTotal(P1),p2Total=headlinerTotal(P2),local=isLocalGame();
+ const app=$('#app');
+ app.innerHTML=`<div class="screen ${local?'local-game':''}"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div><div class="topbar-actions">${local?`<div class="local-public-counts"><span>J1 <b>${player(P1).deck.length}</b> · ${fmt(p1Total)}</span><span>J2 <b>${player(P2).deck.length}</b> · ${fmt(p2Total)}</span></div>`:`<button class="menu-btn" onclick="openDeck(false)">Meu monte (${player(P1).deck.length})</button>`}<button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;
+ if(!local)wireSlots();
+}
+function cardBackFanHTML(count,opponent=false){
+ const n=Math.min(5,count),middle=(n-1)/2,step=n>1?Math.min(86,Math.max(52,Math.round(300/(n-1)))):0;
+ return Array.from({length:n},(_,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,angle=Math.round(ratio*12),drop=Math.round(Math.abs(ratio)*9);if(opponent){const x=Math.round(offset*step);return `<div class="opp-back" style="--opp-x:${x}px;--opp-r:${angle}deg;--opp-drop:${drop}px;z-index:${i+1}"></div>`}return `<div class="opp-back" style="transform:rotate(${angle}deg) translateY(${drop}px)"></div>`}).join('');
+}
+function opponentHandHTML(){const count=player(P2).deck.length;return `<div class="opponent-area"><div class="opponent-fan">${cardBackFanHTML(count,true)}<div class="count-badge">${count}</div></div></div>`}
+function playerHandHTML(){
+ if(isLocalGame()){const count=player(P1).deck.length;return `<div class="player-area"><div class="local-bottom-hand">${cardBackFanHTML(count)}<div class="count-badge">${count}</div></div></div>`}
+ const cards=player(P1).deck.slice(0,5),n=cards.length,middle=(n-1)/2,step=n>1?Math.max(58,Math.min(116,Math.round(560/(n-1)))):0;
+ return `<div class="player-area"><div class="hand-fan">${cards.map((card,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*11),drop=Math.round(Math.abs(ratio)*12);return `<div class="hand-card" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openDeck(false)">${liveCardHTML(card,'hand')}</div>`}).join('')}</div></div>`;
+}
+function headZonesHTML(){
+ const make=(side,opponent=false)=>Array.from({length:3},(_,slot)=>{const card=player(side).head[slot],fresh=state.justLocked&&state.justLocked.side===side&&state.justLocked.slot===slot;return `<div class="slot ${!opponent&&!isLocalGame()?'you-slot':''} ${card?'filled':''} ${fresh?'just-locked':''}" data-side="${side}" data-slot="${slot}">${card?liveCardHTML(card,'headliner'):''}</div>`}).join('');
+ return `<div class="headliner-zone opp" data-total="${festivalLabel(P2)} · ${fmt(headlinerTotal(P2))}">${make(P2,true)}</div><div class="headliner-zone you" data-total="${festivalLabel(P1)} · ${fmt(headlinerTotal(P1))}">${make(P1,false)}</div>`;
+}
+function battleHTML(){
+ const p1Card=state.current?.[P1],p2Card=state.current?.[P2];
+ const disabled=isLocalGame()?state.phase!=='ATTRIBUTE'||state.revealed||state.actionLocked:state.turn!==P1||state.revealed;
+ const attrBtns=ATTRS.map(([key,label])=>`<button class="attr-btn ${state.selectedAttr===key?'selected':''}" ${disabled?'disabled':''} onclick="chooseAttr('${key}')">${label}</button>`).join('');
+ let p1Verdict='',p2Verdict='';if(state.revealed&&state.lastWinner){p1Verdict=state.lastWinner===P1?'winner-card':state.lastWinner===P2?'loser-card':'';p2Verdict=state.lastWinner===P2?'winner-card':state.lastWinner===P1?'loser-card':''}
+ const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):cardBackBattle();
+ const controls=state.revealed?`<button class="primary" onclick="nextRound()">Próxima rodada</button>`:isLocalGame()?'':`<button class="secondary" onclick="openDeck(false)">Explorar monte</button><button class="primary" onclick="beginBattle()">${state.turn===P1?'Preparar rodada':'Ver escolha do rival'}</button>`;
+ return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
+}
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back">HEADLINER</div></div>`}
-function turnMessage(){if(state.revealed)return '';if(state.turn==='you')return 'Escolha um atributo antes de virar as cartas.';return 'O rival está escolhendo o atributo…'}
-function wireSlots(){$$('.you-slot').forEach(el=>el.onclick=()=>{if(state.gameOver)return;const i=+el.dataset.slot;if(state.you.head[i]){toast('Essa vaga já está travada.');return}if(state.you.lockedThisRound){toast('Você já escolheu 1 Headliner nesta rodada.');return}openDeck(false,i)})}
-function openDeck(first=false,slot=null){const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Seu monte — ordem fixa'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode passear pelas cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar seu monte">×</button></div><div class="deck-grid">${state.you.deck.map((c,i)=>`<div class="deck-entry ${slot!==null?'selectable':''}" data-card-index="${i}" ${slot!==null?`onclick="confirmHeadliner(${i},${slot})"`:''}><div class="position">${i===0?'PRÓXIMA CARTA':`posição ${i+1}`}</div>${liveCardHTML(c,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><button class="primary" onclick="closeModal()">Entendi meu line-up</button></div>`:''}</div></div>`}
-function closeModal(){const r=$('#modal-root');r.innerHTML=''}
-function confirmHeadliner(index,slot){const c=state.you.deck[index];const r=$('#modal-root');r.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(720px,94vw)"><div class="confirm-box"><h2>TRAVAR COMO HEADLINER?</h2><div style="display:flex;justify-content:center;margin:18px">${liveCardHTML(c,'confirm')}</div><p><strong>${c.name}</strong> garante <strong>${fmt(c.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div style="display:flex;gap:10px;justify-content:center"><button class="secondary" onclick="openDeck(false,${slot})">Voltar</button><button class="primary" onclick="lockHeadliner(${index},${slot})">Confirmar Headliner</button></div></div></div></div>`}
-function lockHeadliner(index,slot){const [c]=state.you.deck.splice(index,1);state.you.head[slot]=c;state.you.lockedThisRound=true;state.justLocked={who:'you',slot};closeModal();maybeStartEncore('you');renderGame();toast(`${c.name} agora é Headliner. 🔒`);setTimeout(()=>{if(state){state.justLocked=null;renderGame()}},760)}
-function cpuLockHeadliner(){if(state.cpu.lockedThisRound||state.cpu.head.length>=3||!state.cpu.deck.length)return;const empty=[0,1,2].find(i=>!state.cpu.head[i]);if(empty===undefined)return;let options=state.cpu.deck.map((c,i)=>({c,i,score:c.pub-(c.influence+c.innovation+c.prestige)*120})).sort((a,b)=>b.score-a.score);const top=options[0];const avg=state.cpu.deck.reduce((s,c)=>s+c.pub,0)/state.cpu.deck.length;const urgency=state.encore!==null||state.cpu.head.length===2;const take=top.c.pub>=Math.max(110000,avg*1.12)||urgency;if(take){state.cpu.deck.splice(top.i,1);state.cpu.head[empty]=top.c;state.cpu.lockedThisRound=true;state.justLocked={who:'cpu',slot:empty};maybeStartEncore('cpu');toast(`O rival fechou ${top.c.name} como Headliner.`);setTimeout(()=>{if(state){state.justLocked=null;renderGame()}},760)}}
-function maybeStartEncore(who){if(state.encore===null&&state[who].head.filter(Boolean).length===3){state.encore=3;toast('ENCORE! 3 rodadas finais.')}}
-function beginBattle(){if(state.revealed)return;if(!state.you.deck.length||!state.cpu.deck.length){finishGame();return}cpuLockHeadliner();state.currentYou=state.you.deck[0];state.currentCpu=state.cpu.deck[0];if(state.turn==='you'){renderGame();toast('Escolha um atributo acima.');return}else{state.selectedAttr=null;renderGame();setTimeout(()=>{let likely=ATTRS.map(([k])=>({k,v:effective(state.currentCpu,k)})).sort((a,b)=>b.v-a.v);let choice=Math.random()<.72?likely[0].k:likely[Math.floor(Math.random()*likely.length)].k;chooseAttr(choice,true)},700)}}
-function chooseAttr(attr,fromCpu=false){if(state.turn==='you'&&!fromCpu&&state.revealed)return;if(!state.currentYou||!state.currentCpu){state.currentYou=state.you.deck[0];state.currentCpu=state.cpu.deck[0]}state.selectedAttr=attr;state.revealed=true;const y=effective(state.currentYou,attr),c=effective(state.currentCpu,attr);let label=ATTRS.find(a=>a[0]===attr)[1];if(y>c){state.lastResult=`${label}: ${y} × ${c} — você venceu a rodada.`;resolveRound('you')}else if(c>y){state.lastResult=`${label}: ${y} × ${c} — o rival venceu a rodada.`;resolveRound('cpu')}else{state.lastResult=`${label}: ${y} × ${c} — empate! As cartas foram para o pote.`;resolveRound('tie')}renderGame()}
-function effective(card,attr){let v=card[attr];if(card.power&&card.power.attr===attr)v+=card.power.boost;return v}
-function resolveRound(winner){const y=state.you.deck.shift(),c=state.cpu.deck.shift();if(winner==='tie'){state.pot.push(y,c);state.pendingWinner=null}else{state[winner].deck.push(...state.pot,y,c);state.pot=[];state.pendingWinner=winner;state.turn=winner}state.lastWinner=winner}
-function nextRound(){if(state.encore!==null){state.encore--;if(state.you.head.filter(Boolean).length===3&&state.cpu.head.filter(Boolean).length===3){finishGame();return}if(state.encore<=0){finishGame();return}}if(!state.you.deck.length||!state.cpu.deck.length){finishGame();return}state.round++;state.selectedAttr=null;state.revealed=false;state.currentYou=null;state.currentCpu=null;state.lastResult='';state.you.lockedThisRound=false;state.cpu.lockedThisRound=false;renderGame();if(state.turn==='cpu')setTimeout(beginBattle,600)}
+function turnMessage(){if(state.revealed)return '';if(isLocalGame())return `${playerLabel(state.battleChooser||state.turn)} escolhe o atributo sem ver as cartas.`;if(state.turn===P1)return 'Escolha um atributo antes de virar as cartas.';return 'O rival está escolhendo o atributo…'}
+function wireSlots(){$$('.you-slot').forEach(el=>el.onclick=()=>{if(!state||state.gameOver||state.mode!=='cpu')return;const slot=+el.dataset.slot,owner=player(P1);if(owner.head[slot]){toast('Essa vaga já está travada.');return}if(owner.lockedThisRound){toast('Você já escolheu 1 Headliner nesta rodada.');return}openDeck(false,slot)})}
+function openDeck(first=false,slot=null){
+ if(!state||state.mode!=='cpu'||state.gameOver)return;
+ const root=$('#modal-root'),owner=player(P1);
+ root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Seu monte — ordem fixa'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode passear pelas cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar seu monte">×</button></div><div class="deck-grid">${owner.deck.map((card,index)=>`<div class="deck-entry ${slot!==null?'selectable':''}" data-card-index="${index}" ${slot!==null?`onclick="confirmHeadliner(${index},${slot})"`:''}><div class="position">${index===0?'PRÓXIMA CARTA':`posição ${index+1}`}</div>${liveCardHTML(card,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><button class="primary" onclick="closeModal()">Entendi meu line-up</button></div>`:''}</div></div>`;
+}
+function closeModal(){const root=$('#modal-root');if(root)root.innerHTML=''}
+function confirmHeadliner(index,slot){
+ if(!state||state.mode!=='cpu'||player(P1).lockedThisRound||player(P1).head[slot]||!player(P1).deck[index])return;
+ const card=player(P1).deck[index],root=$('#modal-root');
+ root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(720px,94vw)"><div class="confirm-box"><h2>TRAVAR COMO HEADLINER?</h2><div style="display:flex;justify-content:center;margin:18px">${liveCardHTML(card,'confirm')}</div><p><strong>${card.name}</strong> garante <strong>${fmt(card.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div style="display:flex;gap:10px;justify-content:center"><button class="secondary" onclick="openDeck(false,${slot})">Voltar</button><button class="primary" onclick="lockHeadliner(${index},${slot})">Confirmar Headliner</button></div></div></div></div>`;
+}
+function lockHeadliner(index,slot){
+ if(!state||state.mode!=='cpu'||state.actionLocked)return;state.actionLocked=true;const card=commitHeadliner(P1,index,slot);if(!card){state.actionLocked=false;return}
+ state.actionLocked=false;closeModal();renderGame();toast(`${card.name} agora é Headliner. 🔒`);scheduleGame(()=>{if(state){state.justLocked=null;renderGame()}},760,'cpu');
+}
+function cpuLockHeadliner(){
+ if(!state||state.mode!=='cpu')return;const owner=player(P2);if(owner.lockedThisRound||owner.head.filter(Boolean).length>=3||!owner.deck.length)return;
+ const slot=[0,1,2].find(i=>!owner.head[i]);if(slot===undefined)return;
+ const options=owner.deck.map((card,index)=>({card,index,score:card.pub-(card.influence+card.innovation+card.prestige)*120})).sort((a,b)=>b.score-a.score),top=options[0],avg=owner.deck.reduce((sum,card)=>sum+card.pub,0)/owner.deck.length,urgency=state.encore!==null||owner.head.filter(Boolean).length===2,take=top.card.pub>=Math.max(110000,avg*1.12)||urgency;
+ if(take){const card=commitHeadliner(P2,top.index,slot);if(!card)return;toast(`O rival fechou ${card.name} como Headliner.`);scheduleGame(()=>{if(state){state.justLocked=null;renderGame()}},760,'cpu')}
+}
+function maybeStartEncore(side){if(state.encore===null&&player(side).head.filter(Boolean).length===3){state.encore=3;toast('ENCORE! 3 rodadas finais.')}}
+function beginBattle(){
+ if(!state||state.mode!=='cpu'||state.revealed||state.actionLocked)return;if(!player(P1).deck.length||!player(P2).deck.length){finishGame();return}
+ cpuLockHeadliner();state.current={[P1]:player(P1).deck[0],[P2]:player(P2).deck[0]};
+ if(state.turn===P1){renderGame();toast('Escolha um atributo acima.');return}
+ state.selectedAttr=null;renderGame();scheduleGame(()=>{const likely=ATTRS.map(([key])=>({key,value:effective(player(P2).deck[0],key)})).sort((a,b)=>b.value-a.value),choice=Math.random()<.72?likely[0].key:likely[Math.floor(Math.random()*likely.length)].key;chooseAttr(choice,true)},700,'cpu');
+}
+function chooseAttr(attr,fromCpu=false){
+ if(!state||state.gameOver||state.revealed||state.actionLocked||!ATTRS.some(([key])=>key===attr))return;
+ if(isLocalGame()){if(state.phase!=='ATTRIBUTE'||state.battleChooser!==state.turn)return}
+ else if((fromCpu&&state.turn!==P2)||(!fromCpu&&state.turn!==P1)||fromCpu&&state.mode!=='cpu')return;
+ if(!player(P1).deck.length||!player(P2).deck.length){finishGame();return}
+ state.actionLocked=true;state.current={[P1]:player(P1).deck[0],[P2]:player(P2).deck[0]};state.selectedAttr=attr;state.revealed=true;if(isLocalGame())state.phase='RESULT';
+ const p1Value=effective(state.current[P1],attr),p2Value=effective(state.current[P2],attr),label=ATTRS.find(([key])=>key===attr)[1];
+ if(p1Value>p2Value){state.lastResult=isLocalGame()?`${label}: ${p1Value} × ${p2Value} — JOGADOR 1 VENCEU A RODADA.`:`${label}: ${p1Value} × ${p2Value} — você venceu a rodada.`;resolveRound(P1)}
+ else if(p2Value>p1Value){state.lastResult=isLocalGame()?`${label}: ${p1Value} × ${p2Value} — JOGADOR 2 VENCEU A RODADA.`:`${label}: ${p1Value} × ${p2Value} — o rival venceu a rodada.`;resolveRound(P2)}
+ else{state.lastResult=`${label}: ${p1Value} × ${p2Value} — ${isLocalGame()?'EMPATE — CARTAS NO POTE.':'empate! As cartas foram para o pote.'}`;resolveRound('tie')}
+ state.actionLocked=false;renderGame();
+}
+function effective(card,attr){let value=card[attr];if(card.power&&card.power.attr===attr)value+=card.power.boost;return value}
+function resolveRound(winner){
+ const p1Card=player(P1).deck.shift(),p2Card=player(P2).deck.shift();
+ if(winner==='tie'){state.pot.push(p1Card,p2Card);state.pendingWinner=null}
+ else{player(winner).deck.push(...state.pot,p1Card,p2Card);state.pot=[];state.pendingWinner=winner;state.turn=winner}
+ state.lastWinner=winner;
+}
+function nextRound(){
+ if(!state||state.gameOver||state.actionLocked||!state.revealed||(isLocalGame()&&state.phase!=='RESULT'))return;state.actionLocked=true;
+ if(state.encore!==null){state.encore--;if(player(P1).head.filter(Boolean).length===3&&player(P2).head.filter(Boolean).length===3){state.actionLocked=false;finishGame();return}if(state.encore<=0){state.actionLocked=false;finishGame();return}}
+ if(!player(P1).deck.length||!player(P2).deck.length){state.actionLocked=false;finishGame();return}
+ state.round++;state.selectedAttr=null;state.revealed=false;state.current=null;state.lastResult='';state.lastWinner=null;player(P1).lockedThisRound=false;player(P2).lockedThisRound=false;state.battleChooser=null;state.actionLocked=false;
+ if(isLocalGame())queueLocalPass(P1,'headliner');
+ else{renderGame();if(state.turn===P2)scheduleGame(beginBattle,600,'cpu')}
+}
 function festivalName(head){
  const cards=head.filter(Boolean),groups=new Set(cards.map(c=>c.group)),names=cards.map(c=>c.name).join(' ');
  const pick=list=>list[Math.floor(Math.random()*list.length)];
@@ -3584,12 +3803,19 @@ function festivalName(head){
  if(roll<.78)return `${pick(first)} ${pick(middle)} ${pick(endings)}`;
  return `${pick(middle)} ${pick(endings)}`;
 }
-function finishGame(){state.gameOver=true;const y=state.you.head.reduce((s,c)=>s+(c?.pub||0),0),c=state.cpu.head.reduce((s,x)=>s+(x?.pub||0),0);const won=y>=c;const winnerHead=won?state.you.head:state.cpu.head;const name=festivalName(winnerHead);const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(880px,96vw)"><div class="end-box"><div class="winner">${won?'VOCÊ GANHOU!':'VOCÊ PERDEU!'}</div><p>O festival vencedor vai se chamar:</p><div class="festival-name">${name}</div><div class="score-row"><div class="score-pill">Seu festival<strong>${fmt(y)}</strong>pessoas</div><div class="score-pill">Festival rival<strong>${fmt(c)}</strong>pessoas</div></div><button class="primary" onclick="closeModal();reset()">Jogar de novo</button></div></div></div>`}
+function finishGame(){
+ if(!state||state.gameOver)return;const wasPrivate=phaseIsPrivate();state.gameOver=true;state.phase='GAME_OVER';clearGameTimers();
+ const p1Total=headlinerTotal(P1),p2Total=headlinerTotal(P2),local=isLocalGame(),winner=local?(p1Total===p2Total?null:p1Total>p2Total?P1:P2):(p1Total>=p2Total?P1:P2),name=winner?festivalName(player(winner).head):'';
+ if(wasPrivate)renderNeutralPrivacyBackground();
+ const title=local?(winner?`${playerLabel(winner)} GANHOU!`:'EMPATE!'):(winner===P1?'VOCÊ GANHOU!':'VOCÊ PERDEU!');
+ const festival=winner?`<p>O festival vencedor vai se chamar:</p><div class="festival-name">${name}</div>`:`<p>Os dois festivais terminaram com o mesmo Público.</p>`;
+ const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(880px,96vw)"><div class="end-box"><div class="winner">${title}</div>${festival}<div class="score-row"><div class="score-pill">${local?'Jogador 1':'Seu festival'}<strong>${fmt(p1Total)}</strong>pessoas</div><div class="score-pill">${local?'Jogador 2':'Festival rival'}<strong>${fmt(p2Total)}</strong>pessoas</div></div><button class="primary" onclick="playAgain()">Jogar de novo</button></div></div></div>`;
+}
+function playAgain(){if(!state)return;const mode=state.mode;startGame(mode)}
 function toast(msg){setTimeout(()=>{let t=$('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)},20)}
 function renderCover(){document.querySelector('#app').innerHTML=`<div class="cover-screen"><button class="cover-poster-button" onclick="enterHeadliner()" aria-label="Entrar no Headliner"><img class="cover-poster" src="assets/headliner-cover-approved.webp" alt="Headliner — Music Card Game"></button><button class="cover-enter" onclick="enterHeadliner()">Entrar <span>→</span></button></div>`}
 function enterHeadliner(){renderStart()}
-function showLocalModeNotice(){const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(480px,94vw)"><div class="local-mode-note"><h2>2 jogadores</h2><p>O modo local ainda não está disponível nesta versão. O jogo contra o computador já pode ser jogado normalmente.</p><button class="primary" onclick="closeModal()">Entendi</button></div></div></div>`}
-function renderStart(){document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>Escolha o modo</h1><p class="start-lead">Monte o festival definitivo, dispute atributos e proteja até 3 artistas como Headliners.</p><div class="start-actions"><button class="mode" onclick="reset()"><span class="mode-kicker">Solo</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt" onclick="showLocalModeNotice()"><span class="mode-kicker">Local</span><strong>2 jogadores</strong><small>No mesmo dispositivo</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`}
+function renderStart(){closeModal();document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>Escolha o modo</h1><p class="start-lead">Monte o festival definitivo, dispute atributos e proteja até 3 artistas como Headliners.</p><div class="start-actions"><button class="mode" onclick="reset()"><span class="mode-kicker">Solo</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt" onclick="startLocalGame()"><span class="mode-kicker">Local</span><strong>2 jogadores</strong><small>No mesmo dispositivo</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`}
 const POWER_PREVIEW_CASES=Object.freeze({
  short:Object.freeze({name:'Encore',desc:'+4 em Prestígio'}),
  medium:Object.freeze({name:'Onda Psicodélica',desc:'Recebe +8 em Inovação durante este confronto.'}),
