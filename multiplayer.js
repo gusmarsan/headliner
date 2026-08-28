@@ -512,9 +512,10 @@
   if(params.get('preview')!=='card'){
     const invited=sanitizeRoom(params.get('room'));
     const hosted=sanitizeRoom(params.get('host'));
-    if(invited.length===6)setTimeout(()=>renderNetworkJoin(invited),0);
-    else if(hosted.length===6)setTimeout(()=>{
+    const afterOnboarding=window.headlinerRunAfterOnboarding||((continuation)=>continuation());
+    if(invited.length===6)setTimeout(()=>afterOnboarding(()=>renderNetworkJoin(invited)),0);
+    else if(hosted.length===6)setTimeout(()=>afterOnboarding(()=>{
       renderNetworkScreen({kicker:'Credencial encontrada',title:`SALA ${hosted}`,description:'Existe uma mesa preservada neste celular. Retome a credencial ou abra uma sala nova.',actions:`<div class="network-actions"><button class="primary" onclick="restoreHostRoom('${hosted}')">Retomar sala</button><button class="secondary" onclick="createNetworkRoom()">Criar nova sala</button></div>`,footer:'RECUPERAÇÃO · JOGADOR 1'});
-    },0);
+    }),0);
   }
 })();

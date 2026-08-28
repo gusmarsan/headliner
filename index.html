@@ -2967,6 +2967,100 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .ticket-compact,.menu-btn{--ticket-inline:9px}
  .topbar{--ticket-inline:6px;--ticket-gutter:3px}
 }
+
+/* ===== Primeira entrada / Como jogar — folha de produção, circa 1996 ===== */
+.settings-body{display:grid;gap:8px}
+.onboarding-modal{
+ z-index:320;
+ padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+ background:rgba(28,18,12,.7);
+ backdrop-filter:blur(7px) saturate(.76);
+ overflow:hidden;
+}
+.onboarding-sheet{
+ position:relative;
+ width:min(900px,calc(100vw - 40px));
+ max-height:calc(100dvh - 32px);
+ color:#29251d;
+ background:
+  radial-gradient(circle at 13% 18%,rgba(103,71,36,.09) 0 1px,transparent 1.5px) 0 0/17px 19px,
+  radial-gradient(circle at 78% 72%,rgba(255,255,255,.25) 0 1px,transparent 1.6px) 0 0/23px 21px,
+  repeating-linear-gradient(96deg,rgba(90,61,29,.025) 0 1px,transparent 1px 8px),
+  linear-gradient(103deg,#ead8aa 0,#f5e8c2 17%,#efddb0 49%,#f4e6bd 78%,#e5cf9b 100%);
+ border:1px solid rgba(80,55,29,.48);
+ border-radius:2px;
+ box-shadow:9px 12px 0 rgba(47,28,16,.17),0 24px 56px rgba(26,14,8,.42),inset 0 0 38px rgba(91,58,25,.12);
+ transform:rotate(-.22deg);
+ overflow:hidden;
+ isolation:isolate;
+}
+.onboarding-sheet:before{
+ content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.62;
+ background:
+  linear-gradient(167deg,transparent 0 47.8%,rgba(105,73,39,.075) 48%,rgba(255,255,255,.16) 48.35%,transparent 48.7%),
+  linear-gradient(82deg,transparent 0 71.5%,rgba(95,65,33,.055) 71.8%,rgba(255,255,255,.12) 72.15%,transparent 72.5%),
+  radial-gradient(ellipse at 0 37%,rgba(104,64,29,.13),transparent 15%),
+  radial-gradient(ellipse at 100% 83%,rgba(104,64,29,.11),transparent 18%);
+}
+.onboarding-sheet:after{
+ content:"PRODUÇÃO 96 · CÓPIA 01";position:absolute;right:28px;top:25px;z-index:2;
+ padding:5px 7px 4px;border:2px solid rgba(143,53,41,.56);color:rgba(133,47,38,.66);
+ font:800 9px/1 var(--ui);letter-spacing:.12em;transform:rotate(2.4deg);pointer-events:none;
+}
+.onboarding-tape{
+ position:absolute;z-index:4;left:50%;top:-7px;width:118px;height:25px;transform:translateX(-50%) rotate(-1.4deg);
+ background:linear-gradient(90deg,rgba(195,169,112,.58),rgba(235,216,165,.76),rgba(184,153,96,.58));
+ border-left:1px dashed rgba(91,67,35,.24);border-right:1px dashed rgba(91,67,35,.24);opacity:.84;pointer-events:none;
+}
+.onboarding-scroll{
+ max-height:calc(100dvh - 32px);padding:30px 38px 26px;overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#8f7144 transparent;scrollbar-width:thin;
+}
+.onboarding-header{padding:0 150px 14px 0;border-bottom:3px double rgba(45,42,31,.64)}
+.onboarding-brand{display:block;font-family:var(--display);font-size:clamp(38px,5vw,58px);font-weight:900;line-height:.78;letter-spacing:.025em;color:#143e4d;text-transform:uppercase}
+.onboarding-title{display:block;margin-top:7px;font:900 15px/1 var(--ui);letter-spacing:.22em;color:#a34232;text-transform:uppercase}
+.onboarding-intro{max-width:690px;margin:13px 0 14px;font:750 15px/1.36 var(--ui);color:#383328}
+.onboarding-rules{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px}
+.onboarding-rule{position:relative;padding:12px 14px 11px;border-top:1px solid rgba(61,52,36,.42);background:rgba(255,249,223,.17)}
+.onboarding-rule:nth-child(2){transform:rotate(.12deg)}
+.onboarding-rule:nth-child(3){transform:rotate(-.1deg)}
+.onboarding-rule h3{display:flex;align-items:baseline;gap:8px;margin:0 0 6px;color:#153f4d;font:900 16px/1 var(--display);letter-spacing:.035em;text-transform:uppercase}
+.onboarding-rule h3 span{color:#a44233;font:900 9px/1 var(--ui);letter-spacing:.14em}
+.onboarding-rule p{margin:0;color:#373126;font:650 12px/1.38 var(--ui)}
+.onboarding-rule p+p{margin-top:6px}
+.onboarding-attrs{display:flex;flex-wrap:wrap;gap:4px 6px;margin:7px 0}
+.onboarding-attrs span{padding:3px 6px;border:1px solid rgba(45,62,58,.34);background:rgba(20,86,104,.08);font:850 9px/1 var(--ui);letter-spacing:.035em;text-transform:uppercase}
+.onboarding-rule strong{font-weight:900;color:#172f35}
+.onboarding-rule-public{border:2px solid rgba(153,58,43,.58);background:rgba(177,66,47,.055)}
+.onboarding-rule-public h3,.onboarding-rule-public strong{color:#8f3329}
+.onboarding-contrast{margin-top:7px!important;padding:7px 8px;border-left:4px solid #a54132;background:rgba(255,248,219,.48);font-weight:850!important}
+.onboarding-footer{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-top:15px;padding-top:13px;border-top:1px dashed rgba(70,55,32,.55)}
+.onboarding-note{color:#6b5b42;font:800 9px/1.35 var(--ui);letter-spacing:.1em;text-transform:uppercase}
+.onboarding-action{
+ min-width:190px;min-height:48px;padding:11px 24px;border:2px solid #6f2d25;border-radius:1px;background:#b94b38;color:#fff0c8;
+ box-shadow:4px 4px 0 #6d3926;font:900 20px/1 var(--display);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transform:rotate(-.45deg);
+}
+.onboarding-action:hover{background:#a83f31;transform:rotate(-.45deg) translateY(-1px)}
+.onboarding-action:active{box-shadow:2px 2px 0 #6d3926;transform:rotate(-.45deg) translate(2px,2px)}
+.onboarding-action:focus-visible{outline:3px solid #126b86;outline-offset:4px}
+
+@media(max-width:760px){
+ .onboarding-modal{place-items:stretch center;padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left))}
+ .onboarding-sheet{align-self:center;width:min(100%,560px);max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));transform:rotate(-.1deg);box-shadow:5px 7px 0 rgba(47,28,16,.17),0 16px 38px rgba(26,14,8,.4)}
+ .onboarding-scroll{max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));padding:27px 19px 22px}
+ .onboarding-sheet:after{right:15px;top:17px;font-size:7px;padding:4px 5px}
+ .onboarding-tape{width:94px;height:21px}
+ .onboarding-header{padding:0 102px 12px 0}
+ .onboarding-brand{font-size:39px}.onboarding-title{margin-top:6px;font-size:12px;letter-spacing:.18em}
+ .onboarding-intro{margin:11px 0 13px;font-size:13px}
+ .onboarding-rules{grid-template-columns:1fr;gap:9px}
+ .onboarding-rule{padding:10px 11px 9px}.onboarding-rule h3{font-size:15px;margin-bottom:5px}.onboarding-rule p{font-size:11.5px;line-height:1.4}
+ .onboarding-attrs{gap:4px;margin:6px 0}.onboarding-attrs span{font-size:8px;padding:3px 5px}
+ .onboarding-footer{display:grid;justify-items:stretch;gap:10px;margin-top:12px;padding-top:11px}
+ .onboarding-note{text-align:center;font-size:8px}.onboarding-action{width:100%;min-width:0;min-height:50px;font-size:20px}
+}
+@media(max-width:370px){
+ .onboarding-scroll{padding-left:15px;padding-right:15px}.onboarding-header{padding-right:88px}.onboarding-brand{font-size:36px}.onboarding-rule p{font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -3585,15 +3679,74 @@ function startGame(mode='cpu'){
 const UI_ICON={
   settings:`<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.04.04-2.78 2.78-.04-.04A1.8 1.8 0 0 0 15 19.4a1.8 1.8 0 0 0-1 .6 1.8 1.8 0 0 0-.4 1.1V21h-3.2v-.06A1.8 1.8 0 0 0 9 19.4a1.8 1.8 0 0 0-1.98.36l-.04.04-2.78-2.78.04-.04A1.8 1.8 0 0 0 4.6 15a1.8 1.8 0 0 0-.6-1 1.8 1.8 0 0 0-1.1-.4H3v-3.2h.06A1.8 1.8 0 0 0 4.6 9a1.8 1.8 0 0 0-.36-1.98l-.04-.04L6.98 4.2l.04.04A1.8 1.8 0 0 0 9 4.6a1.8 1.8 0 0 0 1-.6 1.8 1.8 0 0 0 .4-1.1V3h3.2v.06A1.8 1.8 0 0 0 15 4.6a1.8 1.8 0 0 0 1.98-.36l.04-.04 2.78 2.78-.04.04A1.8 1.8 0 0 0 19.4 9c.2.36.5.7 1 .95.34.18.72.3 1.1.35h.1v3.2h-.06a1.8 1.8 0 0 0-1.14.4 1.8 1.8 0 0 0-1 1.1Z"></path></svg>`,
   menu:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5"></path><path d="m14 8 4 4-4 4"></path><path d="M18 12H9"></path></svg>`,
+  rules:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"></path><path d="M8 20a3 3 0 0 1 3-3h8M9 8h6M9 12h5"></path></svg>`,
   cards:`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="13" height="17" rx="2"></rect><path d="m8 7 7 0M8 11h7M8 15h4"></path><path d="M18 7h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9"></path></svg>`,
   prev:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>`,
   next:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>`
 };
+const ONBOARDING_VERSION=1;
+const ONBOARDING_STORAGE_KEY=`headlinerOnboardingSeen:v${ONBOARDING_VERSION}`;
+let onboardingContext=null;
+let onboardingContinuation=null;
+let onboardingCompleting=false;
+function onboardingHasBeenSeen(){
+ try{return localStorage.getItem(ONBOARDING_STORAGE_KEY)==='true'}catch(_){return false}
+}
+function recordOnboardingSeen(){
+ try{localStorage.setItem(ONBOARDING_STORAGE_KEY,'true')}catch(_){/* a experiência continua mesmo sem armazenamento disponível */}
+}
+function onboardingMarkup(context){
+ const manual=context==='settings';
+ return `<div class="modal onboarding-modal"><section class="onboarding-sheet" role="dialog" aria-modal="true" aria-labelledby="onboarding-title" aria-describedby="onboarding-intro" tabindex="-1"><span class="onboarding-tape" aria-hidden="true"></span><div class="onboarding-scroll"><header class="onboarding-header"><strong class="onboarding-brand">Headliner</strong><span class="onboarding-title" id="onboarding-title">Como funciona</span></header><p class="onboarding-intro" id="onboarding-intro">Monte o festival mais poderoso com as cartas que receber.</p><div class="onboarding-rules"><section class="onboarding-rule"><h3><span>Bloco 1</span> Suas cartas</h3><p>Cada partida usa <strong>30 cartas</strong>. Você recebe <strong>15</strong> e pode explorar seu monte para conhecer os artistas disponíveis.</p></section><section class="onboarding-rule"><h3><span>Bloco 2</span> Os confrontos</h3><p>As cartas têm <strong>5 atributos</strong> usados nos confrontos:</p><div class="onboarding-attrs"><span>Influência</span><span>Sucesso</span><span>Longevidade</span><span>Inovação</span><span>Prestígio</span></div><p>Em cada confronto, um deles é disputado. <strong>O maior valor vence.</strong></p></section><section class="onboarding-rule"><h3><span>Bloco 3</span> Escolha seus Headliners</h3><p>Durante a partida, escolha <strong>até 3 cartas</strong> para formar seu festival.</p><p>Você pode acrescentar <strong>no máximo 1 novo Headliner por rodada</strong> — ou não escolher nenhum. A carta escolhida fica reservada para o seu festival.</p></section><section class="onboarding-rule onboarding-rule-public"><h3><span>Bloco 4</span> Público decide o festival</h3><p class="onboarding-contrast"><strong>Público não é atributo de confronto.</strong></p><p>No fim, some o Público dos seus <strong>3 Headliners</strong>. Quem reunir o maior público vence o festival.</p></section></div><footer class="onboarding-footer"><span class="onboarding-note">Regras rápidas · guarde esta folha na produção</span><button class="onboarding-action" type="button" onclick="finishOnboarding()">${manual?'Fechar':'Começar'}</button></footer></div></section></div>`;
+}
+function setOnboardingBackgroundInert(value){
+ const app=document.querySelector('#app');if(!app)return;
+ if(value)app.setAttribute('inert','');else app.removeAttribute('inert');
+}
+function openOnboarding(context='auto',continuation=null){
+ onboardingContext=context;
+ onboardingContinuation=typeof continuation==='function'?continuation:null;
+ onboardingCompleting=false;
+ const root=$('#modal-root');if(!root)return;
+ root.innerHTML=onboardingMarkup(context);
+ setOnboardingBackgroundInert(true);
+ requestAnimationFrame(()=>document.querySelector('.onboarding-sheet')?.focus({preventScroll:true}));
+}
+function finishOnboarding(){
+ if(onboardingCompleting||!onboardingContext)return;
+ onboardingCompleting=true;
+ const context=onboardingContext,continuation=onboardingContinuation;
+ if(context==='auto')recordOnboardingSeen();
+ onboardingContext=null;onboardingContinuation=null;
+ setOnboardingBackgroundInert(false);closeModal();
+ if(context==='settings'){
+  openSettings();
+  requestAnimationFrame(()=>document.querySelector('.settings-option-onboarding')?.focus());
+ }else if(continuation)continuation();
+}
+function headlinerRunAfterOnboarding(continuation=null){
+ if(onboardingHasBeenSeen()){if(typeof continuation==='function')continuation();return false}
+ openOnboarding('auto',continuation);
+ return true;
+}
+window.headlinerRunAfterOnboarding=headlinerRunAfterOnboarding;
+document.addEventListener('keydown',event=>{
+ if(!document.querySelector('.onboarding-modal'))return;
+ if(event.key==='Escape'){
+  event.preventDefault();
+  if(onboardingContext==='settings')finishOnboarding();
+  return;
+ }
+ if(event.key==='Tab'){
+  event.preventDefault();
+  document.querySelector('.onboarding-action')?.focus();
+ }
+});
 let cardGalleryIndex=0;
 let cardGalleryReturn='settings';
 function openSettings(){
  const root=$('#modal-root');
- root.innerHTML=`<div class="modal"><div class="modal-card settings-card"><div class="modal-head"><div><h2>Configurações</h2><div class="help">Ajustes e extras do Headliner.</div></div><button class="close" onclick="closeModal()" aria-label="Fechar configurações">×</button></div><div class="settings-body"><button class="settings-option" onclick="openCardGallery(0,'settings')"><span class="settings-option-icon">${UI_ICON.cards}</span><span class="settings-option-copy"><strong>Ver cartas</strong><span>Passe pelas 50 cartas do jogo e admire o baralho completo.</span></span><span class="settings-option-arrow">›</span></button></div></div></div>`;
+ root.innerHTML=`<div class="modal"><div class="modal-card settings-card"><div class="modal-head"><div><h2>Configurações</h2><div class="help">Ajustes e extras do Headliner.</div></div><button class="close" onclick="closeModal()" aria-label="Fechar configurações">×</button></div><div class="settings-body"><button class="settings-option settings-option-onboarding" onclick="openOnboarding('settings')"><span class="settings-option-icon">${UI_ICON.rules}</span><span class="settings-option-copy"><strong>Como jogar</strong><span>Reveja as regras essenciais antes ou durante uma partida.</span></span><span class="settings-option-arrow">›</span></button><button class="settings-option" onclick="openCardGallery(0,'settings')"><span class="settings-option-icon">${UI_ICON.cards}</span><span class="settings-option-copy"><strong>Ver cartas</strong><span>Passe pelas 50 cartas do jogo e admire o baralho completo.</span></span><span class="settings-option-arrow">›</span></button></div></div></div>`;
 }
 function requestExitToMenu(){
  if(!state){renderStart();return}
@@ -3851,7 +4004,7 @@ function finishGame(){
 function playAgain(){if(!state)return;const mode=state.mode;startGame(mode)}
 function toast(msg){setTimeout(()=>{let t=$('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)},20)}
 function renderCover(){document.querySelector('#app').innerHTML=`<div class="cover-screen"><button class="cover-art-button" onclick="enterHeadliner()" aria-label="Entrar no Headliner"><picture><source media="(max-width:760px)" srcset="assets/cover-official-mobile.png"><img class="cover-art" src="assets/cover-official-desktop.png" alt="Headliner — Music Card Game. Para 1–2 jogadores, de 5–15 minutos."></picture><span class="visually-hidden">Entrar no Headliner</span></button></div>`}
-function enterHeadliner(){renderStart()}
+function enterHeadliner(){renderStart();headlinerRunAfterOnboarding()}
 function renderStart(){closeModal();document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>Escolha o modo</h1><p class="start-lead">Monte o festival definitivo, dispute atributos e proteja até 3 artistas como Headliners.</p><div class="start-actions"><button class="mode ticket-control ticket-mode" onclick="reset()"><span class="mode-kicker">Solo</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt ticket-control ticket-mode" onclick="startLocalGame()"><span class="mode-kicker">Local</span><strong>2 jogadores</strong><small>No mesmo dispositivo</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`}
 const POWER_PREVIEW_CASES=Object.freeze({
  short:Object.freeze({name:'Encore',desc:'+4 em Prestígio'}),

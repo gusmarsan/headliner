@@ -168,8 +168,9 @@
   if(params.get('preview')!=='card'){
     const invited=String(params.get('room')||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,6);
     const hosted=String(params.get('host')||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,6);
-    if(invited.length===6)setTimeout(()=>renderNamedJoin(invited),30);
-    else if(hosted.length===6)setTimeout(()=>renderNamedRestore(hosted),30);
+    const afterOnboarding=window.headlinerRunAfterOnboarding||((continuation)=>continuation());
+    if(invited.length===6)setTimeout(()=>afterOnboarding(()=>renderNamedJoin(invited)),30);
+    else if(hosted.length===6)setTimeout(()=>afterOnboarding(()=>renderNamedRestore(hosted)),30);
   }
 
   function sendPatch(payload){
@@ -271,10 +272,8 @@
       renderCurrentState();return;
     }
     if(message.type===MSG_PARALLEL_STATE&&network.role==='guest'&&message.state){
-      state=message.state;
-      if(state?.phase!=='ROUND_PRIVATE')runtime.localRound=null;
-      renderCurrentState();
-      setTimeout(sendOfficialStateRequest,30);
+      if(message.state.phase!=='ROUND_PRIVATE')runtime.localRound=null;
+      sendOfficialStateRequest();
     }
   }
 
