@@ -1,0 +1,1 @@
+Run festival-name patch once.
