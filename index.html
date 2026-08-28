@@ -2477,8 +2477,8 @@ body.card-preview-mode #app{height:auto;min-height:100vh}
 .live-card-headliner{--live-card-scale:.30;width:100%;height:100%}
 .live-card-deck{--live-card-scale:.52;width:162px;height:237px}
 .live-card-confirm{--live-card-scale:1;width:311px;height:456px}
-.deck-item.selectable .live-card-stage{cursor:pointer}
-.deck-item.selectable .live-card-stage:hover .card.large{translate:0 -7px;box-shadow:0 24px 48px rgba(0,0,0,.5),0 0 0 2px rgba(255,207,93,.35)}
+.deck-entry.selectable .live-card-stage{cursor:pointer}
+.deck-entry.selectable .live-card-stage:hover .card.large{translate:0 -7px;box-shadow:0 24px 48px rgba(0,0,0,.5),0 0 0 2px rgba(255,207,93,.35)}
 /* Battle faces are read-only; do not let them intercept a Headliner slot behind
    the visual layer. The game controls remain interactive. */
 .screen .battle-zone{pointer-events:none}
@@ -2623,10 +2623,11 @@ button{font-family:var(--ui);font-weight:700;letter-spacing:0}
 .help{margin-top:5px;color:var(--ui-muted);font-family:var(--ui);font-size:11px;line-height:1.4}
 .close{width:34px;height:34px;border:1px solid rgba(35,63,68,.25);border-radius:7px;background:rgba(255,255,255,.26);color:var(--ui-ink);font-family:var(--ui);font-size:20px;font-weight:600;box-shadow:none}
 .close:hover{transform:none;background:#e0c98f;color:#133742}
-.deck-grid{grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:14px;padding:18px;background:linear-gradient(180deg,#d9c18e,#ccb178);border-top:0}
-.deck-item{gap:8px;padding:8px 6px 10px;border:1px solid transparent;border-radius:8px;background:transparent;box-shadow:none;transition:background .15s ease,border-color .15s ease}
-.deck-item:hover{transform:none;background:rgba(248,236,203,.22);border-color:rgba(62,72,59,.17)}
-.deck-item.selectable:hover{background:rgba(248,236,203,.42);border-color:rgba(26,95,111,.42)}
+.deck-grid{grid-template-columns:repeat(5,minmax(0,1fr));align-items:start;gap:14px;padding:18px;background:linear-gradient(180deg,#d9c18e,#ccb178);border-top:0}
+.deck-entry{display:grid;min-width:0;align-content:start;justify-items:center;gap:8px;padding:8px 6px 10px;border:1px solid transparent;border-radius:8px;background:transparent;box-shadow:none;contain:layout;transition:background .15s ease,border-color .15s ease}
+.deck-entry .live-card-stage{isolation:isolate}
+.deck-entry:hover{background:rgba(248,236,203,.22);border-color:rgba(62,72,59,.17)}
+.deck-entry.selectable:hover{background:rgba(248,236,203,.42);border-color:rgba(26,95,111,.42)}
 .position{color:#3e5e63;font-family:var(--ui);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .confirm-box,.end-box,.exit-confirm{color:var(--ui-ink)}
 .confirm-box h2,.end-box h2,.exit-confirm h2{color:var(--ui-ink);font-family:var(--display);font-weight:900;text-transform:uppercase;letter-spacing:.015em}
@@ -2727,7 +2728,7 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
 .festival-bg{filter:saturate(1) contrast(1.13) brightness(.98)}
 
 /* Deck is a scrollable paper tray; the footer is always clear of the last position. */
-.deck-modal-card{display:flex;flex-direction:column;max-height:min(90vh,860px);border:3px solid #8b5a36;border-radius:3px;background:#e7cb8d;overflow:hidden}.deck-modal-card .modal-head{flex:none;background:linear-gradient(180deg,#f6e4b4,#e9c783);border-bottom:2px solid #8c5c37}.deck-modal-card .deck-grid{flex:1;min-height:0;max-height:none;padding:20px 20px 42px;overflow:auto;background:linear-gradient(100deg,#d6b36f,#e8cf92 48%,#cda765)}.deck-modal-card .deck-grid:after{display:none}.deck-modal-card .deck-item{padding:10px 6px 16px;border-radius:0}.deck-modal-card .deck-item .position{margin-bottom:4px;color:#244a52;font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:.055em}.deck-modal-footer{flex:none;padding:13px 20px 18px;text-align:center;background:#e7cb8d;border-top:1px solid rgba(101,65,35,.28)}.deck-modal-footer .primary{min-width:218px;background:#c6533d}
+.deck-modal-card{display:flex;flex-direction:column;max-height:min(90vh,860px);border:3px solid #8b5a36;border-radius:3px;background:#e7cb8d;overflow:hidden}.deck-modal-card .modal-head{flex:none;background:linear-gradient(180deg,#f6e4b4,#e9c783);border-bottom:2px solid #8c5c37}.deck-modal-card .deck-grid{flex:1;min-height:0;max-height:none;padding:20px 20px 42px;overflow:auto;background:linear-gradient(100deg,#d6b36f,#e8cf92 48%,#cda765)}.deck-modal-card .deck-grid:after{display:none}.deck-modal-card .deck-entry{padding:10px 6px 16px;border-radius:0}.deck-modal-card .deck-entry .position{margin-bottom:4px;color:#244a52;font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:.055em}.deck-modal-footer{flex:none;padding:13px 20px 18px;text-align:center;background:#e7cb8d;border-top:1px solid rgba(101,65,35,.28)}.deck-modal-footer .primary{min-width:218px;background:#c6533d}
 
 /* Gallery uses the same renderer but restores the 311px editorial column grid. */
 .card-gallery-modal .modal-card{border:2px solid #b2864a;border-radius:3px;background:#0b2c37}.card-gallery-head{background:linear-gradient(180deg,#f7e6ba,#e7c680);border-bottom:2px solid #9d7140}.card-gallery-body{background:#0b2c37}.card-gallery-nav{border-radius:2px;border-color:#af8751;background:#174556;color:#f7dfaa}.card-gallery-nav:hover{background:#d5aa50;color:#102f3b}.card-gallery-caption strong{font-family:var(--display);font-size:25px;font-weight:600;color:#f7e2ad}.card-gallery-caption span{font-family:var(--ui);font-size:13px;font-weight:700;color:#c3d1c8}.card-gallery-hint{font-family:var(--ui);font-size:11px;font-weight:800;color:#bfccc4;background:#0b2c37}
@@ -2735,7 +2736,7 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .topbar{padding:3px 5px}.utility-icon-btn{width:29px;height:29px;min-width:29px}.menu-btn{min-height:29px;font-size:12px}.opponent-area{top:9.4%;transform:translateX(-50%) scale(.84)}.opponent-area .opp-back{width:55px;height:81px}.opponent-area .count-badge{right:-23px;top:19px}.count-badge{min-width:24px;height:24px;font-size:14px}
  .start-box{width:calc(100vw - 28px)}.start-brand{margin-bottom:10px}.start-box h1{font-size:46px}.start-box p.start-lead{font-size:15px;line-height:1.18}.start-actions{gap:11px}.mode{min-height:82px;padding:12px 15px;box-shadow:5px 5px 0 rgba(6,25,31,.6)}.mode strong{font-size:27px}.mode-kicker{font-size:10px}.mode small{font-size:11px}.start-meta{margin-top:16px;font-size:10px}
  .result-strip{top:214px;font-size:10px}.result-strip.round-instruction{padding:5px 10px}.round-controls{top:242px;padding:4px;border-width:1px;box-shadow:0 4px 0 rgba(67,36,22,.42)}.primary,.secondary,.danger{min-height:30px;padding:5px 7px;font-size:11px}
- .deck-modal-card{max-height:94svh}.deck-modal-card .deck-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px 8px 36px;gap:9px}.deck-modal-card .deck-item{padding:6px 1px 13px}.deck-modal-card .deck-item .position{font-size:11px}.deck-modal-footer{padding:10px 12px 13px}.deck-modal-footer .primary{min-width:190px}
+ .deck-modal-card{max-height:94svh}.deck-modal-card .deck-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:13px 8px 36px;gap:9px}.deck-modal-card .deck-entry{padding:6px 1px 13px}.deck-modal-card .deck-entry .position{font-size:11px}.deck-modal-footer{padding:10px 12px 13px}.deck-modal-footer .primary{min-width:190px}
 }
 
 /* V41 — composição de partida: aproxima o núcleo e devolve escala ao jogo. */
@@ -2873,11 +2874,6 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .cover-screen:before{background:radial-gradient(ellipse at center,rgba(4,24,33,.08),rgba(3,10,14,.42) 78%);filter:none;opacity:1;transform:none}
  .cover-screen:after{background:linear-gradient(90deg,rgba(4,12,17,.78),transparent 24%,transparent 76%,rgba(4,12,17,.78)),linear-gradient(180deg,rgba(4,12,17,.18),transparent 55%,rgba(4,12,17,.48))}
 }
-.deck-grid{align-items:start}
-.deck-item{min-width:0;align-content:start;contain:layout}
-.deck-item .live-card-stage{position:relative;overflow:visible;isolation:isolate}
-.deck-item .live-card-stage .card.large{position:absolute!important;left:0;top:0;transform:none!important;overflow:hidden}
-@media(min-width:761px){.deck-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media(max-width:760px){.deck-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .opponent-fan{position:relative;width:360px;height:132px}
 .opponent-fan .opp-back{position:absolute;left:50%;top:0;margin:0;transform:translateX(calc(-50% + var(--opp-x))) translateY(var(--opp-drop)) rotate(var(--opp-r))!important;transform-origin:50% 100%}
@@ -3485,7 +3481,9 @@ cardHTML=function(card,cls='',faceDown=false,verdict=''){
  return html.replace('<div class="card ',`<div class="card variant-${variant}${variant==='solar'?' template-3':''}${artworkClass}${themeClass} `).replace('style="--c1:',`style="${artworkVars}${themeVars}${legacyArtVars}--c1:`).replace('<div class="card-front">',`<div class="card-front">${fields}`);
 };
 function liveCardHTML(card,context,verdict=''){
- return `<div class="card-preview-stage live-card-stage live-card-${context}">${cardHTML(card,'large',false,verdict)}</div>`;
+ const supportedContexts=['battle','hand','headliner','deck','confirm','gallery'];
+ const safeContext=supportedContexts.includes(context)?context:'gallery';
+ return `<div class="card-preview-stage live-card-stage live-card-${safeContext}" data-card-context="${safeContext}">${cardHTML(card,'large',false,verdict)}</div>`;
 }
 function reset(){const pool=balanced30();state={round:1,turn:'you',you:{deck:pool.slice(0,15),head:[],lockedThisRound:false},cpu:{deck:pool.slice(15),head:[],lockedThisRound:false},pot:[],selectedAttr:null,revealed:false,lastResult:'',encore:null,gameOver:false,mode:'cpu'};renderGame();setTimeout(()=>openDeck(true),450)}
 
@@ -3553,7 +3551,7 @@ function battleHTML(){const y=state.currentYou,c=state.currentCpu;const disabled
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back">HEADLINER</div></div>`}
 function turnMessage(){if(state.revealed)return '';if(state.turn==='you')return 'Escolha um atributo antes de virar as cartas.';return 'O rival está escolhendo o atributo…'}
 function wireSlots(){$$('.you-slot').forEach(el=>el.onclick=()=>{if(state.gameOver)return;const i=+el.dataset.slot;if(state.you.head[i]){toast('Essa vaga já está travada.');return}if(state.you.lockedThisRound){toast('Você já escolheu 1 Headliner nesta rodada.');return}openDeck(false,i)})}
-function openDeck(first=false,slot=null){const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Seu monte — ordem fixa'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode passear pelas cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar seu monte">×</button></div><div class="deck-grid">${state.you.deck.map((c,i)=>`<div class="deck-item ${slot!==null?'selectable':''}" ${slot!==null?`onclick="confirmHeadliner(${i},${slot})"`:''}><div class="position">${i===0?'PRÓXIMA CARTA':`posição ${i+1}`}</div>${liveCardHTML(c,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><button class="primary" onclick="closeModal()">Entendi meu line-up</button></div>`:''}</div></div>`}
+function openDeck(first=false,slot=null){const root=$('#modal-root');root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Seu monte — ordem fixa'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode passear pelas cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar seu monte">×</button></div><div class="deck-grid">${state.you.deck.map((c,i)=>`<div class="deck-entry ${slot!==null?'selectable':''}" data-card-index="${i}" ${slot!==null?`onclick="confirmHeadliner(${i},${slot})"`:''}><div class="position">${i===0?'PRÓXIMA CARTA':`posição ${i+1}`}</div>${liveCardHTML(c,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><button class="primary" onclick="closeModal()">Entendi meu line-up</button></div>`:''}</div></div>`}
 function closeModal(){const r=$('#modal-root');r.innerHTML=''}
 function confirmHeadliner(index,slot){const c=state.you.deck[index];const r=$('#modal-root');r.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(720px,94vw)"><div class="confirm-box"><h2>TRAVAR COMO HEADLINER?</h2><div style="display:flex;justify-content:center;margin:18px">${liveCardHTML(c,'confirm')}</div><p><strong>${c.name}</strong> garante <strong>${fmt(c.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div style="display:flex;gap:10px;justify-content:center"><button class="secondary" onclick="openDeck(false,${slot})">Voltar</button><button class="primary" onclick="lockHeadliner(${index},${slot})">Confirmar Headliner</button></div></div></div></div>`}
 function lockHeadliner(index,slot){const [c]=state.you.deck.splice(index,1);state.you.head[slot]=c;state.you.lockedThisRound=true;state.justLocked={who:'you',slot};closeModal();maybeStartEncore('you');renderGame();toast(`${c.name} agora é Headliner. 🔒`);setTimeout(()=>{if(state){state.justLocked=null;renderGame()}},760)}
