@@ -1,0 +1,5 @@
+Asset: table-reference-v43.png
+Role: binding visual base for the game table, introduced in V43.
+Source: user-supplied reference image, originally named "ChatGPT Image 27 de ago. de 2026, 21_47_37.png".
+Received: 2026-08-27 (America/Sao_Paulo).
+Integration: used directly as a proportion-preserving cover raster; no generated substitute and no image-content edits.
