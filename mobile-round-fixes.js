@@ -9,7 +9,8 @@
   let autoAdvanceKey=null;
   let autoAdvanceTimer=null;
 
-  function mobile(){return mobileQuery.matches}
+  /* Round result timing is now a game-wide rule, not a mobile-only fix. */
+  function mobile(){return true}
   function networkGame(){try{return typeof isNetworkGame==='function'&&isNetworkGame()}catch(_){return false}}
   function role(){return window.HeadlinerNetwork?.role||null}
   function resultReady(){
