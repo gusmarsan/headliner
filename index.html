@@ -2561,8 +2561,13 @@ button{font-family:var(--ui);font-weight:700;letter-spacing:0}
 .cover-screen:before{content:"";position:absolute;z-index:-2;inset:-14px;display:block;background:var(--cover-image) center/cover no-repeat;filter:blur(11px) saturate(.9) brightness(.82);transform:scale(1.025)}
 .cover-screen:after{content:"";position:absolute;z-index:1;inset:0;display:block;background:linear-gradient(90deg,rgba(5,77,108,.16),transparent 17% 83%,rgba(5,77,108,.16));pointer-events:none}
 .cover-art-button{position:absolute;inset:0;z-index:0;display:grid;place-items:center;width:100vw;height:100%;padding:0;border:0;border-radius:0;background:transparent;cursor:pointer;overflow:visible;box-shadow:none}
-.cover-art-button picture{position:relative;display:grid;place-items:center;width:100%;height:100%}
+.cover-frame{position:relative;display:grid;place-items:center;width:min(100vw,calc(100dvh * 16 / 9));height:min(100dvh,calc(100vw * 9 / 16));aspect-ratio:16/9}
+.cover-art-button picture{position:absolute;inset:0;display:grid;place-items:center;width:100%;height:100%}
 .cover-art{position:relative;inset:auto;display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center}
+.cover-final-copy{position:absolute;inset:0;z-index:2;pointer-events:none}
+.cover-final-caption{position:absolute;bottom:1.2%;width:25.5%;min-height:5.1%;display:flex;align-items:center;justify-content:center;padding:.25% 1%;background:linear-gradient(180deg,rgba(7,28,36,.08),rgba(7,28,36,.9) 36%,rgba(7,28,36,.96));color:#f4e7c4;font-family:"Barlow Condensed",Impact,sans-serif;font-size:clamp(12px,1.45vw,24px);font-weight:900;line-height:1;text-transform:uppercase;letter-spacing:.025em;text-align:center;text-shadow:0 2px 3px rgba(0,0,0,.85)}
+.cover-final-caption.left{left:15.5%}
+.cover-final-caption.right{right:15.5%}
 .cover-art-button:focus-visible{outline:4px solid #ffd24e;outline-offset:-8px}
 .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;border:0!important}
 
@@ -2646,6 +2651,8 @@ button{font-family:var(--ui);font-weight:700;letter-spacing:0}
 .local-mode-note{padding:26px 28px;text-align:center}.local-mode-note h2{margin:0;color:var(--ui-ink);font-family:var(--display);font-size:32px;text-transform:uppercase}.local-mode-note p{max-width:390px;margin:10px auto 20px;color:#57696b;font-family:var(--ui);line-height:1.5;font-size:13px}
 
 @media(max-width:760px){
+  .cover-final-copy{display:none}
+  .cover-frame{width:100vw;height:100dvh;aspect-ratio:auto}
   .cover-screen{--cover-image:url('assets/cover-official-mobile.png')}.cover-screen,.cover-art-button{width:100vw;height:100svh;height:100dvh}
   .cover-screen:before{inset:-9px;filter:blur(8px) saturate(.92) brightness(.86)}
   .cover-screen:after{background:linear-gradient(180deg,rgba(5,77,108,.12),transparent 15% 85%,rgba(5,77,108,.12))}
@@ -4216,7 +4223,7 @@ function finishGame(){
 }
 function playAgain(){if(!state)return;const mode=state.mode;startGame(mode)}
 function toast(msg){setTimeout(()=>{let t=$('#toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)},20)}
-function renderCover(){document.querySelector('#app').innerHTML=`<div class="cover-screen"><button class="cover-art-button" onclick="enterHeadliner()" aria-label="Começar o show"><picture><source media="(max-width:760px)" srcset="assets/cover-official-mobile.png"><img class="cover-art" src="assets/cover-official-desktop.png" alt="Headliner — Music Card Game. Para 1–2 jogadores, de 5–15 minutos."></picture><span class="visually-hidden">Começar o show</span></button></div>`}
+function renderCover(){document.querySelector('#app').innerHTML=`<div class="cover-screen"><button class="cover-art-button" onclick="enterHeadliner()" aria-label="Começar o show"><span class="cover-frame"><picture><source media="(max-width:760px)" srcset="assets/cover-official-mobile.png"><img class="cover-art" src="assets/cover-official-desktop.png" alt="Headliner — Music Card Game. Para 1–2 jogadores, de 5–15 minutos."></picture><span class="cover-final-copy" aria-hidden="true"><span class="cover-final-caption left">REÚNA AS MELHORES CARTAS.</span><span class="cover-final-caption right">MONTE SEU FESTIVAL!</span></span></span><span class="visually-hidden">Começar o show</span></button></div>`}
 function enterHeadliner(){renderStart();headlinerRunAfterOnboarding()}
 function renderStart(){closeModal();document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>Como você vai encarar o festival?</h1><p class="start-lead">Monte seu festival com 3 Headliners reunindo as melhores cartas.</p><div class="start-actions"><button class="mode ticket-control ticket-mode" onclick="reset()"><span class="mode-kicker">Curtir sozinho</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt ticket-control ticket-mode" onclick="startLocalGame()"><span class="mode-kicker">Curtir acompanhado</span><strong>2 jogadores</strong><small>No mesmo dispositivo</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`}
 const POWER_PREVIEW_CASES=Object.freeze({
