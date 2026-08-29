@@ -9,15 +9,48 @@
   /* Keep ordinary modals visibly inside the mobile viewport, with the
      background showing around them. Tall content scrolls inside the card. */
   .modal:not(.onboarding-modal):not(.festival-result-modal){
-    padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))!important;
+    padding:max(20px,env(safe-area-inset-top)) max(20px,env(safe-area-inset-right)) max(20px,env(safe-area-inset-bottom)) max(20px,env(safe-area-inset-left))!important;
     overflow:hidden;
   }
   .modal:not(.onboarding-modal):not(.festival-result-modal) .modal-card{
-    width:calc(100vw - 32px)!important;
-    max-width:calc(100vw - 32px)!important;
-    max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+    width:calc(100vw - 40px)!important;
+    max-width:calc(100vw - 40px)!important;
+    max-height:calc(100svh - 40px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
     overflow:auto!important;
     overscroll-behavior:contain;
+  }
+
+  /* Headliner confirmation must fit as a complete physical piece on mobile.
+     The generic confirm renderer uses the full 311x456 master on desktop;
+     scale only this mobile presentation instead of making the modal scroll. */
+  .confirm-box{
+    padding:16px 12px 14px!important;
+  }
+  .confirm-box h2{
+    margin:0 0 6px!important;
+    font-size:28px!important;
+    line-height:.95!important;
+  }
+  .confirm-box .live-card-confirm{
+    --live-card-scale:.56!important;
+    width:174px!important;
+    height:255px!important;
+  }
+  .confirm-box p{
+    max-width:300px;
+    margin:10px auto 12px!important;
+    font-size:13px!important;
+    line-height:1.32!important;
+  }
+  .confirm-box > div:last-child{
+    flex-wrap:wrap;
+    gap:7px!important;
+  }
+  .confirm-box > div:last-child .primary,
+  .confirm-box > div:last-child .secondary{
+    min-height:40px!important;
+    padding:7px 10px!important;
+    font-size:11px!important;
   }
 
   /* Mode tickets stay side by side: 1 JOGADOR and 2 JOGADORES use the same
@@ -28,4 +61,15 @@
     letter-spacing:0!important;
     white-space:nowrap;
   }
+}
+
+@media (max-width:760px) and (max-height:700px){
+  /* Extra headroom for short mobile viewports / browsers with large chrome. */
+  .confirm-box .live-card-confirm{
+    --live-card-scale:.48!important;
+    width:149px!important;
+    height:219px!important;
+  }
+  .confirm-box h2{font-size:25px!important}
+  .confirm-box p{font-size:12px!important;margin:8px auto 9px!important}
 }
