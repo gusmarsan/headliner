@@ -122,7 +122,7 @@
   function renderNamedLobby(error=''){
     renderNamedScreen({
       kicker:'Credencial para dois',
-      title:'DUELO ONLINE',
+      title:'Jogar de 2',
       description:'Cada pessoa joga no próprio celular. Informe seu nome antes de criar ou entrar em uma sala.',
       content:nameInputMarkup(),
       actions:'<div class="network-actions"><button class="primary" onclick="createNamedNetworkRoom()">Criar sala</button><button class="secondary" onclick="openNamedNetworkJoin()">Entrar com código</button></div><div class="network-actions spaced"><button class="danger" onclick="networkBackToMenu()">Voltar ao menu</button></div>',
@@ -134,7 +134,7 @@
     const code=String(prefill||new URLSearchParams(location.search).get('room')||'').toUpperCase().replace(/[^A-Z2-9]/g,'').slice(0,6);
     renderNamedScreen({
       kicker:'Apresente sua credencial',
-      title:'CÓDIGO DA SALA',
+      title:'Código da sala',
       description:'Informe seu nome e o código de seis caracteres da sala.',
       content:`${nameInputMarkup()}<label class="network-name-label" for="network-room-input">Código</label><input id="network-room-input" class="network-room-input" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="6" value="${escapeHtml(code)}" aria-label="Código da sala">`,
       actions:'<div class="network-actions"><button class="primary" onclick="joinNamedNetworkRoom()">Entrar na sala</button><button class="secondary" onclick="renderNamedNetworkLobby()">Voltar</button></div>',
@@ -289,7 +289,7 @@
     const otherReady=runtime.initialRemoteReady.has(gameKey());
     if(ready){
       const other=nameForSide(otherSide(side));
-      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="parallel-wait-card"><strong>Monte conferido</strong><p>Você terminou. ${otherReady?`${escapeHtml(other)} também terminou; preparando a rodada…`:`Aguardando ${escapeHtml(other)} terminar de conferir o próprio monte.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
+      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="parallel-wait-card"><strong>Cartas conferidas</strong><p>Você terminou. ${otherReady?`${escapeHtml(other)} também terminou; preparando a rodada…`:`Aguardando ${escapeHtml(other)} terminar de conferir o próprio monte.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
       return;
     }
     document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Escalar</button></div>${otherReady?`<p class="parallel-ready-note">${escapeHtml(nameForSide(otherSide(side)))} já terminou de conferir o próprio monte.</p>`:''}<div class="parallel-own-deck">${privateDeckItems(side,false)}</div></div></main>`;
@@ -334,7 +334,7 @@
     const opponent=nameForSide(otherSide(side));
     if(local.submitted){
       const label=local.choice?`Headliner: ${escapeHtml(player(side).deck[local.choice.index]?.name||local.choice.cardName||'escolhido')}`:'Sem novo Headliner nesta rodada';
-      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'FASE DE HEADLINER',`rodada ${state.round} · escolhas simultâneas`)}<div class="parallel-wait-card"><strong>Escolha registrada</strong><p>${label}.</p><p>${local.remoteReady?`${escapeHtml(opponent)} também finalizou. Preparando o confronto…`:`Aguardando ${escapeHtml(opponent)} finalizar a própria escolha.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
+      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'Fase de Headliner',`rodada ${state.round} · escolhas simultâneas`)}<div class="parallel-wait-card"><strong>Escolha registrada</strong><p>${label}.</p><p>${local.remoteReady?`${escapeHtml(opponent)} também finalizou. Preparando o confronto…`:`Aguardando ${escapeHtml(opponent)} finalizar a própria escolha.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
       return;
     }
     if(local.confirmIndex!==null){
@@ -345,7 +345,7 @@
     }
     const canChoose=owner.head.filter(Boolean).length<3&&owner.deck.length>0;
     const note=!canChoose?'Seu festival já tem 3 Headliners. Finalize sem escolher uma nova carta.':local.slot===null?'Escolha uma vaga vazia e depois qualquer carta do seu monte.':'Agora escolha qualquer carta do seu monte. A ordem não será alterada.';
-    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'FASE DE HEADLINER',`rodada ${state.round} · escolhas simultâneas`)}<section class="private-round-panel"><h2>Seu Festival · ${fmt(headlinerTotal(side))} pessoas</h2>${parallelSlotsHTML(side,local.slot)}<p class="private-round-note">${note}</p>${local.remoteReady?`<p class="parallel-ready-note">${escapeHtml(opponent)} já finalizou. Sua escolha continua privada.</p>`:''}<div class="private-round-actions"><button class="primary" onclick="finishPrivateRound('${side}')">Continuar sem escolher Headliner</button></div></section>${privateDeckItems(side,canChoose&&local.slot!==null)}</div></main>`;
+    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'Fase de Headliner',`rodada ${state.round} · escolhas simultâneas`)}<section class="private-round-panel"><h2>Seu Festival · ${fmt(headlinerTotal(side))} pessoas</h2>${parallelSlotsHTML(side,local.slot)}<p class="private-round-note">${note}</p>${local.remoteReady?`<p class="parallel-ready-note">${escapeHtml(opponent)} já finalizou. Sua escolha continua privada.</p>`:''}<div class="private-round-actions"><button class="primary" onclick="finishPrivateRound('${side}')">Continuar sem escolher Headliner</button></div></section>${privateDeckItems(side,canChoose&&local.slot!==null)}</div></main>`;
   }
 
   selectPrivateSlot=function(slot){
