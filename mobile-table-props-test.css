@@ -1,3 +1,14 @@
-/* Temporary mobile table test disabled after visual review.
-   ?mesa=props currently falls back to the normal mobile table until the approved
-   clean artwork (table + fixed props only) is installed correctly. */
+/* Temporary mobile table artwork test. Activated only by ?mesa=props.
+   Important: swap only the existing table artwork. All live game layers keep
+   their current geometry and remain untouched. */
+@media (max-width:760px){
+  html.mesa-props-test .table{
+    background:#0b0d0f url('assets/table-mobile-props-v1.png') center center/cover no-repeat!important;
+  }
+
+  /* The new artwork already contains the decorative props. Hide only the
+     temporary CSS props so they are not duplicated over the real artwork. */
+  html.mesa-props-test .mobile-table-props{
+    display:none!important;
+  }
+}
