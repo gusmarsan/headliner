@@ -80,6 +80,15 @@
     touch-action:manipulation;
   }
 
+  /* On mobile the player can choose the attribute directly. The legacy
+     “Explorar monte” / “Preparar rodada” controls add no action at this point,
+     so remove the whole action plate whenever those pre-reveal controls exist.
+     The revealed “Próxima rodada” control is unaffected. */
+  .screen .battle-zone .round-controls:has(button[onclick="beginBattle()"]),
+  .screen .battle-zone .round-controls:has(button[onclick="openDeck(false)"]){
+    display:none!important;
+  }
+
   /* Revealed battle cards used to pop in almost instantaneously because the
      face-up renderer replaces the face-down nodes. Give that insertion a short,
      tactile reveal without slowing the pace of the match. */
