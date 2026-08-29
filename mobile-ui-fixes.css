@@ -14,6 +14,13 @@
     font-size:0!important;
   }
 
+  /* Multiplayer already communicates turn/context through the table itself.
+     Hide the redundant floating turn plaque and room/connection chip on mobile. */
+  .network-turn-note,
+  .network-chip{
+    display:none!important;
+  }
+
   /* Keep ordinary modals visibly inside the mobile viewport, with the
      background showing around them. Tall content scrolls inside the card. */
   .modal:not(.onboarding-modal):not(.festival-result-modal){
