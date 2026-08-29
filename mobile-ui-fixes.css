@@ -1,0 +1,31 @@
+/* Mobile-only corrections approved after UI review. Desktop intentionally untouched. */
+@media (max-width:760px){
+  /* The close button already renders the visible X through .close::before.
+     Keep the HTML glyph hidden on mobile too, so only one X is shown. */
+  .close{
+    font-size:0!important;
+  }
+
+  /* Keep ordinary modals visibly inside the mobile viewport, with the
+     background showing around them. Tall content scrolls inside the card. */
+  .modal:not(.onboarding-modal):not(.festival-result-modal){
+    padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))!important;
+    overflow:hidden;
+  }
+  .modal:not(.onboarding-modal):not(.festival-result-modal) .modal-card{
+    width:calc(100vw - 32px)!important;
+    max-width:calc(100vw - 32px)!important;
+    max-height:calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom))!important;
+    overflow:auto!important;
+    overscroll-behavior:contain;
+  }
+
+  /* Mode tickets stay side by side: 1 JOGADOR and 2 JOGADORES use the same
+     mobile type size, and the duel label never wraps. */
+  .start-actions .mode strong{
+    font-size:22px!important;
+    line-height:.9!important;
+    letter-spacing:0!important;
+    white-space:nowrap;
+  }
+}
