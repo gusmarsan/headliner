@@ -11,24 +11,24 @@
    remain the real game controls; only their presentation changes. */
 .screen .battle-zone .attr-panel{
   position:absolute!important;
-  left:-202px!important;
-  top:48px!important;
-  width:214px!important;
+  left:-162px!important;
+  top:38px!important;
+  width:171px!important;
   max-width:none!important;
   display:flex!important;
   flex-direction:column!important;
   align-items:stretch!important;
   gap:0!important;
   margin:0!important;
-  padding:17px 14px 16px 42px!important;
+  padding:14px 11px 13px 34px!important;
   border:0!important;
   border-radius:0!important;
   background:
-    linear-gradient(90deg,transparent 0 26px,rgba(190,82,72,.34) 26px 27px,transparent 27px),
-    repeating-linear-gradient(180deg,transparent 0 35px,rgba(91,132,153,.28) 35px 36px),
-    radial-gradient(circle at 18% 15%,rgba(112,82,45,.08) 0 1px,transparent 1.4px) 0 0/17px 19px,
+    linear-gradient(90deg,transparent 0 21px,rgba(190,82,72,.34) 21px 22px,transparent 22px),
+    repeating-linear-gradient(180deg,transparent 0 28px,rgba(91,132,153,.28) 28px 29px),
+    radial-gradient(circle at 18% 15%,rgba(112,82,45,.08) 0 1px,transparent 1.4px) 0 0/14px 15px,
     linear-gradient(145deg,#f6edcf 0%,#efe2bd 58%,#e6d3aa 100%)!important;
-  box-shadow:0 8px 18px rgba(42,26,14,.25),inset 0 0 24px rgba(120,88,45,.08)!important;
+  box-shadow:0 6px 14px rgba(42,26,14,.25),inset 0 0 19px rgba(120,88,45,.08)!important;
   clip-path:polygon(1.5% 2%,8% 0,15% 1.3%,24% .2%,34% 1.4%,44% .4%,55% 1.5%,65% .3%,76% 1.2%,87% .3%,98.5% 2%,99.5% 10%,98.8% 20%,99.5% 31%,98.7% 42%,99.4% 54%,98.8% 65%,99.5% 77%,98.5% 89%,99% 98%,89% 99.4%,79% 98.7%,68% 99.5%,57% 98.7%,46% 99.4%,35% 98.6%,24% 99.5%,13% 98.8%,1.5% 97%,.5% 88%,1.2% 77%,.4% 66%,1.1% 54%,.3% 42%,1.1% 30%,.4% 18%)!important;
   transform:rotate(-1deg)!important;
   overflow:hidden!important;
@@ -46,23 +46,23 @@
   position:relative;
   z-index:1;
   min-width:0!important;
-  min-height:36px!important;
+  min-height:29px!important;
   width:100%!important;
   flex:0 0 auto!important;
   display:flex!important;
   align-items:center!important;
   justify-content:flex-start!important;
-  padding:4px 2px!important;
+  padding:3px 2px!important;
   border:0!important;
   border-radius:0!important;
   background:transparent!important;
   color:#182b31!important;
   box-shadow:none!important;
   font-family:var(--ui,'Barlow Condensed','Arial Narrow',sans-serif)!important;
-  font-size:15px!important;
+  font-size:12px!important;
   font-weight:750!important;
   line-height:1!important;
-  letter-spacing:.085em!important;
+  letter-spacing:.068em!important;
   text-align:left!important;
   text-transform:uppercase!important;
   text-shadow:none!important;
@@ -80,7 +80,7 @@
 .screen .battle-zone .attr-btn.selected{
   background:linear-gradient(90deg,rgba(197,77,57,.18),rgba(197,77,57,.03) 82%,transparent)!important;
   color:#9f3f32!important;
-  box-shadow:inset 4px 0 #bd4e3d!important;
+  box-shadow:inset 3px 0 #bd4e3d!important;
 }
 .screen .battle-zone .attr-btn:disabled{
   opacity:.5!important;
@@ -106,27 +106,27 @@
   /* Mobile notebook-paper selector: narrow setlist at the left of the battle.
      Move the card pair slightly right so both surfaces coexist cleanly. */
   .screen .battle-zone .attr-panel{
-    left:8px!important;
-    top:28px!important;
-    width:118px!important;
-    padding:11px 8px 11px 27px!important;
+    left:6px!important;
+    top:22px!important;
+    width:94px!important;
+    padding:9px 6px 9px 22px!important;
     background:
-      linear-gradient(90deg,transparent 0 18px,rgba(190,82,72,.32) 18px 19px,transparent 19px),
-      repeating-linear-gradient(180deg,transparent 0 29px,rgba(91,132,153,.27) 29px 30px),
-      radial-gradient(circle at 18% 15%,rgba(112,82,45,.07) 0 1px,transparent 1.4px) 0 0/15px 17px,
+      linear-gradient(90deg,transparent 0 14px,rgba(190,82,72,.32) 14px 15px,transparent 15px),
+      repeating-linear-gradient(180deg,transparent 0 23px,rgba(91,132,153,.27) 23px 24px),
+      radial-gradient(circle at 18% 15%,rgba(112,82,45,.07) 0 1px,transparent 1.4px) 0 0/12px 14px,
       linear-gradient(145deg,#f6edcf 0%,#efe2bd 58%,#e6d3aa 100%)!important;
     transform:rotate(-.7deg)!important;
   }
   .screen .battle-zone .attr-btn{
-    min-height:30px!important;
-    padding:3px 1px!important;
-    font-size:10px!important;
+    min-height:24px!important;
+    padding:2px 1px!important;
+    font-size:8px!important;
     font-weight:750!important;
-    letter-spacing:.065em!important;
+    letter-spacing:.052em!important;
     white-space:nowrap!important;
   }
   .screen .battle-zone .battle-cards{
-    transform:translateX(38px);
+    transform:translateX(30px);
   }
 
   /* Keep ordinary modals visibly inside the mobile viewport, with the
