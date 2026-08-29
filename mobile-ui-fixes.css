@@ -1,4 +1,12 @@
-/* Mobile-only corrections approved after UI review. Desktop intentionally untouched. */
+/* Shared close-glyph refinement: keep every close target large, but make the visible X 20% smaller and bold. */
+.close::before{
+  font-family:Impact,var(--display)!important;
+  font-size:22px!important;
+  font-weight:900!important;
+  line-height:1!important;
+}
+
+/* Mobile-only corrections approved after UI review. Desktop intentionally untouched except for the shared close-glyph refinement above. */
 @media (max-width:760px){
   /* The close button already renders the visible X through .close::before.
      Keep the HTML glyph hidden on mobile too, so only one X is shown. */
