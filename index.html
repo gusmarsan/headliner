@@ -4123,7 +4123,7 @@ function battleHTML(){
  return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
 }
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back official-card-back" aria-label="Carta fechada"></div></div>`}
-function turnMessage(){if(state.revealed)return '';if(isLocalGame())return `${playerLabel(state.battleChooser||state.turn)} escolhe o atributo sem ver as cartas.`;if(state.turn===P1)return 'Escolha 1 atributo.';return 'O rival está escolhendo o atributo…'}
+function turnMessage(){if(state.revealed)return '';if(isLocalGame())return `${playerLabel(state.battleChooser||state.turn)} escolhe o atributo sem ver as cartas.`;if(state.turn===P1)return 'Escolha 1 atributo à esquerda.';return 'O rival está escolhendo o atributo…'}
 function wireSlots(){$$('.you-slot').forEach(el=>el.onclick=()=>{if(!state||state.gameOver||state.mode!=='cpu')return;const slot=+el.dataset.slot,owner=player(P1);if(owner.head[slot]){toast('Essa vaga já está travada.');return}if(owner.lockedThisRound){toast('Você já escolheu 1 Headliner nesta rodada.');return}openDeck(false,slot)})}
 function openDeck(first=false,slot=null){
  if(!state||state.mode!=='cpu'||state.gameOver)return;
