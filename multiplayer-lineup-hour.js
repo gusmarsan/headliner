@@ -99,7 +99,7 @@
     if(!root)return;
 
     const lastChance=isLastChance();
-    replaceText(root,'FASE DE HEADLINER',lastChance?'Última chance':'Hora da escalação');
+    replaceText(root,'Fase de Headliner',lastChance?'Última chance':'Hora da escalação');
     replaceText(root,'Sem novo Headliner nesta rodada',lastChance?'Sem novo Headliner na Última chance':'Sem novo Headliner nesta Hora da escalação');
 
     const panel=root.querySelector('.private-round-panel');
