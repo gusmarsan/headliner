@@ -11,33 +11,6 @@
     background:#0b0d0f url('/assets/table-mobile-props-v1.webp?v=f924c0ce') center center/cover no-repeat!important;
   }
 
-  /* Brighten only the fixed props baked into the artwork. The base table,
-     felt, VS, rims and all live game layers stay untouched. */
-  html.mesa-props-test .table::before{
-    content:""!important;
-    display:block!important;
-    position:absolute!important;
-    inset:0!important;
-    border:0!important;
-    border-radius:0!important;
-    transform:none!important;
-    opacity:1!important;
-    z-index:1!important;
-    pointer-events:none!important;
-    background:url('/assets/table-mobile-props-v1.webp?v=f924c0ce') center center/cover no-repeat!important;
-    filter:brightness(1.24) contrast(1.16) saturate(1.08)!important;
-    -webkit-mask-image:
-      radial-gradient(ellipse 24% 17% at 72% 13%,#000 0 58%,transparent 76%),
-      radial-gradient(ellipse 19% 15% at 13% 70%,#000 0 55%,transparent 76%),
-      radial-gradient(ellipse 15% 13% at 87% 65%,#000 0 55%,transparent 78%);
-    mask-image:
-      radial-gradient(ellipse 24% 17% at 72% 13%,#000 0 58%,transparent 76%),
-      radial-gradient(ellipse 19% 15% at 13% 70%,#000 0 55%,transparent 76%),
-      radial-gradient(ellipse 15% 13% at 87% 65%,#000 0 55%,transparent 78%);
-    -webkit-mask-composite:source-over;
-    mask-composite:add;
-  }
-
   html.mesa-props-test .mobile-table-props{
     display:none!important;
   }
