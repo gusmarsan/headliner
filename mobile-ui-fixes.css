@@ -79,6 +79,20 @@
     pointer-events:auto!important;
     touch-action:manipulation;
   }
+
+  /* Revealed battle cards used to pop in almost instantaneously because the
+     face-up renderer replaces the face-down nodes. Give that insertion a short,
+     tactile reveal without slowing the pace of the match. */
+  .battle-cards .live-card-battle{
+    animation:mobileBattleCardReveal .38s cubic-bezier(.2,.72,.28,1) both;
+    transform-origin:50% 58%;
+  }
+}
+
+@keyframes mobileBattleCardReveal{
+  0%{opacity:.2;transform:translateY(5px) scale(.965)}
+  55%{opacity:.92;transform:translateY(1px) scale(.992)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
 }
 
 @media (max-width:760px) and (max-height:700px){
