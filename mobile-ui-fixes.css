@@ -203,16 +203,18 @@
     touch-action:manipulation;
   }
 
-  /* On mobile the player can choose the attribute directly. The legacy
-     “Explorar monte” / “Preparar rodada” controls add no action at this point,
-     so remove the whole action plate whenever those pre-reveal controls exist. */
-  .screen .battle-zone .round-controls:has(button[onclick="beginBattle()"]),
-  .screen .battle-zone .round-controls:has(button[onclick="openDeck(false)"]){
+  /* On mobile the attribute can be chosen directly, so the pre-reveal
+     start control remains hidden. During the five-second result window,
+     however, Conferir cartas must stay visible and stable. */
+  .screen .battle-zone .round-controls:has(button[onclick="beginBattle()"]){
     display:none!important;
   }
 
-  /* Mobile result flow is automatic: show the revealed confrontation/result
-     for five seconds, then advance without exposing a Próxima rodada CTA. */
+  .screen .battle-zone .round-controls:has(.result-deck-button){
+    display:flex!important;
+  }
+
+  /* Legacy safeguard: Próxima rodada must never be exposed as a CTA. */
   .screen .battle-zone .round-controls:has(button[onclick="nextRound()"]){
     display:none!important;
   }
