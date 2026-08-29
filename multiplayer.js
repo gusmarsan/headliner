@@ -108,13 +108,13 @@
   function showNetworkFeedback(message){const el=document.querySelector('.network-feedback');if(el)el.textContent=message}
 
   function renderNetworkLobby(error=''){
-    renderNetworkScreen({kicker:'Credencial para dois',title:'DUELO ONLINE',description:'Um jogador abre a sala e entrega o código. O outro apresenta a credencial no próprio celular.',actions:'<div class="network-actions"><button class="primary" onclick="createNetworkRoom()">Criar sala</button><button class="secondary" onclick="renderNetworkJoin()">Entrar com código</button></div><div class="network-actions spaced"><button class="danger" onclick="networkBackToMenu()">Voltar ao menu</button></div>',error,footer:'ACESSO · PALCO PRINCIPAL'});
+    renderNetworkScreen({kicker:'Credencial para dois',title:'Jogar de 2',description:'Um jogador abre a sala e entrega o código. O outro insere o código no próprio celular.',actions:'<div class="network-actions"><button class="primary" onclick="createNetworkRoom()">Criar sala</button><button class="secondary" onclick="renderNetworkJoin()">Entrar com código</button></div><div class="network-actions spaced"><button class="danger" onclick="networkBackToMenu()">Voltar ao menu</button></div>',error,footer:'ACESSO · PALCO PRINCIPAL'});
   }
   window.renderNetworkLobby=renderNetworkLobby;
 
   function renderNetworkJoin(prefill='',error=''){
     const code=sanitizeRoom(prefill||network.room||new URLSearchParams(location.search).get('room'));
-    renderNetworkScreen({kicker:'Apresente sua credencial',title:'CÓDIGO DA SALA',description:'Digite os seis caracteres exibidos no celular de quem criou a partida.',content:`<input id="network-room-input" class="network-room-input" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="6" value="${code}" aria-label="Código da sala">`,actions:'<div class="network-actions"><button class="primary" onclick="joinNetworkRoom(document.querySelector(\'#network-room-input\').value)">Entrar na sala</button><button class="secondary" onclick="renderNetworkLobby()">Voltar</button></div>',error,footer:'ENTRADA · JOGADOR 2'});
+    renderNetworkScreen({kicker:'Apresente sua credencial',title:'Código desta sala',description:'Digite os seis caracteres exibidos no celular de quem criou a partida.',content:`<input id="network-room-input" class="network-room-input" inputmode="text" autocomplete="off" autocapitalize="characters" maxlength="6" value="${code}" aria-label="Código da sala">`,actions:'<div class="network-actions"><button class="primary" onclick="joinNetworkRoom(document.querySelector(\'#network-room-input\').value)">Entrar na sala</button><button class="secondary" onclick="renderNetworkLobby()">Voltar</button></div>',error,footer:'ENTRADA · JOGADOR 2'});
     setTimeout(()=>document.querySelector('#network-room-input')?.focus(),30);
   }
   window.renderNetworkJoin=renderNetworkJoin;
@@ -135,13 +135,13 @@
     if(!state||!isNetworkGame())return;
     const owner=state.privateOwner;
     const purpose=state.phase==='INITIAL_REVIEW'?'conferir o próprio monte':'definir o Headliner da rodada';
-    renderNetworkScreen({kind:'wait',kicker:`Rodada ${state.round} · sala ${network.room}`,title:`AGUARDANDO ${playerLabel(owner)}`,description:`${playerLabel(owner)} está no outro celular para ${purpose}. Nenhuma carta privada dele aparece aqui.`,content:`<p class="network-room-help">Sua credencial: <strong>${playerLabel(network.side)}</strong> · ${player(network.side)?.deck.length||0} cartas · ${fmt(headlinerTotal(network.side))} pessoas</p>`,actions:'<div class="network-actions spaced"><button class="danger" onclick="requestExitToMenu()">Abandonar partida</button></div>',footer:`SALA ${network.room} · ${playerLabel(network.side)}`});
+    renderNetworkScreen({kind:'wait',kicker:`Rodada ${state.round} · sala ${network.room}`,title:`AGUARDANDO ${playerLabel(owner)}`,description:`${playerLabel(owner)} está no outro celular para ${purpose}. Nenhuma carta privada dele aparece aqui.`,content:`<p class="network-room-help">Sua credencial: <strong>${playerLabel(network.side)}</strong> · ${player(network.side)?.deck.length||0} cartas · ${fmt(headlinerTotal(network.side))} pessoas</p>`,actions:'<div class="network-actions spaced"><button class="danger" onclick="requestExitToMenu()">Sair da partida</button></div>',footer:`SALA ${network.room} · ${playerLabel(network.side)}`});
   }
 
   function networkBackToMenu(){resetNetworkRuntime();state=null;closeModal();setUrl();renderStart()}
   window.networkBackToMenu=networkBackToMenu;
 
-  function confirmNetworkExit(title='Abandonar a partida?',message='A conexão com o outro celular será encerrada.'){
+  function confirmNetworkExit(title='Sair da partida?',message='A conexão com o outro celular será encerrada.'){
     const root=$('#modal-root');
     root.innerHTML=`<div class="modal network-confirm-modal"><section class="network-confirm-ticket"><span class="network-kicker">Saída da área credenciada</span><h2>${title}</h2><p>${message}</p><div class="network-actions"><button class="secondary" onclick="closeModal()">Continuar aqui</button><button class="primary" onclick="networkBackToMenu()">Confirmar saída</button></div></section></div>`;
   }
@@ -150,7 +150,7 @@
 
   function renderCopyFallback(text){
     const root=$('#modal-root');
-    root.innerHTML=`<div class="modal network-confirm-modal"><section class="network-confirm-ticket"><span class="network-kicker">Convite da sala ${network.room}</span><h2>COPIAR CONVITE</h2><p>Copie o endereço abaixo e envie ao Jogador 2.</p><input class="network-copy-field" value="${text}" readonly aria-label="Link do convite" onclick="this.select()"><div class="network-actions"><button class="primary" onclick="document.querySelector('.network-copy-field').select();document.execCommand('copy');closeModal();showNetworkFeedback('Link copiado')">Copiar link</button><button class="secondary" onclick="closeModal()">Fechar</button></div></section></div>`;
+    root.innerHTML=`<div class="modal network-confirm-modal"><section class="network-confirm-ticket"><span class="network-kicker">Convite da sala ${network.room}</span><h2>Copiar convite</h2><p>Copie o endereço abaixo e envie ao Jogador 2.</p><input class="network-copy-field" value="${text}" readonly aria-label="Link do convite" onclick="this.select()"><div class="network-actions"><button class="primary" onclick="document.querySelector('.network-copy-field').select();document.execCommand('copy');closeModal();showNetworkFeedback('Link copiado')">Copiar link</button><button class="secondary" onclick="closeModal()">Fechar</button></div></section></div>`;
   }
   window.showNetworkFeedback=showNetworkFeedback;
 
@@ -231,7 +231,7 @@
   window.joinNetworkRoom=joinNetworkRoom;
 
   function renderConnectionLost(message){
-    renderNetworkScreen({kind:'wait',kicker:'Conexão interrompida',title:'PARTIDA PAUSADA',description:message,actions:`<div class="network-actions">${network.role==='guest'?`<button class="primary" onclick="joinNetworkRoom('${network.room}')">Reconectar</button>`:`<button class="primary" onclick="renderHostWaiting()">Exibir credencial</button>`}<button class="secondary" onclick="confirmNetworkExit()">Abandonar partida</button></div>`,error:'O estado da mesa foi preservado. Reconecte antes de continuar.',footer:`SALA ${network.room||''} · OFFLINE`});
+    renderNetworkScreen({kind:'wait',kicker:'Conexão interrompida',title:'Partida pausada',description:message,actions:`<div class="network-actions">${network.role==='guest'?`<button class="primary" onclick="joinNetworkRoom('${network.room}')">Reconectar</button>`:`<button class="primary" onclick="renderHostWaiting()">Exibir credencial</button>`}<button class="secondary" onclick="confirmNetworkExit()">Sair da partida</button></div>`,error:'O estado da mesa foi preservado. Reconecte antes de continuar.',footer:`SALA ${network.room||''} · OFFLINE`});
   }
 
   function initializeNetworkMatch(){
@@ -426,9 +426,9 @@
 
   function networkRematchHTML(mine,opponent){
     const rematch=ensureNetworkRematch(),mineAsked=!!rematch.requests[mine],otherAsked=!!rematch.requests[opponent];
-    if(rematch.declinedBy)return `<div class="network-rematch-panel"><strong>REVANCHE RECUSADA</strong><p>${rematch.declinedBy===mine?'Você recusou o novo duelo.':'O rival encerrou o pedido de revanche.'}</p><div class="network-actions"><button class="secondary" onclick="confirmNetworkExit('Voltar ao menu?','A sala atual será encerrada.')">Voltar ao menu</button></div></div>`;
-    if(otherAsked&&!mineAsked)return `<div class="network-rematch-panel"><strong>REVANCHE PEDIDA</strong><p>O rival quer outro duelo com uma nova distribuição de cartas.</p><div class="network-actions"><button class="primary" onclick="requestNetworkRematch()">Aceitar revanche</button><button class="danger" onclick="declineNetworkRematch()">Recusar</button></div></div>`;
-    if(mineAsked&&!otherAsked)return `<div class="network-rematch-panel"><strong>PEDIDO ENVIADO</strong><p>A revanche começa somente se o rival aceitar.</p><span class="network-rematch-wait">Aguardando resposta</span><div class="network-actions spaced"><button class="danger" onclick="confirmNetworkExit('Cancelar e sair?','Seu pedido de revanche será encerrado.')">Cancelar pedido</button></div></div>`;
+    if(rematch.declinedBy)return `<div class="network-rematch-panel"><strong>Revanche recusada</strong><p>${rematch.declinedBy===mine?'Você recusou o novo duelo.':'O rival encerrou o pedido de revanche.'}</p><div class="network-actions"><button class="secondary" onclick="confirmNetworkExit('Voltar ao menu?','A sala atual será encerrada.')">Voltar ao menu</button></div></div>`;
+    if(otherAsked&&!mineAsked)return `<div class="network-rematch-panel"><strong>Pediu revanche!</strong><p>O rival quer outro duelo com uma nova distribuição de cartas.</p><div class="network-actions"><button class="primary" onclick="requestNetworkRematch()">Aceitar revanche</button><button class="danger" onclick="declineNetworkRematch()">Recusar</button></div></div>`;
+    if(mineAsked&&!otherAsked)return `<div class="network-rematch-panel"><strong>Pedido enviado</strong><p>A revanche começa somente se o rival aceitar.</p><span class="network-rematch-wait">Aguardando resposta</span><div class="network-actions spaced"><button class="danger" onclick="confirmNetworkExit('Cancelar e sair?','Seu pedido de revanche será encerrado.')">Cancelar pedido</button></div></div>`;
     return `<div class="network-rematch-panel"><strong>MAIS UM SHOW?</strong><p>A revanche só começa depois que os dois jogadores confirmarem.</p><div class="network-actions"><button class="primary" onclick="requestNetworkRematch()">Pedir revanche</button><button class="secondary" onclick="confirmNetworkExit('Voltar ao menu?','A sala atual será encerrada.')">Voltar ao menu</button></div></div>`;
   }
 
@@ -461,7 +461,7 @@
     if(state.gameOver)return;
     let text='';
     if(state.phase==='ATTRIBUTE')text=state.turn===network.side?'SUA VEZ · escolha o atributo':'AGUARDE · o outro jogador está escolhendo o atributo';
-    else if(state.phase==='RESULT')text='CONFRONTO REVELADO';
+    else if(state.phase==='RESULT')text='Confronto revelado';
     if(text){const note=document.createElement('div');note.className='network-turn-note';note.textContent=text;document.body.appendChild(note)}
     if(state.phase==='ATTRIBUTE'&&state.turn!==network.side)document.querySelectorAll('.attr-btn').forEach(btn=>btn.disabled=true);
   }
@@ -489,7 +489,7 @@
 
   renderStart=function(){
     closeModal();
-    document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>Escolha o modo</h1><p class="start-lead">Monte o festival definitivo, dispute atributos e proteja até 3 artistas como Headliners.</p><div class="start-actions"><button class="mode ticket-control ticket-mode" onclick="reset()"><span class="mode-kicker">Solo</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt ticket-control ticket-mode" onclick="startLocalGame()"><span class="mode-kicker">Duelo</span><strong>2 jogadores</strong><small>Cada um no seu celular</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`;
+    document.querySelector('#app').innerHTML=`<div class="start-screen"><div class="start-utility"><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div><div class="start-box" style="position:relative;z-index:2"><h1>omo você vai encarar o festival?</h1><p class="start-lead">Monte seu festival com 3 headliners conquistando as melhores cartas.</p><div class="start-actions"><button class="mode ticket-control ticket-mode" onclick="reset()"><span class="mode-kicker">Curtir sozinho</span><strong>1 jogador</strong><small>Contra o computador</small></button><button class="mode alt ticket-control ticket-mode" onclick="startLocalGame()"><span class="mode-kicker">Duelo</span><strong>2 jogadores</strong><small>Cada um no seu celular</small></button></div><div class="start-meta"><span>50 artistas</span><i></i><span>30 por partida</span><i></i><span>15 para cada lado</span></div></div></div>`;
   };
   startLocalGame=function(){renderNetworkLobby()};
 
@@ -515,7 +515,7 @@
     const afterOnboarding=window.headlinerRunAfterOnboarding||((continuation)=>continuation());
     if(invited.length===6)setTimeout(()=>afterOnboarding(()=>renderNetworkJoin(invited)),0);
     else if(hosted.length===6)setTimeout(()=>afterOnboarding(()=>{
-      renderNetworkScreen({kicker:'Credencial encontrada',title:`SALA ${hosted}`,description:'Existe uma mesa preservada neste celular. Retome a credencial ou abra uma sala nova.',actions:`<div class="network-actions"><button class="primary" onclick="restoreHostRoom('${hosted}')">Retomar sala</button><button class="secondary" onclick="createNetworkRoom()">Criar nova sala</button></div>`,footer:'RECUPERAÇÃO · JOGADOR 1'});
+      renderNetworkScreen({kicker:'Credencial encontrada',title:`SALA ${hosted}`,description:'Existe uma mesa preservada neste celular. Retome a credencial ou abra uma sala nova.',actions:`<div class="network-actions"><button class="primary" onclick="restoreHostRoom('${hosted}')">Retomar sala</button><button class="secondary" onclick="createNetworkRoom()">Criar sala</button></div>`,footer:'RECUPERAÇÃO · JOGADOR 1'});
     }),0);
   }
 })();
