@@ -1,4 +1,17 @@
 (function(){
+  try{
+    if(new URLSearchParams(window.location.search).get('mesa')==='props'){
+      document.documentElement.classList.add('mesa-props-test');
+      if(!document.querySelector('link[data-mobile-table-props-test]')){
+        const link=document.createElement('link');
+        link.rel='stylesheet';
+        link.href='mobile-table-props-test.css';
+        link.dataset.mobileTablePropsTest='true';
+        document.head.appendChild(link);
+      }
+    }
+  }catch(_){}
+
   const mobileQuery=window.matchMedia?.('(max-width:760px)');
   if(!mobileQuery)return;
 
