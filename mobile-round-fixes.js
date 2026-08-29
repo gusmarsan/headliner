@@ -2,12 +2,20 @@
   try{
     if(new URLSearchParams(window.location.search).get('mesa')==='props'){
       document.documentElement.classList.add('mesa-props-test');
-      if(!document.querySelector('link[data-mobile-table-props-test]')){
-        const link=document.createElement('link');
-        link.rel='stylesheet';
-        link.href='mobile-table-props-test.css';
-        link.dataset.mobileTablePropsTest='true';
-        document.head.appendChild(link);
+      if(!document.querySelector('style[data-mobile-table-props-test]')){
+        const style=document.createElement('style');
+        style.dataset.mobileTablePropsTest='true';
+        style.textContent=`
+@media (max-width:760px){
+  html.mesa-props-test .table{
+    background:#0b0d0f url('/assets/table-mobile-props-v1.webp?v=f924c0ce') center center/cover no-repeat!important;
+  }
+  html.mesa-props-test .mobile-table-props{
+    display:none!important;
+  }
+}
+`;
+        document.head.appendChild(style);
       }
     }
   }catch(_){}
