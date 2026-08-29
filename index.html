@@ -3249,6 +3249,24 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .poster-actions{margin:13px auto 11px}.poster-actions>.primary{width:min(240px,86%);min-height:46px}
  .poster-footer{gap:9px;font-size:6.5px}.festival-poster .network-rematch-panel{padding-top:10px}.festival-poster .network-rematch-panel strong{font-size:21px}
 }
+
+/* Refinamento exclusivo do tabuleiro mobile: preserva os valores desktop. */
+@media(max-width:760px){
+ .topbar{transform:scale(.8);transform-origin:top left}
+ .topbar .status{font-size:9px}.topbar .status strong{font-size:12px}.topbar .menu-btn{font-size:9px}
+ .table-actions{transform:scale(.82);transform-origin:top right}
+ .opponent-fan{width:280px}
+ .opponent-fan .count-badge{left:calc(50% + 126px);right:auto}
+ .attr-panel{width:calc(100vw - 20px);padding:2px;border:1px solid rgba(223,183,112,.7);border-radius:2px;background:rgba(16,43,52,.88);box-shadow:0 3px 7px rgba(0,0,0,.2);gap:0}
+ .attr-btn{min-height:25px;padding:2px 1px;font-size:8px;line-height:1}
+ .headliner-zone.you{top:57.5%}
+ .headliner-zone.you:before{top:calc(100% - 2px)!important}
+ .result-strip{top:198px;left:auto;right:8px;width:min(150px,40vw);max-width:none;padding:4px 6px;font-size:8px;line-height:1.1;text-align:left;transform:none}
+ .round-controls{left:auto;right:8px;top:235px;width:min(142px,38vw);flex-direction:column;gap:4px;transform:none}
+ .round-controls .primary,.round-controls .secondary{width:100%;min-height:34px;padding:6px 5px;font-size:10px;line-height:1.05;white-space:normal}
+ .next-card-marker{left:50%;top:-21px;padding:0;background:transparent;border:0;box-shadow:none;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.78)}
+ .next-card-marker i{color:#fff}
+}
 </style>
 </head>
 <body>
@@ -4080,7 +4098,7 @@ function renderGame(){
  if(!local)wireSlots();
 }
 function cardBackFanHTML(count,opponent=false){
- const n=Math.min(5,count),middle=(n-1)/2,step=n>1?Math.min(86,Math.max(52,Math.round(300/(n-1)))):0;
+ const n=Math.min(5,count),middle=(n-1)/2,mobile=typeof matchMedia==='function'&&matchMedia('(max-width:760px)').matches,step=n>1?(opponent&&mobile?60:Math.min(86,Math.max(52,Math.round(300/(n-1))))):0;
   return Array.from({length:n},(_,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,angle=Math.round(ratio*12),drop=Math.round(Math.abs(ratio)*9);if(opponent){const x=Math.round(offset*step);return `<div class="opp-back official-card-back" style="--opp-x:${x}px;--opp-r:${angle}deg;--opp-drop:${drop}px;z-index:${i+1}"></div>`}return `<div class="opp-back official-card-back" style="transform:rotate(${angle}deg) translateY(${drop}px)"></div>`}).join('');
 }
 function opponentHandHTML(){const count=player(P2).deck.length;return `<div class="opponent-area"><div class="opponent-fan">${cardBackFanHTML(count,true)}<div class="count-badge">${count}</div></div></div>`}
