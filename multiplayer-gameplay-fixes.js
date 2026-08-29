@@ -418,8 +418,8 @@
 
   function networkOwnHandHTML(){
     const owner=player(network.side);if(!owner)return '';
-    const cards=owner.deck.slice(0,5),n=cards.length,middle=(n-1)/2,step=n>1?Math.max(64,Math.min(130,Math.round(620/(n-1)))):0;
-    return `<div class="player-area"><div class="hand-fan">${cards.map((card,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*7),drop=Math.round(Math.abs(ratio)*8);return `<button type="button" class="hand-card ${i===0?'is-next':''}" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.52)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openNetworkOwnDeck()" aria-label="${i===0?'Próxima carta: ':''}${card.name}. Abrir monte">${i===0?'<span class="next-card-marker" aria-hidden="true"><i>↓</i> Próxima carta</span>':''}${liveCardHTML(card,'hand')}</button>`}).join('')}</div></div>`;
+    const cards=owner.deck.slice(0,5),n=cards.length,middle=(n-1)/2,step=n>1?Math.max(72,Math.min(150,Math.round(680/(n-1)))):0;
+    return `<div class="player-area"><div class="hand-fan">${cards.map((card,i)=>{const offset=i-middle,ratio=middle?offset/middle:0,x=Math.round(offset*step),angle=Math.round(ratio*2),drop=Math.round(Math.abs(ratio)*8);return `<button type="button" class="hand-card ${i===0?'is-next':''}" style="--hand-x:${x}px;--hand-x-mobile:${Math.round(x*.4)}px;--hand-rotate:${angle}deg;--hand-drop:${drop}px;--hand-drop-mobile:${Math.round(drop*.55)}px;z-index:${i+2}" onclick="openNetworkOwnDeck()" aria-label="${i===0?'Próxima carta: ':''}${card.name}. Abrir monte">${i===0?'<span class="next-card-marker" aria-hidden="true"><i>↓</i> Próxima carta</span>':''}${liveCardHTML(card,'hand')}</button>`}).join('')}</div></div>`;
   }
   playerHandHTML=function(){return networkActive()?networkOwnHandHTML():legacy.playerHandHTML()};
   window.openNetworkOwnDeck=function(){
