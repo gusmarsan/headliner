@@ -2867,6 +2867,21 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
 
 /* V44 — refinamento visual solicitado: composição, leitura e responsividade. */
 @media(max-width:760px){.deck-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mobile-table-props{display:none}
+@media(max-width:760px){
+ .mobile-table-props{position:absolute;inset:0;z-index:2;display:block;pointer-events:none;overflow:hidden}
+ .mobile-prop{position:absolute;display:block;pointer-events:none;opacity:.72;filter:drop-shadow(0 3px 3px rgba(0,0,0,.28))}
+ .mobile-prop-picks{left:8%;top:56%;width:42px;height:29px;transform:rotate(-14deg)}
+ .mobile-prop-picks:before,.mobile-prop-picks:after{content:"";position:absolute;width:15px;height:24px;border-radius:3px 3px 7px 7px;background:linear-gradient(145deg,#d8b45e,#a8473d);clip-path:polygon(50% 0,100% 32%,72% 100%,28% 100%,0 32%)}
+ .mobile-prop-picks:before{left:2px;top:3px;transform:rotate(-18deg);background:linear-gradient(145deg,#e4c56e,#8b3c66)}
+ .mobile-prop-picks:after{left:21px;top:0;transform:rotate(13deg);background:linear-gradient(145deg,#f0d17a,#2c7892)}
+ .mobile-prop-shot{right:8%;top:52%;width:22px;height:27px;border:2px solid rgba(247,225,173,.72);border-radius:3px 3px 6px 6px;background:linear-gradient(180deg,transparent 0 35%,rgba(203,112,49,.78) 36% 100%);transform:rotate(7deg)}
+ .mobile-prop-pass{right:10%;bottom:16%;width:48px;height:28px;border:1px solid rgba(247,224,170,.62);border-radius:2px;background:linear-gradient(135deg,rgba(239,213,155,.88),rgba(177,126,66,.9));transform:rotate(8deg)}
+ .mobile-prop-pass:before{content:"";position:absolute;left:6px;right:6px;top:8px;height:2px;background:rgba(43,55,53,.48);box-shadow:0 6px 0 rgba(43,55,53,.32)}
+ .mobile-prop-wristband{left:8%;bottom:13%;width:44px;height:18px;border:4px solid rgba(67,38,35,.82);border-radius:999px;transform:rotate(-12deg)}
+ .mobile-prop-wristband:after{content:"";position:absolute;inset:3px;border-radius:999px;border:1px solid rgba(231,204,143,.4)}
+ .mobile-prop-sticker{right:23%;top:7%;width:20px;height:20px;background:#c6533d;clip-path:polygon(50% 0,61% 35%,100% 29%,69% 54%,92% 83%,57% 69%,42% 100%,35% 64%,0 76%,28% 49%,5% 20%,40% 33%);transform:rotate(12deg)}
+}
 .opponent-fan{position:relative;width:360px;height:132px}
 .opponent-fan .opp-back{position:absolute;left:50%;top:0;margin:0;transform:translateX(calc(-50% + var(--opp-x))) translateY(var(--opp-drop)) rotate(var(--opp-r))!important;transform-origin:50% 100%}
 .opponent-fan .count-badge{position:absolute;left:calc(50% + 160px);right:auto;top:25px}
@@ -4103,6 +4118,8 @@ function renderGame(){
  const app=$('#app');
  const deckAction=typeof isNetworkGame==='function'&&isNetworkGame()?'openNetworkOwnDeck()':'openDeck(false)';
  app.innerHTML=`<div class="screen ${local?'local-game':''}"><div class="festival-bg"><div class="sun"></div><div class="palms"></div><div class="stage-lights"></div><div class="festival-screen left" data-icon="⚡"></div><div class="festival-screen right" data-icon="☻"></div><div class="stage"></div><div class="crowd"></div></div><div class="table-wrap"><div class="table"><div class="scratch"></div><div class="table-burst"></div><div class="table-logo-badge">Head<b>liner</b></div></div></div><div class="prop chain"></div><div class="prop picks"><div class="pick" style="--p:#754b93">⚡</div><div class="pick" style="--p:#d65547">★</div><div class="pick" style="--p:#233746">☠</div><div class="pick" style="--p:#d8a52e">✦</div><div class="pick" style="--p:#2d8db8">♫</div><div class="pick" style="--p:#cb503e">✕</div></div><div class="prop shot">☠</div><div class="prop skull">☠</div><div class="prop ring"></div><div class="bracelet"></div><div class="ticket">ALL ACCESS</div><div class="setlist"></div><div class="coaster"></div><div class="hud"><div class="topbar"><div class="status"><span>Rodada <strong>${state.round}</strong></span><span>Pote <strong>${state.pot.length}</strong></span>${state.encore!==null?`<span>Encore <strong>${state.encore}</strong></span>`:''}</div>${local?`<div class="local-public-counts"><span>J1 <b>${player(P1).deck.length}</b> · ${fmt(p1Total)}</span><span>J2 <b>${player(P2).deck.length}</b> · ${fmt(p2Total)}</span></div>`:`<button class="menu-btn" onclick="${deckAction}">Meu monte (${player(P1).deck.length})</button>`}</div><div class="table-actions"><button class="utility-icon-btn" onclick="requestExitToMenu()" aria-label="Voltar ao menu" title="Voltar ao menu">${UI_ICON.menu}</button><button class="utility-icon-btn" onclick="openSettings()" aria-label="Configurações" title="Configurações">${UI_ICON.settings}</button></div>${opponentHandHTML()}${headZonesHTML()}${battleHTML()}${playerHandHTML()}</div><div class="toast" id="toast"></div></div>`;
+ const tableWrap=app.querySelector('.table-wrap');
+ if(tableWrap){const props=document.createElement('div');props.className='mobile-table-props';props.setAttribute('aria-hidden','true');props.innerHTML='<span class="mobile-prop mobile-prop-picks"></span><span class="mobile-prop mobile-prop-shot"></span><span class="mobile-prop mobile-prop-pass"></span><span class="mobile-prop mobile-prop-wristband"></span><span class="mobile-prop mobile-prop-sticker"></span>';tableWrap.appendChild(props)}
  if(!local)wireSlots();
 }
 function cardBackFanHTML(count,opponent=false){
