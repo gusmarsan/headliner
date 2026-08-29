@@ -4126,7 +4126,7 @@ function battleHTML(){
  let p1Verdict='',p2Verdict='';if(state.revealed&&state.lastWinner){p1Verdict=state.lastWinner===P1?'winner-card':state.lastWinner===P2?'loser-card':'';p2Verdict=state.lastWinner===P2?'winner-card':state.lastWinner===P1?'loser-card':''}
  const confrontationReady=!!(p1Card&&p2Card)||state.phase==='ATTRIBUTE';
  const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):confrontationReady?cardBackBattle():'';
- const controls=state.revealed?`<button class="primary ticket-control ticket-primary" onclick="nextRound()">Próxima rodada</button>`:isLocalGame()?'':`<button class="secondary ticket-control ticket-compact" onclick="openDeck(false)">Conferir cartas</button><button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Preparar rodada':'Ver escolha do rival'}</button>`;
+ const controls=state.revealed?(state.mode==='cpu'?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="openDeck(false)">Conferir cartas</button>`:''):isLocalGame()?'':`<button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Começar!':'Ver escolha do rival'}</button>`;
  return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
 }
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back official-card-back" aria-label="Carta fechada"></div></div>`}
