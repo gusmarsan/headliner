@@ -5,6 +5,10 @@
   const originalNextRound=window.nextRound;
   if(typeof originalNextRound!=='function')return;
 
+  const AUTO_ADVANCE_MS=5000;
+  let autoAdvanceKey=null;
+  let autoAdvanceTimer=null;
+
   function mobile(){return mobileQuery.matches}
   function networkGame(){try{return typeof isNetworkGame==='function'&&isNetworkGame()}catch(_){return false}}
   function role(){return window.HeadlinerNetwork?.role||null}
@@ -13,6 +17,10 @@
       if(typeof state==='undefined'||!state||state.gameOver||!state.revealed)return false;
       return state.mode==='cpu'||state.phase==='RESULT';
     }catch(_){return false}
+  }
+  function resultKey(){
+    try{return `${state?.gameId??state?.mode??'game'}:${state?.round??'round'}`}
+    catch(_){return null}
   }
   function redraw(){
     try{if(typeof renderCurrentState==='function')return renderCurrentState()}catch(_){}
@@ -107,7 +115,7 @@
 
     /* The CPU transition is synchronous. If the original handler returned
        without advancing despite a valid revealed result, perform the same
-       canonical transition once instead of leaving the button inert. */
+       canonical transition once instead of leaving the game stuck. */
     try{
       if(state?.mode==='cpu'&&state.round===beforeRound&&resultReady())forceCpuAdvance();
       else if(networkGame()&&role()==='host'&&state?.round===beforeRound&&state?.phase==='RESULT'&&state?.revealed){
@@ -118,39 +126,41 @@
     return result;
   };
 
-  let lastActivationAt=0;
-  function activate(button,event){
-    if(!button||!/próxima rodada/i.test(button.textContent||''))return false;
-    const now=Date.now();
-    if(now-lastActivationAt<350)return true;
-    lastActivationAt=now;
-    event?.preventDefault?.();
-    event?.stopPropagation?.();
-    window.nextRound();
-    return true;
+  function clearAutoAdvance(){
+    if(autoAdvanceTimer){clearTimeout(autoAdvanceTimer);autoAdvanceTimer=null}
+    autoAdvanceKey=null;
+  }
+  function armAutoAdvance(){
+    if(!mobile()||!resultReady()){
+      if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
+      return;
+    }
+    const key=resultKey();
+    if(!key||key===autoAdvanceKey)return;
+    if(autoAdvanceTimer)clearTimeout(autoAdvanceTimer);
+    autoAdvanceKey=key;
+    autoAdvanceTimer=setTimeout(()=>{
+      autoAdvanceTimer=null;
+      if(!mobile()||!resultReady()||resultKey()!==key)return;
+      window.nextRound();
+
+      /* Network guests advance asynchronously. If the same result somehow
+         remains after the connection recovery window, arm one fresh 5 s cycle
+         instead of leaving the match permanently parked. */
+      setTimeout(()=>{
+        if(!mobile()||!resultReady()||resultKey()!==key)return;
+        autoAdvanceKey=null;
+        armAutoAdvance();
+      },2600);
+    },AUTO_ADVANCE_MS);
   }
 
-  /* Normal mobile click path. */
-  document.addEventListener('click',event=>{
-    if(!mobile())return;
-    activate(event.target?.closest?.('.round-controls button'),event);
-  },true);
+  /* Detect the exact moment a revealed result becomes stable. The result stays
+     on screen for five seconds, then the same hardened nextRound flow advances
+     to the next attribute-selection state. */
+  setInterval(armAutoAdvance,100);
 
-  /* Fallback for transformed/overlapped board layers: even if another visual
-     layer becomes the touch target, a touch released inside the visible button
-     rectangle still activates Próxima rodada. */
-  document.addEventListener('touchend',event=>{
-    if(!mobile())return;
-    const button=document.querySelector('.round-controls button');
-    if(!button||!/próxima rodada/i.test(button.textContent||''))return;
-    const touch=event.changedTouches?.[0];
-    if(!touch)return;
-    const rect=button.getBoundingClientRect();
-    if(touch.clientX<rect.left||touch.clientX>rect.right||touch.clientY<rect.top||touch.clientY>rect.bottom)return;
-    activate(button,event);
-  },true);
-
-  /* A completed result should never remain locked while waiting for the user.
+  /* A completed result should never remain locked while it is being shown.
      Guests use the acknowledgement timers above; host/solo can be safely freed. */
   let lockedSince=0;
   setInterval(()=>{
