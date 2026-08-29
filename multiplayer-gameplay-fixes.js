@@ -83,6 +83,10 @@
       .parallel-wait-card{max-width:520px;margin:28px auto;padding:18px;border:2px dashed rgba(149,100,60,.7);background:rgba(255,246,216,.62);text-align:center}
       .parallel-wait-card strong{display:block;margin-bottom:7px;color:#123f50;font-family:var(--display);font-size:30px;font-weight:600;text-transform:uppercase}
       .parallel-own-deck .private-card-button{cursor:default}
+      .private-deck-screen .live-card-deck .card.large .artist-zone .name{text-align:left!important;text-shadow:none!important}
+      .private-deck-screen .live-card-deck .card.large .artist-zone .name .title-line{display:block;width:max-content;max-width:100%;margin-left:0!important;margin-right:auto!important;text-align:left!important;transform-origin:left top!important}
+      .private-deck-screen .live-card-deck .card.large.has-artist-art.art-ink-dark .artist-zone .name .title-line:before{content:none!important}
+      .private-deck-screen .live-card-deck .card.large.has-artist-art.art-title-punch .artist-zone .name .title-line{transform:none!important}
       @media(max-width:760px){.network-name-input{height:50px;font-size:18px}.parallel-wait-card{margin:18px auto;padding:14px}.parallel-wait-card strong{font-size:26px}.parallel-ready-note{font-size:10px!important;line-height:1.15!important;margin-top:8px!important;padding-inline:6px}}
     `;
     document.head.appendChild(style);
@@ -288,7 +292,7 @@
       document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="parallel-wait-card"><strong>Monte conferido</strong><p>Você terminou. ${otherReady?`${escapeHtml(other)} também terminou; preparando a rodada…`:`Aguardando ${escapeHtml(other)} terminar de conferir o próprio monte.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
       return;
     }
-    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Terminei</button></div>${otherReady?`<p class="parallel-ready-note">${escapeHtml(nameForSide(otherSide(side)))} já terminou de conferir o próprio monte.</p>`:''}<div class="parallel-own-deck">${privateDeckItems(side,false)}</div><div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Terminei</button></div></div></main>`;
+    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'SEU MONTE — ORDEM FIXA','15 cartas · não é possível reorganizar')}<div class="private-round-actions"><button class="primary" onclick="finishInitialReview()">Escalar</button></div>${otherReady?`<p class="parallel-ready-note">${escapeHtml(nameForSide(otherSide(side)))} já terminou de conferir o próprio monte.</p>`:''}<div class="parallel-own-deck">${privateDeckItems(side,false)}</div></div></main>`;
   }
 
   finishInitialReview=function(){
