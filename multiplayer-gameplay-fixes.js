@@ -330,7 +330,7 @@
     const opponent=nameForSide(otherSide(side));
     if(local.submitted){
       const label=local.choice?`Headliner: ${escapeHtml(player(side).deck[local.choice.index]?.name||local.choice.cardName||'escolhido')}`:'Sem novo Headliner nesta rodada';
-      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'FASE DE HEADLINER',`rodada ${state.round} · escolhas simultâneas`)}<div class="parallel-wait-card"><strong>Escolha registrada</strong><p>${label}.</p><p>${local.remoteReady?`${escapeHtml(opponent)} também finalizou. Preparando o confronto…`:`Aguardando ${escapeHtml(opponent)} finalizar a própria escolha.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
+      document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'Fase de Headliner',`rodada ${state.round} · escolhas simultâneas`)}<div class="parallel-wait-card"><strong>Escolha registrada</strong><p>${label}.</p><p>${local.remoteReady?`${escapeHtml(opponent)} também finalizou. Preparando o confronto…`:`Aguardando ${escapeHtml(opponent)} finalizar a própria escolha.`}</p></div>${privateDeckItems(side,false)}</div></main>`;
       return;
     }
     if(local.confirmIndex!==null){
@@ -341,7 +341,7 @@
     }
     const canChoose=owner.head.filter(Boolean).length<3&&owner.deck.length>0;
     const note=!canChoose?'Seu festival já tem 3 Headliners. Finalize sem escolher uma nova carta.':local.slot===null?'Escolha uma vaga vazia e depois qualquer carta do seu monte.':'Agora escolha qualquer carta do seu monte. A ordem não será alterada.';
-    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'FASE DE HEADLINER',`rodada ${state.round} · escolhas simultâneas`)}<section class="private-round-panel"><h2>Seu Festival · ${fmt(headlinerTotal(side))} pessoas</h2>${parallelSlotsHTML(side,local.slot)}<p class="private-round-note">${note}</p>${local.remoteReady?`<p class="parallel-ready-note">${escapeHtml(opponent)} já finalizou. Sua escolha continua privada.</p>`:''}<div class="private-round-actions"><button class="primary" onclick="finishPrivateRound('${side}')">Continuar sem escolher Headliner</button></div></section>${privateDeckItems(side,canChoose&&local.slot!==null)}</div></main>`;
+    document.querySelector('#app').innerHTML=`<main class="private-deck-screen"><div class="private-deck-shell">${privateDeckHeader(side,'Fase de Headliner',`rodada ${state.round} · escolhas simultâneas`)}<section class="private-round-panel"><h2>Seu Festival · ${fmt(headlinerTotal(side))} pessoas</h2>${parallelSlotsHTML(side,local.slot)}<p class="private-round-note">${note}</p>${local.remoteReady?`<p class="parallel-ready-note">${escapeHtml(opponent)} já finalizou. Sua escolha continua privada.</p>`:''}<div class="private-round-actions"><button class="primary" onclick="finishPrivateRound('${side}')">Continuar sem escolher Headliner</button></div></section>${privateDeckItems(side,canChoose&&local.slot!==null)}</div></main>`;
   }
 
   selectPrivateSlot=function(slot){
