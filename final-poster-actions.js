@@ -4,20 +4,32 @@
   const style=document.createElement('style');
   style.textContent=`
     .festival-poster .poster-actions{
-      flex-direction:column;
+      display:flex!important;
+      flex-direction:column!important;
+      align-items:center!important;
+      justify-content:center!important;
+      gap:0!important;
+      width:100%;
+    }
+    .festival-poster .poster-actions > .primary{
+      display:inline-flex;
       align-items:center;
+      justify-content:center;
+      flex:none!important;
     }
     .festival-poster .final-exit-link{
+      display:block!important;
       appearance:none;
       -webkit-appearance:none;
-      border:0;
-      background:transparent;
-      box-shadow:none;
-      padding:0;
-      margin:8px auto 0;
-      width:auto;
-      min-width:0;
-      min-height:0;
+      flex:none!important;
+      border:0!important;
+      background:transparent!important;
+      box-shadow:none!important;
+      padding:0!important;
+      margin:9px auto 0!important;
+      width:auto!important;
+      min-width:0!important;
+      min-height:0!important;
       color:inherit;
       font:inherit;
       font-size:13px;
