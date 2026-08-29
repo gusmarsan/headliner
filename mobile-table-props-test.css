@@ -1,0 +1,24 @@
+/* Temporary mobile table background test. Activated only by ?mesa=props. */
+@media (max-width:760px){
+  html.mesa-props-test .screen{
+    background:#173f4a url('assets/table-mobile-props-v1.png') center center / 100% 100% no-repeat!important;
+  }
+
+  /* The approved artwork already contains the fixed scene, props and VS. */
+  html.mesa-props-test .festival-bg,
+  html.mesa-props-test .table-wrap,
+  html.mesa-props-test .prop,
+  html.mesa-props-test .bracelet,
+  html.mesa-props-test .ticket,
+  html.mesa-props-test .setlist,
+  html.mesa-props-test .coaster,
+  html.mesa-props-test .mobile-table-props{
+    display:none!important;
+  }
+
+  /* Keep the VS spacing for the live cards, but hide the duplicate text
+     because the VS is part of the new fixed table artwork. */
+  html.mesa-props-test .battle-zone .vs{
+    visibility:hidden!important;
+  }
+}
