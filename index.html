@@ -3290,6 +3290,17 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  .round-controls .primary,.round-controls .secondary{width:100%;min-height:34px;padding:6px 5px;font-size:10px;line-height:1.05;white-space:normal}
  .next-card-marker{left:50%;top:-21px;padding:0;background:transparent;border:0;box-shadow:none;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,.78)}
  .next-card-marker i{color:#fff}
+
+ /* Resultado da rodada: vencedor só ganha luz; nunca tamanho ou deslocamento. */
+ .battle-cards .live-card-stage .card.large.winner-card{
+  translate:0 0!important;
+  scale:var(--live-card-scale,1)!important;
+  transform:none!important;
+  box-shadow:0 0 0 3px rgba(255,216,91,.72),0 0 34px rgba(255,200,66,.58),0 16px 28px rgba(0,0,0,.28)!important;
+ }
+
+ /* Papel dos atributos um pouco mais para fora da margem esquerda. */
+ .attr-panel{left:-184px}
 }
 </style>
 </head>
