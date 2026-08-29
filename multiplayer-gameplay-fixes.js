@@ -79,11 +79,11 @@
       .network-name-label{display:block;margin:16px auto 6px;color:#123f50;font-family:var(--ui);font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
       .network-name-input{width:min(360px,100%);height:54px;margin:0 auto 18px;padding:0 14px;border:3px solid #123f50;border-radius:2px;background:#fff0c8;color:#123f50;font-family:var(--ui);font-size:20px;font-weight:850;letter-spacing:.02em;text-align:center;outline:none;box-shadow:5px 5px 0 #d0a653}
       .network-name-input:focus{box-shadow:5px 5px 0 #c6533d,0 0 0 4px rgba(198,83,61,.2)}
-      .parallel-ready-note{margin:10px auto 0!important;color:#276b55!important;font-size:11px!important;font-weight:900!important;letter-spacing:.06em;text-transform:uppercase}
+      .parallel-ready-note{margin:10px auto 0!important;max-width:min(100%,520px);padding:0 8px;box-sizing:border-box;color:#f3dfad!important;text-shadow:0 1px 0 rgba(0,0,0,.45);font-size:11px!important;font-weight:600!important;line-height:1.18!important;letter-spacing:.05em;text-align:center;text-transform:uppercase;overflow-wrap:anywhere}
       .parallel-wait-card{max-width:520px;margin:28px auto;padding:18px;border:2px dashed rgba(149,100,60,.7);background:rgba(255,246,216,.62);text-align:center}
       .parallel-wait-card strong{display:block;margin-bottom:7px;color:#123f50;font-family:var(--display);font-size:30px;font-weight:600;text-transform:uppercase}
       .parallel-own-deck .private-card-button{cursor:default}
-      @media(max-width:760px){.network-name-input{height:50px;font-size:18px}.parallel-wait-card{margin:18px auto;padding:14px}.parallel-wait-card strong{font-size:26px}}
+      @media(max-width:760px){.network-name-input{height:50px;font-size:18px}.parallel-wait-card{margin:18px auto;padding:14px}.parallel-wait-card strong{font-size:26px}.parallel-ready-note{font-size:10px!important;line-height:1.15!important;margin-top:8px!important;padding-inline:6px}}
     `;
     document.head.appendChild(style);
   }
