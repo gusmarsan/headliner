@@ -3,7 +3,7 @@
    their current geometry and remain untouched. */
 @media (max-width:760px){
   html.mesa-props-test .table{
-    background:#0b0d0f url('assets/table-mobile-props-v1.webp') center center/cover no-repeat!important;
+    background:#0b0d0f url('assets/table-mobile-props-v1.webp?v=88e38d4') center center/cover no-repeat!important;
   }
 
   /* The new artwork already contains the decorative props. Hide only the
