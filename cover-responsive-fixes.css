@@ -1,13 +1,18 @@
 /* Headliner approved cover — responsive deployment fix.
-   Keep the existing artwork intact. The cover always preserves its 16:9
-   geometry, but the artwork plane now COVERS the viewport instead of being
-   contained inside it. That removes desktop letterboxing without stretching.
+   Keep the existing artwork intact. On desktop, the 16:9 artwork plane covers
+   the viewport without stretching and is anchored to the REAL viewport center.
 
-   Important: the bottom captions are positioned in artwork coordinates, so
-   they stay registered with the baked-in poster at every desktop aspect ratio. */
+   The bottom captions remain in artwork coordinates so they stay registered
+   with the baked-in poster at every desktop aspect ratio. */
 
 @media (min-width:761px){
+  html,body{
+    overflow-x:hidden!important;
+  }
+
   .cover-screen{
+    position:fixed!important;
+    inset:0!important;
     width:100vw!important;
     height:100vh!important;
     height:100dvh!important;
@@ -17,53 +22,85 @@
     background:#087aaa!important;
   }
 
-  /* The old blurred letterbox backdrop must never become visible on desktop. */
+  /* Never expose the old blurred letterbox backdrop on desktop. */
   .cover-screen::before{
     display:none!important;
+    content:none!important;
   }
 
+  /* Make the viewport itself the clipping mask. Do not rely on grid/flex
+     alignment from the original cover implementation. */
   .cover-art-button{
+    position:absolute!important;
     inset:0!important;
     width:100vw!important;
     height:100vh!important;
     height:100dvh!important;
+    min-width:100vw!important;
+    min-height:100vh!important;
+    min-height:100dvh!important;
     overflow:hidden!important;
-    place-items:center!important;
+    display:block!important;
+    margin:0!important;
+    padding:0!important;
   }
 
-  /* This is the key fix: max() creates a proportional 16:9 plane that is
-     always at least as large as the viewport in both axes. The excess is
-     cropped by .cover-art-button, so there are no top/bottom or side bands. */
+  /* HARD CENTERING.
+     The plane is always 16:9 and large enough to cover both viewport axes.
+     top/left 50% + translate(-50%,-50%) guarantees symmetric cropping instead
+     of letting inherited layout alignment favor the left or right side. */
   .cover-frame{
-    width:max(100vw,calc(100dvh * 16 / 9))!important;
-    height:max(100dvh,calc(100vw * 9 / 16))!important;
-    min-width:max(100vw,calc(100dvh * 16 / 9))!important;
-    min-height:max(100dvh,calc(100vw * 9 / 16))!important;
+    position:absolute!important;
+    top:50%!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    transform:translate3d(-50%,-50%,0)!important;
+    transform-origin:50% 50%!important;
+
+    width:max(100vw,177.7778dvh)!important;
+    height:max(100dvh,56.25vw)!important;
+    min-width:max(100vw,177.7778dvh)!important;
+    min-height:max(100dvh,56.25vw)!important;
     max-width:none!important;
     max-height:none!important;
     aspect-ratio:16 / 9!important;
-    flex:0 0 auto!important;
+
+    display:block!important;
+    flex:none!important;
+    margin:0!important;
+    padding:0!important;
     overflow:visible!important;
   }
 
   .cover-art-button picture{
+    position:absolute!important;
     inset:0!important;
+    display:block!important;
     width:100%!important;
     height:100%!important;
+    margin:0!important;
+    padding:0!important;
   }
 
   .cover-art{
+    position:absolute!important;
+    inset:0!important;
+    display:block!important;
     width:100%!important;
     height:100%!important;
+    min-width:100%!important;
+    min-height:100%!important;
     max-width:none!important;
     max-height:none!important;
+    margin:0!important;
     object-fit:fill!important;
-    object-position:center!important;
+    object-position:50% 50%!important;
   }
 
   /* The approved raster contains imperfect generated copy underneath these
-     two captions. Use an actually opaque printed strip, not a translucent
-     gradient, so no leftover letters can ghost through. */
+     two captions. Use a fully opaque printed strip so no leftover letters can
+     ghost through. */
   .cover-final-caption{
     bottom:.55%!important;
     width:28%!important;
@@ -82,17 +119,15 @@
   .cover-final-caption.right{right:13.7%!important}
 }
 
-/* Common taller desktop windows (4:3, 3:2, 16:10): the artwork plane is
-   wider than the viewport and crops symmetrically. Keep copy comfortable
-   after that crop without changing the artwork itself. */
+/* Taller/common desktop windows (4:3, 3:2, 16:10): crop remains symmetric
+   around the exact artwork center. Only the HTML caption type scales down. */
 @media (min-width:761px) and (max-aspect-ratio:8/5){
   .cover-final-caption{
     font-size:clamp(12px,1.7vw,22px)!important;
   }
 }
 
-/* Very wide desktop windows crop vertically. Keep the plane centered so the
-   logo/stage/button hierarchy remains balanced rather than stretching it. */
+/* Very wide desktop windows crop vertically, still around the exact center. */
 @media (min-width:761px) and (min-aspect-ratio:2/1){
   .cover-final-caption{
     font-size:clamp(11px,1.15vw,20px)!important;
