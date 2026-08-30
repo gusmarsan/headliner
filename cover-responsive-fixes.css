@@ -2,9 +2,10 @@
    Approved artwork geometry: 1535 x 1024 (about 3:2).
    It is always anchored to the real viewport center.
 
-   Normal/taller desktop ratios use full-bleed cover with symmetric horizontal
-   crop. Very wide screens switch to a safe contain mode so the top information
-   and the bottom ENTRAR area are never cut off. */
+   Desktop keeps the approved responsive treatment. Mobile deliberately uses
+   the same approved artwork as a full-bleed poster: the image fills the whole
+   phone viewport and only the lateral excess is cropped. No blurred sandwich,
+   no contained mini-poster, no duplicated captions. */
 
 @media (min-width:761px){
   html,body{
@@ -24,7 +25,6 @@
       linear-gradient(180deg,#087db5 0%,#1189bd 56%,#24596a 73%,#172f34 100%)!important;
   }
 
-  /* Remove the old blurred letterbox layer permanently. */
   .cover-screen::before{
     display:none!important;
     content:none!important;
@@ -45,7 +45,6 @@
     padding:0!important;
   }
 
-  /* Exact hard centering of the approved 1535:1024 artwork plane. */
   .cover-frame{
     position:absolute!important;
     top:50%!important;
@@ -97,21 +96,128 @@
     -webkit-user-drag:none!important;
   }
 
-  /* These captions belonged to the previous cover implementation. The approved
-     artwork contains the final lower composition and must not receive overlays. */
   .cover-final-caption{
     display:none!important;
   }
 }
 
-/* Wide desktop safety: 16:10, 16:9, ultrawide etc. Preserve the complete
-   approved artwork instead of cutting the top wording or the bottom button.
-   The remaining side area uses a clean festival-color extension, never blur. */
+/* Wide desktop safety: preserve the complete approved artwork vertically. */
 @media (min-width:761px) and (min-aspect-ratio:8/5){
   .cover-frame{
     width:149.9024dvh!important;
     height:100dvh!important;
     min-width:149.9024dvh!important;
     min-height:100dvh!important;
+  }
+}
+
+/* Mobile cover: use the approved landscape poster as a genuine full-screen
+   composition. The artwork plane preserves 1535:1024 and COVERS the viewport.
+   On portrait phones this intentionally crops the far left/right artwork so
+   the Headliner logo, stage, central cards/badge and ENTRAR remain large. */
+@media (max-width:760px){
+  html,body,#app{
+    width:100%!important;
+    height:100%!important;
+    min-height:100%!important;
+    overflow:hidden!important;
+    background:#087db5!important;
+  }
+
+  .cover-screen{
+    position:fixed!important;
+    inset:0!important;
+    width:100vw!important;
+    height:100svh!important;
+    height:100dvh!important;
+    min-height:100svh!important;
+    min-height:100dvh!important;
+    overflow:hidden!important;
+    background:#087db5!important;
+    isolation:isolate!important;
+  }
+
+  /* Delete the legacy blurred top/bottom filler and edge treatment. */
+  .cover-screen::before,
+  .cover-screen::after{
+    display:none!important;
+    content:none!important;
+    background:none!important;
+    filter:none!important;
+  }
+
+  .cover-art-button{
+    position:absolute!important;
+    inset:0!important;
+    display:block!important;
+    width:100vw!important;
+    height:100svh!important;
+    height:100dvh!important;
+    min-width:100vw!important;
+    min-height:100svh!important;
+    min-height:100dvh!important;
+    margin:0!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:#087db5!important;
+    overflow:hidden!important;
+  }
+
+  /* Exact viewport centering. max() means COVER rather than CONTAIN, so there
+     can never be blurred bands above/below the poster. */
+  .cover-frame{
+    position:absolute!important;
+    top:50%!important;
+    left:50%!important;
+    right:auto!important;
+    bottom:auto!important;
+    transform:translate3d(-50%,-50%,0)!important;
+    transform-origin:50% 50%!important;
+
+    width:max(100vw,149.9024dvh)!important;
+    height:max(100dvh,66.7101vw)!important;
+    min-width:max(100vw,149.9024dvh)!important;
+    min-height:max(100dvh,66.7101vw)!important;
+    max-width:none!important;
+    max-height:none!important;
+    aspect-ratio:1535 / 1024!important;
+
+    display:block!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+  }
+
+  .cover-art-button picture{
+    position:absolute!important;
+    inset:0!important;
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    margin:0!important;
+    padding:0!important;
+  }
+
+  .cover-art{
+    position:absolute!important;
+    inset:0!important;
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-width:100%!important;
+    min-height:100%!important;
+    max-width:none!important;
+    max-height:none!important;
+    margin:0!important;
+    object-fit:fill!important;
+    object-position:50% 50%!important;
+    user-select:none!important;
+    -webkit-user-drag:none!important;
+  }
+
+  .cover-final-copy,
+  .cover-final-caption{
+    display:none!important;
   }
 }
