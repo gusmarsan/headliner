@@ -13,7 +13,7 @@ if(!html.includes('/mobile-ui-fixes.css')){
   if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes mobile');
   html=html.replace('</head>',`${mobileUiFixTag}\n</head>`);
 }
-const networkTags='<script src="/multiplayer.js"></script>\n<script src="/multiplayer-bridge.js"></script>\n<script src="/multiplayer-gameplay-fixes.js"></script>\n<script src="/multiplayer-lineup-hour.js"></script>\n<script src="/multiplayer-initial-cta.js"></script>\n<script src="/multiplayer-private-deck-card-fixes.js"></script>\n<script src="/mobile-round-fixes.js"></script>\n<script src="/cpu-turn-headliner-hotfix.js"></script>\n<script src="/final-poster-actions.js"></script>';
+const networkTags='<script src="/multiplayer.js"></script>\n<script src="/multiplayer-bridge.js"></script>\n<script src="/multiplayer-gameplay-fixes.js"></script>\n<script src="/multiplayer-lineup-hour.js"></script>\n<script src="/multiplayer-initial-cta.js"></script>\n<script src="/multiplayer-private-deck-card-fixes.js"></script>\n<script src="/mobile-round-fixes.js"></script>\n<script src="/cpu-turn-headliner-hotfix.js?v=20260830c"></script>\n<script src="/final-poster-actions.js"></script>';
 if(!html.includes('/multiplayer.js')){
   if(!html.includes('</body>'))throw new Error('index.html sem </body> para injeção do multiplayer');
   html=html.replace('</body>',`${networkTags}\n</body>`);
