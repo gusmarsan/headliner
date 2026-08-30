@@ -1,13 +1,14 @@
-/* Headliner approved cover — responsive deployment fix.
-   Keep the existing artwork intact. On desktop, the 16:9 artwork plane covers
-   the viewport without stretching and is anchored to the REAL viewport center.
+/* Headliner — approved cover deployment.
+   Approved artwork geometry: 1535 x 1024 (about 3:2).
+   It is always anchored to the real viewport center.
 
-   The bottom captions remain in artwork coordinates so they stay registered
-   with the baked-in poster at every desktop aspect ratio. */
+   Normal/taller desktop ratios use full-bleed cover with symmetric horizontal
+   crop. Very wide screens switch to a safe contain mode so the top information
+   and the bottom ENTRAR area are never cut off. */
 
 @media (min-width:761px){
   html,body{
-    overflow-x:hidden!important;
+    overflow:hidden!important;
   }
 
   .cover-screen{
@@ -19,17 +20,16 @@
     min-height:100vh!important;
     min-height:100dvh!important;
     overflow:hidden!important;
-    background:#087aaa!important;
+    background:
+      linear-gradient(180deg,#087db5 0%,#1189bd 56%,#24596a 73%,#172f34 100%)!important;
   }
 
-  /* Never expose the old blurred letterbox backdrop on desktop. */
+  /* Remove the old blurred letterbox layer permanently. */
   .cover-screen::before{
     display:none!important;
     content:none!important;
   }
 
-  /* Make the viewport itself the clipping mask. Do not rely on grid/flex
-     alignment from the original cover implementation. */
   .cover-art-button{
     position:absolute!important;
     inset:0!important;
@@ -45,10 +45,7 @@
     padding:0!important;
   }
 
-  /* HARD CENTERING.
-     The plane is always 16:9 and large enough to cover both viewport axes.
-     top/left 50% + translate(-50%,-50%) guarantees symmetric cropping instead
-     of letting inherited layout alignment favor the left or right side. */
+  /* Exact hard centering of the approved 1535:1024 artwork plane. */
   .cover-frame{
     position:absolute!important;
     top:50%!important;
@@ -58,13 +55,13 @@
     transform:translate3d(-50%,-50%,0)!important;
     transform-origin:50% 50%!important;
 
-    width:max(100vw,177.7778dvh)!important;
-    height:max(100dvh,56.25vw)!important;
-    min-width:max(100vw,177.7778dvh)!important;
-    min-height:max(100dvh,56.25vw)!important;
+    width:max(100vw,149.9024dvh)!important;
+    height:max(100dvh,66.7101vw)!important;
+    min-width:max(100vw,149.9024dvh)!important;
+    min-height:max(100dvh,66.7101vw)!important;
     max-width:none!important;
     max-height:none!important;
-    aspect-ratio:16 / 9!important;
+    aspect-ratio:1535 / 1024!important;
 
     display:block!important;
     flex:none!important;
@@ -96,40 +93,25 @@
     margin:0!important;
     object-fit:fill!important;
     object-position:50% 50%!important;
+    user-select:none!important;
+    -webkit-user-drag:none!important;
   }
 
-  /* The approved raster contains imperfect generated copy underneath these
-     two captions. Use a fully opaque printed strip so no leftover letters can
-     ghost through. */
+  /* These captions belonged to the previous cover implementation. The approved
+     artwork contains the final lower composition and must not receive overlays. */
   .cover-final-caption{
-    bottom:.55%!important;
-    width:28%!important;
-    height:6.15%!important;
-    min-height:0!important;
-    padding:.2% 1.1%!important;
-    background:#082b39!important;
-    color:#f4e7c4!important;
-    font-size:clamp(12px,1.45vw,24px)!important;
-    line-height:1!important;
-    text-shadow:0 2px 3px rgba(0,0,0,.88)!important;
-    overflow:hidden!important;
-  }
-
-  .cover-final-caption.left{left:13.7%!important}
-  .cover-final-caption.right{right:13.7%!important}
-}
-
-/* Taller/common desktop windows (4:3, 3:2, 16:10): crop remains symmetric
-   around the exact artwork center. Only the HTML caption type scales down. */
-@media (min-width:761px) and (max-aspect-ratio:8/5){
-  .cover-final-caption{
-    font-size:clamp(12px,1.7vw,22px)!important;
+    display:none!important;
   }
 }
 
-/* Very wide desktop windows crop vertically, still around the exact center. */
-@media (min-width:761px) and (min-aspect-ratio:2/1){
-  .cover-final-caption{
-    font-size:clamp(11px,1.15vw,20px)!important;
+/* Wide desktop safety: 16:10, 16:9, ultrawide etc. Preserve the complete
+   approved artwork instead of cutting the top wording or the bottom button.
+   The remaining side area uses a clean festival-color extension, never blur. */
+@media (min-width:761px) and (min-aspect-ratio:8/5){
+  .cover-frame{
+    width:149.9024dvh!important;
+    height:100dvh!important;
+    min-width:149.9024dvh!important;
+    min-height:100dvh!important;
   }
 }
