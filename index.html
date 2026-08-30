@@ -3364,6 +3364,46 @@ body.new-cards-preview-mode #app{height:auto;min-height:100vh}
  .new-cards-preview-head{margin-bottom:26px}
  .new-cards-preview-grid{grid-template-columns:311px;gap:30px}
 }
+
+/* Final Headliner modal CTA layout: one vertical action stack on every viewport. */
+.deck-modal-footer .deck-modal-cta-stack,
+.confirm-box .deck-modal-cta-stack{
+  display:grid!important;
+  grid-template-columns:1fr!important;
+  justify-items:center!important;
+  align-items:center!important;
+  gap:7px!important;
+  width:100%!important;
+}
+.deck-modal-footer .deck-modal-cta,
+.confirm-box .deck-modal-cta{
+  display:block!important;
+  margin:0 auto!important;
+}
+.deck-modal-footer .deck-modal-skip,
+.confirm-box .deck-modal-skip{
+  display:block!important;
+  width:max-content!important;
+  margin:0 auto!important;
+  padding:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#111!important;
+  font-family:var(--ui)!important;
+  font-size:10px!important;
+  font-weight:500!important;
+  line-height:1.2!important;
+  text-decoration:underline!important;
+  text-underline-offset:2px!important;
+  cursor:pointer!important;
+}
+.deck-modal-footer .deck-modal-skip:visited,
+.confirm-box .deck-modal-skip:visited,
+.deck-modal-footer .deck-modal-skip:hover,
+.confirm-box .deck-modal-skip:hover{
+  color:#111!important;
+}
 </style>
 </head>
 <body>
