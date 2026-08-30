@@ -45,6 +45,11 @@
         player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
     }catch(_){return false}
   }
+  function headlinerModalOpen(){
+    try{
+      return !!document.querySelector('#modal-root .deck-modal-card, #modal-root .confirm-box');
+    }catch(_){return false}
+  }
   function resultKey(){
     try{return `${state?.gameId??state?.mode??'game'}:${state?.round??'round'}`}
     catch(_){return null}
@@ -158,7 +163,7 @@
     autoAdvanceKey=null;
   }
   function armAutoAdvance(){
-    if(!mobile()||!resultReady()){
+    if(!mobile()||!resultReady()||headlinerModalOpen()){
       if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
       return;
     }
