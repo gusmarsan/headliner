@@ -11,17 +11,21 @@
 
   function openingHeadlinerStillDue(){
     try{
-      return !!(state&&state.mode==='cpu'&&state.round===1&&!state.revealed&&
-        window.HeadlinerInitialGate&&typeof window.HeadlinerInitialGate.isResolved==='function'&&
-        !window.HeadlinerInitialGate.isResolved());
+      if(!state||state.mode!=='cpu'||state.gameOver||state.round!==1||state.revealed)return false;
+      if(state.__openingHeadlinerResolved===true)return false;
+      if(window.HeadlinerInitialGate&&typeof window.HeadlinerInitialGate.isDue==='function'){
+        return !!window.HeadlinerInitialGate.isDue();
+      }
+      /* Safe fallback for the tiny interval before the opening-gate helper has
+         loaded: never consume round-one pending merely because that helper is
+         not available yet. */
+      return state.selectedAttr==null&&player(P1).head.filter(Boolean).length<3;
     }catch(_){return false}
   }
 
   function clearInitialHeadlinerPending(){
     try{
       if(typeof state==='undefined'||!state||state.mode!=='cpu'||!state.initialHeadlinerPending)return false;
-      /* Never let the CPU watchdog erase the opening choice before the player
-         has actually chosen a Headliner or chosen an attribute. */
       if(openingHeadlinerStillDue())return false;
       state.initialHeadlinerPending=false;
       try{if(typeof closeModal==='function')closeModal()}catch(_){}
@@ -31,9 +35,6 @@
 
   window.chooseAttr=function(attr,fromCpu=false){
     try{
-      /* Choosing an attribute is an explicit decision to keep playing without
-         selecting the optional opening Headliner. Clear the old gate before
-         the canonical attribute handler evaluates the round. */
       if(!fromCpu&&state?.mode==='cpu'&&state.turn===P1&&state.initialHeadlinerPending){
         clearInitialHeadlinerPending();
       }
@@ -43,8 +44,8 @@
 
   window.beginBattle=function(){
     try{
-      /* After the opening opportunity has genuinely been resolved, a stale
-         pending flag must never prevent a CPU attribute turn. */
+      /* The rival/CPU flow is not allowed to consume the opening plaque. Once
+         the opening decision is genuinely resolved, stale pending can be freed. */
       if(state?.mode==='cpu'&&state.turn===P2&&state.initialHeadlinerPending&&!openingHeadlinerStillDue()){
         clearInitialHeadlinerPending();
       }
@@ -52,11 +53,6 @@
     return baseBeginBattle.apply(this,arguments);
   };
 
-  /* CPU-turn watchdog.
-     A CPU turn has no legitimate long-lived locked state: chooseAttr is
-     synchronous and Headliner selection happens before the attribute timer.
-     If a transition/timer leaves the table displaying “rival escolhendo” for
-     too long, recover the canonical flow. */
   let cpuKey=null;
   let cpuSince=0;
   let lastKick=0;
@@ -64,6 +60,14 @@
   setInterval(()=>{
     try{
       if(!cpuTurnActive()){
+        cpuKey=null;
+        cpuSince=0;
+        lastKick=0;
+        return;
+      }
+
+      /* Opening Headliner is a legitimate pre-battle state, not a stall. */
+      if(openingHeadlinerStillDue()){
         cpuKey=null;
         cpuSince=0;
         lastKick=0;
@@ -78,30 +82,18 @@
       }
 
       const elapsed=Date.now()-cpuSince;
-
-      /* The watchdog is intentionally dormant while the round-1 opening
-         Headliner opportunity is still on screen. */
-      if(openingHeadlinerStillDue())return;
-
       if(state.initialHeadlinerPending)clearInitialHeadlinerPending();
 
-      /* If a previous transition left the lock behind, it is stale by now.
-         There is no async CPU action that should hold this lock this long. */
       if(state.actionLocked&&elapsed>900){
         state.actionLocked=false;
         try{if(typeof renderGame==='function')renderGame()}catch(_){}
       }
 
-      /* First recovery: re-enter the normal battle starter. This preserves the
-         rival Headliner decision and the normal 700 ms attribute animation. */
       if(!state.actionLocked&&elapsed>950&&Date.now()-lastKick>850){
         lastKick=Date.now();
         try{window.beginBattle()}catch(_){}
       }
 
-      /* Last-resort recovery: if beginBattle/timers still failed, choose the
-         attribute directly. chooseAttr builds state.current itself, so this is
-         safe even when the starter never completed. */
       if(cpuTurnActive()&&!state.actionLocked&&elapsed>2200){
         try{
           if(typeof window.cpuChooseAttribute==='function')window.cpuChooseAttribute();
