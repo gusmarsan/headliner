@@ -1,49 +1,65 @@
 (()=>{
   let lastActivation=0;
-  let trackedState=null;
-  let resolved=false;
   let lastForcedRender=0;
+  let syncing=false;
 
-  function syncState(){
+  function roundOneBase(){
     try{
-      if(typeof state==='undefined'||state===trackedState)return;
-      trackedState=state;
-      resolved=false;
-      if(!state||state.mode!=='cpu'||state.round!==1||state.revealed){resolved=true;return}
-      if(player(P1).head.filter(Boolean).length>0)resolved=true;
+      return !!state && state.mode==='cpu' && !state.gameOver &&
+        state.round===1 && !state.revealed &&
+        player(P1).head.filter(Boolean).length<3;
+    }catch(_){return false}
+  }
+
+  function ensureOpeningMarker(){
+    try{
+      if(!roundOneBase())return;
+      /* Keep the lifecycle on the game-state object itself. This avoids the old
+         timing bug where the same state object was created before mode/round
+         finished initializing and was then incorrectly treated as resolved. */
+      if(typeof state.__openingHeadlinerResolved!=='boolean'){
+        state.__openingHeadlinerResolved=false;
+      }
     }catch(_){}
   }
 
-  function openingState(){
-    syncState();
+  function openingDue(){
+    ensureOpeningMarker();
     try{
-      return !!state&&state.mode==='cpu'&&!state.gameOver&&state.round===1&&!state.revealed&&
-        player(P1).head.filter(Boolean).length<3&&!resolved;
+      return roundOneBase() &&
+        state.__openingHeadlinerResolved!==true &&
+        state.selectedAttr==null;
     }catch(_){return false}
   }
 
   function markResolved(){
-    syncState();
-    resolved=true;
-    try{if(state?.mode==='cpu')state.initialHeadlinerPending=false}catch(_){}
+    try{
+      if(!state || state.mode!=='cpu')return;
+      state.__openingHeadlinerResolved=true;
+      state.initialHeadlinerPending=false;
+    }catch(_){}
   }
 
   window.HeadlinerInitialGate={
-    isResolved(){syncState();return resolved},
+    isResolved(){
+      ensureOpeningMarker();
+      try{return !roundOneBase() || state.__openingHeadlinerResolved===true}
+      catch(_){return true}
+    },
+    isDue:openingDue,
     resolve:markResolved
   };
 
-  /* The opening opportunity is its own pre-round state. If some legacy code or
-     watchdog cleared the old flag too early, restore it before the first battle
-     begins and redraw once so the CTA is physically present. */
+  /* The first-screen Headliner offer is optional, but it must exist before the
+     first confrontation. beginBattle may render the table, but cannot consume
+     this offer until the player either selects a Headliner or an attribute. */
   const baseBeginBattle=window.beginBattle;
   if(typeof baseBeginBattle==='function'){
     window.beginBattle=function(){
-      syncState();
-      if(openingState()){
+      if(openingDue()){
         try{
-          if(!state.initialHeadlinerPending)state.initialHeadlinerPending=true;
-          if(Date.now()-lastForcedRender>80&&typeof renderGame==='function'){
+          state.initialHeadlinerPending=true;
+          if(Date.now()-lastForcedRender>100 && typeof renderGame==='function'){
             lastForcedRender=Date.now();
             renderGame();
           }
@@ -54,25 +70,24 @@
     };
   }
 
-  /* Choosing an attribute explicitly skips the optional opening Headliner. */
+  /* Choosing an attribute is the explicit "seguir sem Headliner" action. */
   const baseChooseAttr=window.chooseAttr;
   if(typeof baseChooseAttr==='function'){
     window.chooseAttr=function(attr,fromCpu=false){
-      if(!fromCpu&&openingState())markResolved();
+      if(!fromCpu && openingDue())markResolved();
       return baseChooseAttr.apply(this,arguments);
     };
   }
 
-  /* Locking the opening Headliner also resolves the pre-round gate. If the CPU
-     owns the first attribute choice, resume it immediately afterwards. */
+  /* Locking a Headliner resolves the opening offer. */
   const baseLockHeadliner=window.lockHeadliner;
   if(typeof baseLockHeadliner==='function'){
     window.lockHeadliner=function(index,slot){
-      const wasOpening=openingState();
+      const wasOpening=openingDue();
       if(wasOpening)markResolved();
       const result=baseLockHeadliner.apply(this,arguments);
       try{
-        if(wasOpening&&state?.mode==='cpu'&&!state.revealed&&state.turn===P2){
+        if(wasOpening && state?.mode==='cpu' && !state.revealed && state.turn===P2){
           setTimeout(()=>{try{window.beginBattle()}catch(_){}},60);
         }
       }catch(_){}
@@ -80,14 +95,16 @@
     };
   }
 
+  /* "Agora não" inside the opening deck also resolves the offer. Closing the
+     modal with X does not: the plaque remains available on the table. */
   const baseSkipHeadliner=window.skipHeadliner;
   if(typeof baseSkipHeadliner==='function'){
     window.skipHeadliner=function(){
-      const wasOpening=openingState();
+      const wasOpening=openingDue();
       if(wasOpening)markResolved();
       const result=baseSkipHeadliner.apply(this,arguments);
       try{
-        if(wasOpening&&state?.mode==='cpu'&&!state.revealed&&state.turn===P2){
+        if(wasOpening && state?.mode==='cpu' && !state.revealed && state.turn===P2){
           setTimeout(()=>{try{window.beginBattle()}catch(_){}},60);
         }
       }catch(_){}
@@ -95,16 +112,15 @@
     };
   }
 
-  function initialButton(){
-    if(!openingState())return null;
+  function findButton(){
     return [...document.querySelectorAll('.result-deck-button')]
       .find(btn=>/escolher\s+headliner/i.test((btn.textContent||'').trim()))||null;
   }
 
   function openInitial(){
-    if(!openingState())return false;
+    if(!openingDue())return false;
     const now=Date.now();
-    if(now-lastActivation<350)return true;
+    if(now-lastActivation<300)return true;
     lastActivation=now;
     try{
       state.initialHeadlinerPending=true;
@@ -113,7 +129,7 @@
         return true;
       }
       const slot=[0,1,2].find(i=>!player(P1).head[i]);
-      if(slot!==undefined&&typeof window.openDeck==='function'){
+      if(slot!==undefined && typeof window.openDeck==='function'){
         window.openDeck(false,slot);
         return true;
       }
@@ -121,74 +137,88 @@
     return false;
   }
 
-  function ensureOpeningCTA(){
-    syncState();
-    if(!openingState())return;
+  function wireButton(btn){
+    if(!btn)return;
+    const controls=btn.closest('.round-controls');
+    if(controls){
+      controls.style.setProperty('display','flex','important');
+      controls.style.setProperty('position','relative','important');
+      controls.style.setProperty('z-index','1000','important');
+      controls.style.setProperty('pointer-events','auto','important');
+      controls.style.setProperty('isolation','isolate','important');
+    }
+    btn.style.setProperty('display','inline-flex','important');
+    btn.style.setProperty('position','relative','important');
+    btn.style.setProperty('z-index','1001','important');
+    btn.style.setProperty('pointer-events','auto','important');
+    btn.style.setProperty('touch-action','manipulation','important');
 
+    if(btn.dataset.initialHeadlinerClickFixed==='1')return;
+    btn.dataset.initialHeadlinerClickFixed='1';
+    btn.addEventListener('click',event=>{
+      if(!openingDue())return;
+      event.preventDefault();
+      event.stopPropagation();
+      openInitial();
+    });
+  }
+
+  function ensureOpeningCTA(){
+    if(syncing || !openingDue())return;
     try{
-      /* Round 1 must visibly offer Headliner before the first confrontation. */
+      /* Canonical battleHTML renders the plaque from this flag. Restore it if
+         any older helper cleared it during startup, then redraw exactly once. */
       if(!state.initialHeadlinerPending){
         state.initialHeadlinerPending=true;
-        if(Date.now()-lastForcedRender>100&&typeof renderGame==='function'){
+        if(Date.now()-lastForcedRender>120 && typeof renderGame==='function'){
+          syncing=true;
           lastForcedRender=Date.now();
-          renderGame();
+          try{renderGame()}finally{syncing=false}
           return;
         }
       }
 
-      let btn=initialButton();
-      if(!btn&&Date.now()-lastForcedRender>180&&typeof renderGame==='function'){
-        lastForcedRender=Date.now();
-        renderGame();
-        btn=initialButton();
+      let btn=findButton();
+      if(!btn){
+        /* Do not depend only on a redraw. If the table is already mounted, add
+           the same canonical plaque directly to its round-controls container. */
+        const controls=document.querySelector('.screen .battle-zone .round-controls');
+        if(controls){
+          btn=document.createElement('button');
+          btn.type='button';
+          btn.className='secondary ticket-control ticket-compact result-deck-button';
+          btn.textContent='Escolher Headliner';
+          btn.setAttribute('aria-label','Escolher Headliner');
+          controls.appendChild(btn);
+        }
       }
       if(!btn)return;
 
-      const controls=btn.closest('.round-controls');
-      if(controls){
-        controls.style.setProperty('display','flex','important');
-        controls.style.setProperty('position','relative','important');
-        controls.style.setProperty('z-index','1000','important');
-        controls.style.setProperty('pointer-events','auto','important');
-        controls.style.setProperty('isolation','isolate','important');
-      }
-      btn.style.setProperty('display','inline-flex','important');
-      btn.style.setProperty('position','relative','important');
-      btn.style.setProperty('z-index','1001','important');
-      btn.style.setProperty('pointer-events','auto','important');
-      btn.style.setProperty('touch-action','manipulation','important');
+      wireButton(btn);
 
-      /* The opening choice is optional. If it is the player's attribute turn,
-         keep the five attributes active at the same time. */
+      /* Headliner is optional: when it is the player's attribute turn, all five
+         attributes remain active while the plaque is visible. */
       if(state.turn===P1){
         document.querySelectorAll('.attr-btn[disabled]').forEach(button=>{button.disabled=false});
       }
-
-      if(btn.dataset.initialHeadlinerClickFixed==='1')return;
-      btn.dataset.initialHeadlinerClickFixed='1';
-      btn.addEventListener('click',event=>{
-        if(!openingState())return;
-        event.preventDefault();
-        event.stopPropagation();
-        openInitial();
-      });
     }catch(_){}
   }
 
+  /* Android-safe hit testing for the visible plaque. */
   document.addEventListener('pointerup',event=>{
-    const btn=initialButton();
+    if(!openingDue())return;
+    const btn=findButton();
     if(!btn)return;
     const rect=btn.getBoundingClientRect();
-    const inside=event.clientX>=rect.left&&event.clientX<=rect.right&&
-      event.clientY>=rect.top&&event.clientY<=rect.bottom;
-    if(!inside)return;
+    if(event.clientX<rect.left || event.clientX>rect.right ||
+       event.clientY<rect.top || event.clientY>rect.bottom)return;
     event.preventDefault();
     event.stopImmediatePropagation();
     openInitial();
   },true);
 
-  const observer=new MutationObserver(ensureOpeningCTA);
-  observer.observe(document.documentElement,{childList:true,subtree:true});
+  new MutationObserver(ensureOpeningCTA)
+    .observe(document.documentElement,{childList:true,subtree:true});
   setInterval(ensureOpeningCTA,100);
   ensureOpeningCTA();
 })();
