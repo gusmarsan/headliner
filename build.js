@@ -9,7 +9,7 @@ fs.mkdirSync(out,{recursive:true});
 const sourceIndex=path.join(root,'index.html');
 let html=fs.readFileSync(sourceIndex,'utf8');
 const mobileUiFixTag='<link rel="stylesheet" href="/mobile-ui-fixes.css">';
-const coverResponsiveFixTag='<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830c">';
+const coverResponsiveFixTag='<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830d">';
 if(!html.includes('/mobile-ui-fixes.css')){
   if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes mobile');
   html=html.replace('</head>',`${mobileUiFixTag}\n</head>`);
@@ -18,7 +18,7 @@ if(!html.includes('/cover-responsive-fixes.css')){
   if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes da capa');
   html=html.replace('</head>',`${coverResponsiveFixTag}\n</head>`);
 }
-const networkTags='<script src="/multiplayer.js"></script>\n<script src="/multiplayer-bridge.js"></script>\n<script src="/multiplayer-gameplay-fixes.js"></script>\n<script src="/multiplayer-lineup-hour.js"></script>\n<script src="/multiplayer-initial-cta.js"></script>\n<script src="/multiplayer-private-deck-card-fixes.js"></script>\n<script src="/mobile-round-fixes.js"></script>\n<script src="/cpu-turn-headliner-hotfix.js?v=20260830c"></script>\n<script src="/approved-cover-loader.js?v=20260830-approved-a"></script>\n<script src="/final-poster-actions.js"></script>\n<script src="/multiplayer-festival-privacy.js?v=20260830a"></script>\n<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>';
+const networkTags='<script src="/multiplayer.js"></script>\n<script src="/multiplayer-bridge.js"></script>\n<script src="/multiplayer-gameplay-fixes.js"></script>\n<script src="/multiplayer-lineup-hour.js"></script>\n<script src="/multiplayer-initial-cta.js"></script>\n<script src="/multiplayer-private-deck-card-fixes.js"></script>\n<script src="/mobile-round-fixes.js"></script>\n<script src="/cpu-turn-headliner-hotfix.js?v=20260830c"></script>\n<script src="/approved-cover-loader.js?v=20260830-approved-b"></script>\n<script src="/final-poster-actions.js"></script>\n<script src="/multiplayer-festival-privacy.js?v=20260830a"></script>\n<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>';
 if(!html.includes('/multiplayer.js')){
   if(!html.includes('</body>'))throw new Error('index.html sem </body> para injeção do multiplayer');
   html=html.replace('</body>',`${networkTags}\n</body>`);
