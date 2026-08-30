@@ -4323,7 +4323,7 @@ function confirmHeadliner(index,slot){
 function lockHeadliner(index,slot){
  if(!state||state.mode!=='cpu'||state.actionLocked)return;state.actionLocked=true;const card=commitHeadliner(P1,index,slot);if(!card){state.actionLocked=false;return}
  if(state.round===1&&state.initialHeadlinerPending)state.initialHeadlinerPending=false;
- state.actionLocked=false;closeModal();renderGame();toast(`${card.name} agora é Headliner. 🔒`);scheduleGame(()=>{if(state){state.justLocked=null;renderGame()}},760,'cpu');
+ state.justLocked=null;state.actionLocked=false;closeModal();renderGame();toast(`${card.name} agora é Headliner. 🔒`);
 }
 function cpuLockHeadliner(){
  if(!state||state.mode!=='cpu')return;const owner=player(P2);if(owner.lockedThisRound||owner.head.filter(Boolean).length>=3||!owner.deck.length)return;
@@ -4332,11 +4332,22 @@ function cpuLockHeadliner(){
  if(take){const card=commitHeadliner(P2,top.index,slot);if(!card)return;toast(`O rival fechou ${card.name} como Headliner.`)}
 }
 function maybeStartEncore(side){if(state.encore===null&&player(side).head.filter(Boolean).length===3){state.encore=3;toast('Encore! 3 rodadas para o fim.')}}
+function cpuChooseAttribute(){
+ if(!state||state.mode!=='cpu'||state.gameOver||state.revealed||state.actionLocked||state.turn!==P2)return false;
+ if(!player(P2).deck.length)return false;
+ const likely=ATTRS.map(([key])=>({key,value:effective(player(P2).deck[0],key)})).sort((a,b)=>b.value-a.value);
+ const choice=Math.random()<.72?likely[0].key:likely[Math.floor(Math.random()*likely.length)].key;
+ chooseAttr(choice,true);
+ return !!state.revealed;
+}
 function beginBattle(){
  if(!state||state.mode!=='cpu'||state.revealed||state.actionLocked||state.initialHeadlinerPending)return;if(!player(P1).deck.length||!player(P2).deck.length){finishGame();return}
  cpuLockHeadliner();state.current={[P1]:player(P1).deck[0],[P2]:player(P2).deck[0]};
  if(state.turn===P1){renderGame();toast('Escolha um atributo acima.');return}
- state.selectedAttr=null;renderGame();scheduleGame(()=>{const likely=ATTRS.map(([key])=>({key,value:effective(player(P2).deck[0],key)})).sort((a,b)=>b.value-a.value),choice=Math.random()<.72?likely[0].key:likely[Math.floor(Math.random()*likely.length)].key;chooseAttr(choice,true)},700,'cpu');
+ state.selectedAttr=null;renderGame();
+ const roundAtStart=state.round;
+ scheduleGame(()=>{if(state&&state.round===roundAtStart)cpuChooseAttribute()},700,'cpu');
+ scheduleGame(()=>{if(state&&state.round===roundAtStart&&!state.revealed&&state.turn===P2)cpuChooseAttribute()},1700,'cpu');
 }
 function chooseAttr(attr,fromCpu=false){
  if(!state||state.gameOver||state.revealed||state.actionLocked||!ATTRS.some(([key])=>key===attr))return;
