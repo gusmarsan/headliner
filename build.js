@@ -8,21 +8,50 @@ fs.mkdirSync(out,{recursive:true});
 
 const sourceIndex=path.join(root,'index.html');
 let html=fs.readFileSync(sourceIndex,'utf8');
-const mobileUiFixTag='<link rel="stylesheet" href="/mobile-ui-fixes.css">';
-const coverResponsiveFixTag='<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830e">';
-if(!html.includes('/mobile-ui-fixes.css')){
-  if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes mobile');
-  html=html.replace('</head>',`${mobileUiFixTag}\n</head>`);
+
+if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos estilos');
+if(!html.includes('</body>'))throw new Error('index.html sem </body> para injeção dos scripts');
+
+function escapeRegExp(value){
+  return value.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 }
-if(!html.includes('/cover-responsive-fixes.css')){
-  if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes da capa');
-  html=html.replace('</head>',`${coverResponsiveFixTag}\n</head>`);
+
+function ensureStylesheet(baseHref,tag){
+  const escaped=escapeRegExp(baseHref);
+  const re=new RegExp(`<link\\b[^>]*\\bhref=(["'])${escaped}(?:\\?[^"']*)?\\1[^>]*>\\s*`,'gi');
+  html=html.replace(re,'');
+  html=html.replace('</head>',`${tag}\n</head>`);
 }
-const networkTags='<script src="/multiplayer.js"></script>\n<script src="/multiplayer-bridge.js"></script>\n<script src="/multiplayer-gameplay-fixes.js"></script>\n<script src="/multiplayer-lineup-hour.js"></script>\n<script src="/multiplayer-initial-cta.js"></script>\n<script src="/multiplayer-private-deck-card-fixes.js"></script>\n<script src="/mobile-round-fixes.js"></script>\n<script src="/cpu-turn-headliner-hotfix.js?v=20260830d"></script>\n<script src="/initial-headliner-click-fix.js?v=20260830b"></script>\n<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>\n<script src="/final-poster-actions.js"></script>\n<script src="/multiplayer-festival-privacy.js?v=20260830a"></script>\n<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>';
-if(!html.includes('/multiplayer.js')){
-  if(!html.includes('</body>'))throw new Error('index.html sem </body> para injeção do multiplayer');
-  html=html.replace('</body>',`${networkTags}\n</body>`);
+
+ensureStylesheet('/mobile-ui-fixes.css','<link rel="stylesheet" href="/mobile-ui-fixes.css">');
+ensureStylesheet('/cover-responsive-fixes.css','<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830e">');
+
+/* Always rebuild the supplemental runtime tail from a canonical ordered list.
+   The previous all-or-nothing `/multiplayer.js` check could leave newer fixes
+   out of dist whenever just one legacy script was already present in source. */
+const runtimeScripts=[
+  ['/multiplayer.js','<script src="/multiplayer.js"></script>'],
+  ['/multiplayer-bridge.js','<script src="/multiplayer-bridge.js"></script>'],
+  ['/multiplayer-gameplay-fixes.js','<script src="/multiplayer-gameplay-fixes.js"></script>'],
+  ['/multiplayer-lineup-hour.js','<script src="/multiplayer-lineup-hour.js"></script>'],
+  ['/multiplayer-initial-cta.js','<script src="/multiplayer-initial-cta.js"></script>'],
+  ['/multiplayer-private-deck-card-fixes.js','<script src="/multiplayer-private-deck-card-fixes.js"></script>'],
+  ['/mobile-round-fixes.js','<script src="/mobile-round-fixes.js"></script>'],
+  ['/cpu-turn-headliner-hotfix.js','<script src="/cpu-turn-headliner-hotfix.js?v=20260830e"></script>'],
+  ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260830c"></script>'],
+  ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
+  ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
+  ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260830a"></script>'],
+  ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>']
+];
+
+for(const [src] of runtimeScripts){
+  const escaped=escapeRegExp(src);
+  const re=new RegExp(`<script\\b[^>]*\\bsrc=(["'])${escaped}(?:\\?[^"']*)?\\1[^>]*>\\s*</script>\\s*`,'gi');
+  html=html.replace(re,'');
 }
+html=html.replace('</body>',`${runtimeScripts.map(([,tag])=>tag).join('\n')}\n</body>`);
+
 fs.writeFileSync(path.join(out,'index.html'),html);
 fs.cpSync(path.join(root,'assets'),path.join(out,'assets'),{recursive:true});
 const previewArt=path.join(root,'preview-new-cards','art');
