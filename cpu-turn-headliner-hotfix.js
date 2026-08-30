@@ -9,9 +9,20 @@
     }catch(_){return false}
   }
 
+  function openingHeadlinerStillDue(){
+    try{
+      return !!(state&&state.mode==='cpu'&&state.round===1&&!state.revealed&&
+        window.HeadlinerInitialGate&&typeof window.HeadlinerInitialGate.isResolved==='function'&&
+        !window.HeadlinerInitialGate.isResolved());
+    }catch(_){return false}
+  }
+
   function clearInitialHeadlinerPending(){
     try{
       if(typeof state==='undefined'||!state||state.mode!=='cpu'||!state.initialHeadlinerPending)return false;
+      /* Never let the CPU watchdog erase the opening choice before the player
+         has actually chosen a Headliner or chosen an attribute. */
+      if(openingHeadlinerStillDue())return false;
       state.initialHeadlinerPending=false;
       try{if(typeof closeModal==='function')closeModal()}catch(_){}
       return true;
@@ -32,9 +43,9 @@
 
   window.beginBattle=function(){
     try{
-      /* The opening Headliner is optional. A stale pending flag must never
-         prevent the CPU from starting its attribute choice on a later turn. */
-      if(state?.mode==='cpu'&&state.turn===P2&&state.initialHeadlinerPending){
+      /* After the opening opportunity has genuinely been resolved, a stale
+         pending flag must never prevent a CPU attribute turn. */
+      if(state?.mode==='cpu'&&state.turn===P2&&state.initialHeadlinerPending&&!openingHeadlinerStillDue()){
         clearInitialHeadlinerPending();
       }
     }catch(_){}
@@ -67,6 +78,10 @@
       }
 
       const elapsed=Date.now()-cpuSince;
+
+      /* The watchdog is intentionally dormant while the round-1 opening
+         Headliner opportunity is still on screen. */
+      if(openingHeadlinerStillDue())return;
 
       if(state.initialHeadlinerPending)clearInitialHeadlinerPending();
 
