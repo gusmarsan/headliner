@@ -38,6 +38,12 @@
       return state.mode==='cpu'||state.phase==='RESULT';
     }catch(_){return false}
   }
+  function headlinerSelectionDue(){
+    try{
+      return state?.mode==='cpu'&&state.revealed&&state.round%3===0&&
+        player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
+    }catch(_){return false}
+  }
   function resultKey(){
     try{return `${state?.gameId??state?.mode??'game'}:${state?.round??'round'}`}
     catch(_){return null}
@@ -151,7 +157,7 @@
     autoAdvanceKey=null;
   }
   function armAutoAdvance(){
-    if(!mobile()||!resultReady()){
+    if(!mobile()||!resultReady()||headlinerSelectionDue()){
       if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
       return;
     }
