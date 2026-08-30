@@ -58,7 +58,7 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;mi
 .headliner-zone.opp{top:20%;}.headliner-zone.you{bottom:33%}
 .slot{width:118px;height:160px;border:2px dashed rgba(247,233,200,.55);border-radius:12px;background:rgba(13,48,64,.18);display:grid;place-items:center;position:relative;transition:.2s;cursor:pointer}
 .slot:before{content:"HEADLINER";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-90deg);font-size:11px;letter-spacing:2px;font-weight:900;color:rgba(247,233,200,.3)}
-.slot.you-slot:not(.filled):hover{border-color:#ffd46c;background:rgba(255,204,80,.15);transform:translateY(-3px)}
+.slot.you-slot:not(.filled):hover{border-color:inherit;background:inherit;transform:none}
 .slot.locking{border-color:#ffe173;box-shadow:0 0 0 4px rgba(255,225,115,.18),0 0 30px rgba(255,225,115,.4)}
 .slot.filled{border-style:solid;border-color:rgba(247,233,200,.38);background:none}.slot.filled:before{display:none}
 .slot .mini-card{width:100%;height:100%}
@@ -4283,7 +4283,7 @@ function battleHTML(){
 }
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back official-card-back" aria-label="Carta fechada"></div></div>`}
 function turnMessage(){if(state.revealed)return '';if(isLocalGame())return `${playerLabel(state.battleChooser||state.turn)} escolhe o atributo sem ver as cartas.`;if(state.mode==='cpu'&&state.round===1&&state.initialHeadlinerPending)return 'Escolha seu primeiro Headliner.';if(state.turn===P1)return 'Escolha 1 atributo à esquerda.';return 'O rival está escolhendo o atributo…'}
-function wireSlots(){$$('.you-slot').forEach(el=>el.onclick=()=>{if(!state||state.gameOver||state.mode!=='cpu')return;const slot=+el.dataset.slot,owner=player(P1);if(owner.head[slot]){toast('Essa vaga já está travada.');return}if(owner.lockedThisRound){toast('Você já escolheu 1 Headliner nesta rodada.');return}openDeck(false,slot)})}
+function wireSlots(){$('.you-slot').forEach(el=>{el.onclick=null;el.style.cursor='default';el.setAttribute('aria-disabled','true')})}
 function openInitialHeadliner(){
  if(!state||state.mode!=='cpu'||state.gameOver||state.round!==1||!state.initialHeadlinerPending)return;
  const slot=[0,1,2].find(i=>!player(P1).head[i]);
