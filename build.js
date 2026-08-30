@@ -20,6 +20,11 @@ if(!html.includes('/multiplayer.js')){
 }
 fs.writeFileSync(path.join(out,'index.html'),html);
 fs.cpSync(path.join(root,'assets'),path.join(out,'assets'),{recursive:true});
+const previewArt=path.join(root,'preview-new-cards','art');
+if(fs.existsSync(previewArt)){
+  fs.mkdirSync(path.join(out,'preview-new-cards'),{recursive:true});
+  fs.cpSync(previewArt,path.join(out,'preview-new-cards','art'),{recursive:true});
+}
 fs.copyFileSync(path.join(root,'mobile-ui-fixes.css'),path.join(out,'mobile-ui-fixes.css'));
 fs.copyFileSync(path.join(root,'multiplayer.js'),path.join(out,'multiplayer.js'));
 fs.copyFileSync(path.join(root,'multiplayer-bridge.js'),path.join(out,'multiplayer-bridge.js'));
