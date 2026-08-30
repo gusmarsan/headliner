@@ -4033,7 +4033,7 @@ function startGame(mode='cpu'){
  clearGameTimers();closeModal();
  const pool=balanced30();
  const gameId=++gameSerial;
- state={gameId,mode,round:1,turn:P1,players:{[P1]:{deck:pool.slice(0,15),head:[],lockedThisRound:false},[P2]:{deck:pool.slice(15),head:[],lockedThisRound:false}},pot:[],selectedAttr:null,revealed:false,current:null,lastResult:'',lastWinner:null,pendingWinner:null,encore:null,gameOver:false,phase:mode==='local'?'INITIAL_PASS':'ROUND',privateOwner:mode==='local'?P1:null,privatePurpose:mode==='local'?'initial':null,privateSlot:null,privateConfirmIndex:null,battleChooser:null,actionLocked:false,justLocked:null,initialHeadlinerPending:mode==='cpu'};
+ state={gameId,mode,round:1,turn:P1,players:{[P1]:{deck:pool.slice(0,15),head:[],lockedThisRound:false},[P2]:{deck:pool.slice(15),head:[],lockedThisRound:false}},pot:[],selectedAttr:null,revealed:false,current:null,lastResult:'',lastWinner:null,pendingWinner:null,encore:null,gameOver:false,phase:mode==='local'?'INITIAL_PASS':'ROUND',privateOwner:mode==='local'?P1:null,privatePurpose:mode==='local'?'initial':null,privateSlot:null,privateConfirmIndex:null,battleChooser:null,actionLocked:false,justLocked:null,initialHeadlinerPending:mode==='cpu',headlinerSkippedRound:null};
  if(mode==='local')renderPrivacyPass();
  else{renderGame();scheduleGame(()=>openDeck(true),450,'cpu')}
 }
@@ -4277,7 +4277,7 @@ function battleHTML(){
  let p1Verdict='',p2Verdict='';if(state.revealed&&state.lastWinner){p1Verdict=state.lastWinner===P1?'winner-card':state.lastWinner===P2?'loser-card':'';p2Verdict=state.lastWinner===P2?'winner-card':state.lastWinner===P1?'loser-card':''}
  const confrontationReady=!!(p1Card&&p2Card)||state.phase==='ATTRIBUTE';
  const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):confrontationReady?cardBackBattle():'';
- const headlinerDue=state.mode==='cpu'&&state.revealed&&state.round%3===0&&player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
+ const headlinerDue=state.mode==='cpu'&&state.revealed&&state.round%3===0&&state.headlinerSkippedRound!==state.round&&player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
  const controls=state.revealed?(headlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="window.openScheduledHeadliner()">Escolher Headliner</button>`:''):isLocalGame()?'':initialHeadlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="openInitialHeadliner()">Escolher Headliner</button>`:`<button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Jogar!':'Ver escolha do rival'}</button>`;
  return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
 }
@@ -4291,23 +4291,34 @@ function openInitialHeadliner(){
  openDeck(false,slot);
 }
 function openScheduledHeadliner(){
- if(!state||state.mode!=='cpu'||state.gameOver||!state.revealed||state.round%3!==0||player(P1).lockedThisRound)return;
+ if(!state||state.mode!=='cpu'||state.gameOver||!state.revealed||state.round%3!==0||state.headlinerSkippedRound===state.round||player(P1).lockedThisRound)return;
  const slot=[0,1,2].find(i=>!player(P1).head[i]);
  if(slot===undefined)return;
  openDeck(false,slot);
 }
+function skipHeadliner(){
+ if(!state||state.mode!=='cpu')return;
+ if(state.round===1&&state.initialHeadlinerPending){
+  state.initialHeadlinerPending=false;
+ }else if(state.revealed&&state.round%3===0){
+  state.headlinerSkippedRound=state.round;
+ }
+ closeModal();
+ renderGame();
+}
+window.skipHeadliner=skipHeadliner;
 window.openInitialHeadliner=openInitialHeadliner;
 window.openScheduledHeadliner=openScheduledHeadliner;
 function openDeck(first=false,slot=null){
  if(!state||state.mode!=='cpu'||state.gameOver)return;
  const root=$('#modal-root'),owner=player(P1);
- root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Suas cartas'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode conferir as cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar cartas">×</button></div><div class="deck-grid">${owner.deck.map((card,index)=>`<div class="deck-entry ${slot!==null?'selectable':''}" data-card-index="${index}" ${slot!==null?`onclick="confirmHeadliner(${index},${slot})"`:''}><div class="position">${index===0?'Próxima carta':`Artista ${index+1}`}</div>${liveCardHTML(card,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><div class="deck-modal-cta-stack"><button class="primary deck-modal-cta" onclick="openInitialHeadliner()">Escolher Headliner</button><a href="#" class="deck-modal-skip" onclick="event.preventDefault();closeModal()">Agora não</a></div></div>`:''}</div></div>`;
+ root.innerHTML=`<div class="modal"><div class="modal-card deck-modal-card"><div class="modal-head"><div><h2>${slot!==null?'Escolha seu Headliner':'Suas cartas'}</h2><div class="help">${slot!==null?'Toque em qualquer carta do seu monte. Máximo de 1 novo Headliner por rodada.':'Você pode conferir as cartas, mas não pode mudar a ordem.'}</div></div><button class="close" onclick="closeModal()" aria-label="Fechar cartas">×</button></div><div class="deck-grid">${owner.deck.map((card,index)=>`<div class="deck-entry ${slot!==null?'selectable':''}" data-card-index="${index}" ${slot!==null?`onclick="confirmHeadliner(${index},${slot})"`:''}><div class="position">${index===0?'Próxima carta':`Artista ${index+1}`}</div>${liveCardHTML(card,'deck')}</div>`).join('')}</div>${first?`<div class="deck-modal-footer"><div class="deck-modal-cta-stack"><button class="primary deck-modal-cta" onclick="openInitialHeadliner()">Escolher Headliner</button><a href="#" class="deck-modal-skip" onclick="event.preventDefault();skipHeadliner()">Agora não</a></div></div>`:''}</div></div>`;
 }
 function closeModal(){const root=$('#modal-root');if(root)root.innerHTML=''}
 function confirmHeadliner(index,slot){
  if(!state||state.mode!=='cpu'||player(P1).lockedThisRound||player(P1).head[slot]||!player(P1).deck[index])return;
  const card=player(P1).deck[index],root=$('#modal-root');
- root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(720px,94vw)"><div class="confirm-box"><h2>TRAVAR COMO HEADLINER?</h2><div style="display:flex;justify-content:center;margin:18px">${liveCardHTML(card,'confirm')}</div><p><strong>${card.name}</strong> garante <strong>${fmt(card.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div class="deck-modal-cta-stack"><button class="primary deck-modal-cta" onclick="lockHeadliner(${index},${slot})">Confirmar Headliner</button><a href="#" class="deck-modal-skip" onclick="event.preventDefault();closeModal()">Agora não</a></div></div></div></div>`;
+ root.innerHTML=`<div class="modal"><div class="modal-card" style="width:min(720px,94vw)"><div class="confirm-box"><h2>TRAVAR COMO HEADLINER?</h2><div style="display:flex;justify-content:center;margin:18px">${liveCardHTML(card,'confirm')}</div><p><strong>${card.name}</strong> garante <strong>${fmt(card.pub)} pessoas</strong> no seu festival e sai definitivamente do monte.</p><div class="deck-modal-cta-stack"><button class="primary deck-modal-cta" onclick="lockHeadliner(${index},${slot})">Confirmar Headliner</button><a href="#" class="deck-modal-skip" onclick="event.preventDefault();skipHeadliner()">Agora não</a></div></div></div></div>`;
 }
 function lockHeadliner(index,slot){
  if(!state||state.mode!=='cpu'||state.actionLocked)return;state.actionLocked=true;const card=commitHeadliner(P1,index,slot);if(!card){state.actionLocked=false;return}
