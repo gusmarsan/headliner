@@ -1,11 +1,6 @@
 /* Headliner — approved cover deployment.
-   Approved artwork geometry: 1535 x 1024 (about 3:2).
-   It is always anchored to the real viewport center.
-
-   Desktop keeps the approved responsive treatment. Mobile deliberately uses
-   the same approved artwork as a full-bleed poster: the image fills the whole
-   phone viewport and only the lateral excess is cropped. No blurred sandwich,
-   no contained mini-poster, no duplicated captions. */
+   Never distort the approved artwork. Each viewport uses the matching artwork
+   geometry and fills the screen by cropping only the unavoidable excess. */
 
 @media (min-width:761px){
   html,body{
@@ -90,7 +85,7 @@
     max-width:none!important;
     max-height:none!important;
     margin:0!important;
-    object-fit:fill!important;
+    object-fit:cover!important;
     object-position:50% 50%!important;
     user-select:none!important;
     -webkit-user-drag:none!important;
@@ -111,10 +106,9 @@
   }
 }
 
-/* Mobile cover: use the approved landscape poster as a genuine full-screen
-   composition. The artwork plane preserves 1535:1024 and COVERS the viewport.
-   On portrait phones this intentionally crops the far left/right artwork so
-   the Headliner logo, stage, central cards/badge and ENTRAR remain large. */
+/* Mobile uses the dedicated portrait artwork (9:16). The artwork keeps its
+   native proportions; COVER may trim only a tiny edge on phones that are not
+   exactly 9:16, but it never stretches the image. */
 @media (max-width:760px){
   html,body,#app{
     width:100%!important;
@@ -137,7 +131,6 @@
     isolation:isolate!important;
   }
 
-  /* Delete the legacy blurred top/bottom filler and edge treatment. */
   .cover-screen::before,
   .cover-screen::after{
     display:none!important;
@@ -164,8 +157,6 @@
     overflow:hidden!important;
   }
 
-  /* Exact viewport centering. max() means COVER rather than CONTAIN, so there
-     can never be blurred bands above/below the poster. */
   .cover-frame{
     position:absolute!important;
     top:50%!important;
@@ -175,13 +166,13 @@
     transform:translate3d(-50%,-50%,0)!important;
     transform-origin:50% 50%!important;
 
-    width:max(100vw,149.9024dvh)!important;
-    height:max(100dvh,66.7101vw)!important;
-    min-width:max(100vw,149.9024dvh)!important;
-    min-height:max(100dvh,66.7101vw)!important;
+    width:max(100vw,calc(100dvh * 9 / 16))!important;
+    height:max(100dvh,calc(100vw * 16 / 9))!important;
+    min-width:max(100vw,calc(100dvh * 9 / 16))!important;
+    min-height:max(100dvh,calc(100vw * 16 / 9))!important;
     max-width:none!important;
     max-height:none!important;
-    aspect-ratio:1535 / 1024!important;
+    aspect-ratio:9 / 16!important;
 
     display:block!important;
     margin:0!important;
@@ -210,7 +201,7 @@
     max-width:none!important;
     max-height:none!important;
     margin:0!important;
-    object-fit:fill!important;
+    object-fit:cover!important;
     object-position:50% 50%!important;
     user-select:none!important;
     -webkit-user-drag:none!important;
