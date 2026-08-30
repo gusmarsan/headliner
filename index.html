@@ -3325,6 +3325,19 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
   transform:scale(.9);
   transform-origin:left top;
  }
+
+ /* Headliner CTA must remain above every decorative/game layer and tappable. */
+ .screen .battle-zone .round-controls{
+  z-index:120!important;
+  pointer-events:auto!important;
+ }
+ .screen .battle-zone .round-controls .result-deck-button{
+  position:relative!important;
+  z-index:121!important;
+  pointer-events:auto!important;
+  touch-action:manipulation;
+  cursor:pointer;
+ }
 }
 /* Galeria isolada das novas cartas. O container organiza a página; a carta
    continua sendo desenhada integralmente pelo cardHTML e pelo card master. */
@@ -4218,7 +4231,7 @@ function battleHTML(){
  const confrontationReady=!!(p1Card&&p2Card)||state.phase==='ATTRIBUTE';
  const show=(card,verdict)=>state.revealed&&card?liveCardHTML(card,'battle',verdict):confrontationReady?cardBackBattle():'';
  const headlinerDue=state.mode==='cpu'&&state.revealed&&state.round%3===0&&player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
- const controls=state.revealed?(headlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="openScheduledHeadliner()">Escolher Headliner</button>`:''):isLocalGame()?'':initialHeadlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="openInitialHeadliner()">Escolher Headliner</button>`:`<button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Jogar!':'Ver escolha do rival'}</button>`;
+ const controls=state.revealed?(headlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="window.openScheduledHeadliner()">Escolher Headliner</button>`:''):isLocalGame()?'':initialHeadlinerDue?`<button class="secondary ticket-control ticket-compact result-deck-button" onclick="openInitialHeadliner()">Escolher Headliner</button>`:`<button class="primary ticket-control ticket-primary" onclick="beginBattle()">${state.turn===P1?'Jogar!':'Ver escolha do rival'}</button>`;
  return `<div class="battle-zone"><div class="attr-panel">${attrBtns}</div><div class="battle-cards">${show(p1Card,p1Verdict)}<div class="vs">VS</div>${show(p2Card,p2Verdict)}</div><div class="result-strip ${state.lastResult?'':'round-instruction'}">${state.lastResult||turnMessage()}</div><div class="round-controls">${controls}</div></div>`;
 }
 function cardBackBattle(){return `<div class="card battle face-down"><div class="card-front"></div><div class="card-back official-card-back" aria-label="Carta fechada"></div></div>`}
@@ -4236,6 +4249,8 @@ function openScheduledHeadliner(){
  if(slot===undefined)return;
  openDeck(false,slot);
 }
+window.openInitialHeadliner=openInitialHeadliner;
+window.openScheduledHeadliner=openScheduledHeadliner;
 function openDeck(first=false,slot=null){
  if(!state||state.mode!=='cpu'||state.gameOver)return;
  const root=$('#modal-root'),owner=player(P1);
