@@ -9,7 +9,7 @@ fs.mkdirSync(out,{recursive:true});
 const sourceIndex=path.join(root,'index.html');
 let html=fs.readFileSync(sourceIndex,'utf8');
 const mobileUiFixTag='<link rel="stylesheet" href="/mobile-ui-fixes.css">';
-const coverResponsiveFixTag='<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830a">';
+const coverResponsiveFixTag='<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830b">';
 if(!html.includes('/mobile-ui-fixes.css')){
   if(!html.includes('</head>'))throw new Error('index.html sem </head> para injeção dos ajustes mobile');
   html=html.replace('</head>',`${mobileUiFixTag}\n</head>`);
