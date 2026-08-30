@@ -2066,6 +2066,14 @@ body.card-preview-mode #app{height:auto;min-height:100vh}
 .card-preview-stage .card.large.has-artist-art.art-tone-vivid .art-window:after,
 .card-preview-stage .card.large.has-artist-art.art-tone-light .art-window:after{opacity:.06}
 .card-preview-stage .card.large.has-artist-art.art-tone-balanced .art-window:after{opacity:.08}
+.card-preview-stage .card.large.has-artist-art.art-wash-green .art-window{
+  background-image:linear-gradient(#426b49,#243d31),var(--artist-art)!important;
+  background-blend-mode:color,normal!important;
+}
+.card-preview-stage .card.large.has-artist-art.art-wash-blue .art-window{
+  background-image:linear-gradient(#356b91,#183d5f),var(--artist-art)!important;
+  background-blend-mode:color,normal!important;
+}
 .card-preview-stage .card.large.has-artist-art.art-ink-dark .artist-zone .name{
   color:#0d0c09!important;
   text-shadow:0 1px 0 rgba(252,232,187,.86),0 2px 3px rgba(86,58,30,.2);
@@ -3314,6 +3322,24 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
  /* Papel dos atributos um pouco mais para fora da margem esquerda. */
  .attr-panel{left:-184px}
 }
+/* Galeria isolada das novas cartas. O container organiza a página; a carta
+   continua sendo desenhada integralmente pelo cardHTML e pelo card master. */
+html.new-cards-preview-mode,body.new-cards-preview-mode{height:auto;min-height:100%;overflow:auto;background:#e8e0d0}
+body.new-cards-preview-mode:before{display:none}
+body.new-cards-preview-mode #app{height:auto;min-height:100vh}
+.new-cards-preview-page{min-height:100vh;padding:44px 24px 64px;color:#211d18;background:radial-gradient(circle at 50% 0,rgba(255,248,226,.92),transparent 42%),#e8e0d0}
+.new-cards-preview-head{width:min(1376px,100%);margin:0 auto 34px;padding:0 4px}
+.new-cards-preview-head h1{margin:0;font-family:'League Gothic','Barlow Condensed','Arial Narrow',sans-serif;font-size:clamp(42px,6vw,72px);font-weight:400;line-height:.9;letter-spacing:.025em;text-transform:uppercase}
+.new-cards-preview-head p{max-width:720px;margin:14px 0 0;font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-size:18px;line-height:1.35}
+.new-cards-preview-notice{display:inline-block;margin-top:16px;padding:7px 10px;border:1px solid rgba(76,55,33,.42);background:rgba(255,248,226,.5);font:700 12px/1.1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.09em;text-transform:uppercase;transform:rotate(-.3deg)}
+.new-cards-preview-grid{width:min(1376px,100%);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,311px);justify-content:center;gap:38px 34px}
+.new-card-master-stage.card-preview-stage{width:311px;height:456px;min-height:0;padding:0;background:transparent;display:block}
+.new-card-master-stage.card-preview-stage .card.large{margin:0}
+@media(max-width:430px){
+ .new-cards-preview-page{padding:30px 12px 48px}
+ .new-cards-preview-head{margin-bottom:26px}
+ .new-cards-preview-grid{grid-template-columns:311px;gap:30px}
+}
 </style>
 </head>
 <body>
@@ -3385,6 +3411,20 @@ C('Aphex Twin','IDM / eletrônica','1985–atual','electronic',10000,96,77,96,10
 C('Massive Attack','Trip-hop','1988–atual','electronic',20000,96,89,97,99,99,true),
 C('LCD Soundsystem','Dance-punk','2002–atual','electronic',18000,90,87,88,94,95)
 ];
+/* Dados exclusivos da rodada de aprovação. Não entram em CARDS, balanced30,
+   mãos, sorteio, galeria oficial ou qualquer regra do jogo. */
+const NEW_CARD_PREVIEW_CARDS=Object.freeze([
+ Object.freeze({...C('Weezer','Alternative rock / power pop','1992–atual','alt',70000,84,82,78,86,80),previewOnly:true,previewIndex:0,previewMotif:'garage',previewVariant:'solar',previewPalette:['#2b63a5','#d94a3c','#d9ae47']}),
+ Object.freeze({...C('Queen','Glam rock / arena rock','1970–atual','classic',160000,98,100,96,94,99,true,{name:'Showstopper',attr:'success',boost:6,desc:'+6 em Sucesso'}),previewOnly:true,previewIndex:1,previewMotif:'classic',previewVariant:'dark',previewPalette:['#6f3c85','#d7a947','#281d32']}),
+ Object.freeze({...C('Madonna','Pop / dance pop','1982–atual','electronic',160000,96,100,95,97,95,true,{name:'Reinvenção',attr:'innovation',boost:6,desc:'+6 em Inovação'}),previewOnly:true,previewIndex:2,previewMotif:'electroclub',previewVariant:'neon',previewPalette:['#e32186','#27a9ba','#21142b']}),
+ Object.freeze({...C("Guns N' Roses",'Hard rock','1985–atual','metal',150000,94,97,84,82,92),previewOnly:true,previewIndex:3,previewMotif:'metal',previewVariant:'dark',previewPalette:['#9e302e','#d89a3f','#211a18']}),
+ Object.freeze({...C('Kiss','Hard rock / glam','1973–atual','metal',110000,90,91,88,78,87),previewOnly:true,previewIndex:4,previewMotif:'metal',previewVariant:'dark',previewPalette:['#b8a77e','#c84845','#245b8d']}),
+ Object.freeze({...C('Blondie','New wave / punk / pop','1974–atual','punk',75000,91,88,89,94,91),previewOnly:true,previewIndex:5,previewMotif:'punk',previewVariant:'solar',previewPalette:['#d59d38','#3b9b9b','#e8cf75']}),
+ Object.freeze({...C('Titãs','Rock brasileiro / pós-punk','1982–atual','punk',60000,82,79,86,88,87),previewOnly:true,previewIndex:6,previewMotif:'punk',previewVariant:'solar',previewPalette:['#1f7880','#bb4e3e','#d6b054']}),
+ Object.freeze({...C('Sepultura','Metal / thrash / groove metal','1984–atual','metal',45000,88,82,86,93,90,true,{name:'Roots',attr:'influence',boost:6,desc:'+6 em Influência'}),previewOnly:true,previewIndex:7,previewMotif:'metal',previewVariant:'dark',previewPalette:['#74613a','#a74735','#171817']}),
+ Object.freeze({...C('L7','Alternative rock / grunge','1990–atual','alt',40000,80,75,78,86,79),previewOnly:true,previewIndex:8,previewMotif:'grunge',previewVariant:'dark',previewPalette:['#6d7653','#a94c70','#202226']}),
+ Object.freeze({...C('Portishead','Trip hop','1991–atual','electronic',25000,87,78,82,96,91),previewOnly:true,previewIndex:9,previewMotif:'triphop',previewVariant:'dark',previewPalette:['#72544a','#a88d61','#263e49']})
+]);
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 const fmt=n=>n.toLocaleString('pt-BR');
@@ -3606,7 +3646,19 @@ const ARTIST_ART = Object.freeze({
   'Sonic Youth':Object.freeze({src:'assets/card-art/sonic-youth-screenprint-v1.webp',position:'50% 50%',tone:'balanced',ink:'dark',titleLines:Object.freeze(['Sonic','Youth']),titleScale:'.9'}),
   'Aphex Twin':Object.freeze({src:'assets/card-art/aphex-twin-screenprint-v1.webp',position:'50% 50%',tone:'dark',ink:'light',titleLines:Object.freeze(['Aphex','Twin'])})
 });
-function artistArtwork(card){return ARTIST_ART[card.name]||null}
+const PREVIEW_ARTIST_ART=Object.freeze({
+  'Weezer':Object.freeze({src:'preview-new-cards/art/weezer-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
+  'Queen':Object.freeze({src:'preview-new-cards/art/queen-screenprint-v2.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  'Madonna':Object.freeze({src:'preview-new-cards/art/madonna-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  "Guns N' Roses":Object.freeze({src:'preview-new-cards/art/guns-n-roses-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark',titleLines:Object.freeze(["Guns N'",'Roses'])}),
+  'Kiss':Object.freeze({src:'preview-new-cards/art/kiss-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  'Blondie':Object.freeze({src:'preview-new-cards/art/blondie-screenprint-v2.png',position:'50% 50%',tone:'light',ink:'dark',titleTone:'light'}),
+  'Titãs':Object.freeze({src:'preview-new-cards/art/titas-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
+  'Sepultura':Object.freeze({src:'preview-new-cards/art/sepultura-screenprint-v3.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light'}),
+  'L7':Object.freeze({src:'preview-new-cards/art/l7-screenprint-v2.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light',wash:'green'}),
+  'Portishead':Object.freeze({src:'preview-new-cards/art/portishead-screenprint-v2.png',position:'50% 50%',tone:'dark',ink:'light',wash:'blue'})
+});
+function artistArtwork(card){return (card.previewOnly?PREVIEW_ARTIST_ART[card.name]:null)||ARTIST_ART[card.name]||null}
 const deckTheme=({id,surfaceTheme='dark',paper,a,b,c,ink='#f0ddb6'})=>{
   const light=surfaceTheme==='light',mix=(x,p,y)=>`color-mix(in srgb,${x} ${p}%,${y})`,dark='#0a0c0c',text=light?ink:'#f0ddb6';
   return Object.freeze({
@@ -3751,7 +3803,17 @@ const CARD_THEMES=Object.freeze({
     ])
   })
 });
-function cardTheme(card){return CARD_THEMES[card.name]||null}
+const PREVIEW_CARD_THEMES=Object.freeze({
+  'Weezer':deckTheme({id:'preview-weezer-college',surfaceTheme:'light',paper:'#ecdfb8',a:'#2b63a5',b:'#55a6b5',c:'#d94a3c',ink:'#17324a'}),
+  'Queen':deckTheme({id:'preview-queen-arena',paper:'#d8b978',a:'#7b3e8d',b:'#27345f',c:'#d4a43b'}),
+  'Madonna':deckTheme({id:'preview-madonna-pop',paper:'#e2bd91',a:'#d82c82',b:'#198aa3',c:'#6d3a88'}),
+  "Guns N' Roses":deckTheme({id:'preview-gnr-sunset',paper:'#d7b071',a:'#a2342e',b:'#4b3028',c:'#d08a32'}),
+  'Kiss':deckTheme({id:'preview-kiss-electric',paper:'#d5c59e',a:'#c33b38',b:'#235b8c',c:'#8d7d5f'}),
+  'Blondie':deckTheme({id:'preview-blondie-new-wave',surfaceTheme:'light',paper:'#f0dda7',a:'#d39b2f',b:'#278c8e',c:'#d34f5d',ink:'#2f2924'}),
+  'Titãs':deckTheme({id:'preview-titas-urbano',surfaceTheme:'light',paper:'#e4d4aa',a:'#1f7880',b:'#b84a3d',c:'#c59632',ink:'#20383a'}),
+  'Sepultura':deckTheme({id:'preview-sepultura-roots',paper:'#cfbd84',a:'#74613a',b:'#263f38',c:'#a74735'})
+});
+function cardTheme(card){return (card.previewOnly?PREVIEW_CARD_THEMES[card.name]:null)||CARD_THEMES[card.name]||null}
 function cardThemeStyle(theme){
   if(!theme)return '';
   const pairs=[
@@ -3770,7 +3832,7 @@ function cardThemeStyle(theme){
 }
 function artistProfile(card){
   const idx = Number.isInteger(card.previewIndex) ? card.previewIndex : CARDS.indexOf(card);
-  const motif = ARTIST_MOTIFS[card.name] || card.group;
+  const motif = card.previewMotif || ARTIST_MOTIFS[card.name] || card.group;
   const palette = card.previewPalette || SPECIAL_PALETTES[card.name] || PALETTES[idx % PALETTES.length];
   const serial = String(idx+1).padStart(2,'0') + '/50';
   const symbols = {joy:'✶', neonduo:'◉', garage:'✦', grunge:'★', britpop:'✕', punk:'☠', metal:'⚡', classic:'♛', artrock:'◎', goth:'☾', industrial:'▣', glitch:'≈', triphop:'◌', electroclub:'♫', grid:'▦', electronic:'◉', alt:'✦'};
@@ -3886,7 +3948,7 @@ function cardHTML(card,cls='',faceDown=false,verdict=''){
 const baseCardHTML=cardHTML;
 cardHTML=function(card,cls='',faceDown=false,verdict=''){
  const html=baseCardHTML(card,cls,faceDown,verdict);
- const artwork=artistArtwork(card), artworkClass=artwork?` has-artist-art art-tone-${artwork.tone||'dark'} art-ink-${artwork.ink||'light'}${artwork.titleTreatment?` art-title-${artwork.titleTreatment}`:''}${artwork.titleTone?` art-title-tone-${artwork.titleTone}`:''}${artwork.titleScale||artwork.titleScaleX?' art-title-adjust':''}`:'', artworkVars=artwork?`--artist-art:url('${artwork.src}');--artist-art-position:${artwork.position};${artwork.titleScale?`--artist-title-scale:${artwork.titleScale};`:''}${artwork.titleScaleX?`--artist-title-scale-x:${artwork.titleScaleX};`:''}`:'';
+ const artwork=artistArtwork(card), artworkClass=artwork?` has-artist-art art-tone-${artwork.tone||'dark'} art-ink-${artwork.ink||'light'}${artwork.wash?` art-wash-${artwork.wash}`:''}${artwork.titleTreatment?` art-title-${artwork.titleTreatment}`:''}${artwork.titleTone?` art-title-tone-${artwork.titleTone}`:''}${artwork.titleScale||artwork.titleScaleX?' art-title-adjust':''}`:'', artworkVars=artwork?`--artist-art:url('${artwork.src}');--artist-art-position:${artwork.position};${artwork.titleScale?`--artist-title-scale:${artwork.titleScale};`:''}${artwork.titleScaleX?`--artist-title-scale-x:${artwork.titleScaleX};`:''}`:'';
  const theme=cardTheme(card), badgeTheme=theme?.badgeTheme||'neutral', surfaceClass=theme?.surfaceTheme?` card-surface-${theme.surfaceTheme}`:'', themeClass=theme?` has-card-theme card-theme-${theme.id}${surfaceClass} badge-theme-${badgeTheme}`:` badge-theme-${badgeTheme}`, themeVars=cardThemeStyle(theme);
  const profile=artistProfile(card), variant=cardVariant(card), rarity=card.icon?profile.stamp:(profile.stamp==='Ícone'?'Cult':profile.stamp);
  const sprite=profile.idx<10?'assets/card-art/the-beatles-screenprint-v1.webp':profile.idx<20?'assets/card-art/the-beatles-screenprint-v1.webp':profile.idx<30?'assets/card-art/the-beatles-screenprint-v1.webp':profile.idx<40?'assets/card-art/the-beatles-screenprint-v1.webp':'assets/card-art/the-beatles-screenprint-v1.webp';
@@ -4278,10 +4340,10 @@ const SEVEN_CARD_POWER_OVERRIDES=Object.freeze({
 });
 function renderCardPreview(){
  const params=new URLSearchParams(location.search),requested=(params.get('card')||'reference').trim();
- const numericIndex=Number(requested),matchedIndex=CARDS.findIndex(card=>card.name.toLocaleLowerCase('pt-BR')===requested.toLocaleLowerCase('pt-BR'));
- const index=Number.isInteger(numericIndex)&&numericIndex>=0&&numericIndex<CARDS.length?numericIndex:matchedIndex>=0?matchedIndex:12;
+ const previewPool=[...CARDS,...NEW_CARD_PREVIEW_CARDS],numericIndex=Number(requested),matchedIndex=previewPool.findIndex(card=>card.name.toLocaleLowerCase('pt-BR')===requested.toLocaleLowerCase('pt-BR'));
+ const index=Number.isInteger(numericIndex)&&numericIndex>=0&&numericIndex<previewPool.length?numericIndex:matchedIndex>=0?matchedIndex:12;
  const referenceCard={name:'Artista Exemplo',genre:'Alternativo',period:'2000–hoje',group:'alt',pub:120000,influence:82,success:78,longevity:73,innovation:89,prestige:85,icon:true,power:{name:'Aura de Palco',attr:'success',boost:10,desc:'Em Sucesso ou Prestígio, recebe +10. Se vencer, +1 carta. Se empatar, seu público não é reduzido.'},previewIndex:4,previewVariant:'dark',previewPalette:['#7b3641','#bb533d','#d1b278']};
- const isReference=requested.toLocaleLowerCase('pt-BR')==='reference',baseCard=isReference?referenceCard:CARDS[index];
+ const isReference=requested.toLocaleLowerCase('pt-BR')==='reference',baseCard=isReference?referenceCard:previewPool[index];
  const requestedPowerCase=(params.get('powerCase')||'').toLocaleLowerCase('pt-BR'),validationSet=(params.get('validation')||'').toLocaleLowerCase('pt-BR');
  const previewPower=POWER_PREVIEW_CASES[requestedPowerCase]||(validationSet==='seven'?SEVEN_CARD_POWER_OVERRIDES[baseCard.name]:null);
  const card=previewPower?{...baseCard,previewIndex:isReference?baseCard.previewIndex:index,power:{...(baseCard.power||{}),...previewPower}}:baseCard;
@@ -4291,8 +4353,17 @@ function renderCardPreview(){
  document.querySelector('#app').innerHTML=`<main class="card-preview-stage" aria-label="Preview isolado da carta ${card.name}" data-card-index="${index}" data-reference="${isReference}" data-power-case="${previewPower?(requestedPowerCase||'validation'):'real'}" data-validation-set="${validationSet||'none'}">${cardHTML(card,'large')}</main>`;
  if(isReference)document.querySelector('.card-preview-stage .artist-zone .name').innerHTML='<span class="title-line">Artista</span><span class="title-line">Exemplo</span>';
 }
+function renderNewCardsPreview(){
+ document.documentElement.classList.add('new-cards-preview-mode');
+ document.body.classList.add('new-cards-preview-mode');
+ document.title='Novas cartas — galeria de aprovação · HEADLINER';
+ const requestedNames=(new URLSearchParams(location.search).get('cards')||'').split(',').map(name=>name.trim()).filter(Boolean);
+ const selectedCards=requestedNames.length?NEW_CARD_PREVIEW_CARDS.filter(card=>requestedNames.some(name=>name.toLocaleLowerCase('pt-BR')===card.name.toLocaleLowerCase('pt-BR'))):NEW_CARD_PREVIEW_CARDS;
+ const cards=selectedCards.map(card=>`<article class="new-card-preview-item" aria-label="${card.name}"><div class="card-preview-stage new-card-master-stage">${cardHTML(card,'large')}</div></article>`).join('');
+ document.querySelector('#app').innerHTML=`<main class="new-cards-preview-page"><header class="new-cards-preview-head"><h1>Novas cartas</h1><p>Rodada isolada para aprovação visual, renderizada pelo mesmo componente das cartas oficiais do Headliner.</p><span class="new-cards-preview-notice">Preview — não integrado ao baralho oficial</span></header><section class="new-cards-preview-grid" aria-label="${selectedCards.length} novas cartas para aprovação">${cards}</section></main>`;
+}
 const pageParams=new URLSearchParams(location.search);
-if(pageParams.get('preview')==='card')renderCardPreview();else renderCover();
+if(pageParams.get('preview')==='card')renderCardPreview();else if(pageParams.get('preview')==='new-cards')renderNewCardsPreview();else renderCover();
 </script>
 </body>
 </html>
