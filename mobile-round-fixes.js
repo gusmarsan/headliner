@@ -41,6 +41,7 @@
   function headlinerSelectionDue(){
     try{
       return state?.mode==='cpu'&&state.revealed&&state.round%3===0&&
+        state.headlinerSkippedRound!==state.round&&
         player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
     }catch(_){return false}
   }
