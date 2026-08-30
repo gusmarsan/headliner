@@ -3,6 +3,12 @@
   const baseBeginBattle=window.beginBattle;
   if(typeof baseChooseAttr!=='function'||typeof baseBeginBattle!=='function')return;
 
+  function cpuTurnActive(){
+    try{
+      return !!(state&&state.mode==='cpu'&&!state.gameOver&&!state.revealed&&state.turn===P2&&player(P1).deck.length&&player(P2).deck.length);
+    }catch(_){return false}
+  }
+
   function clearInitialHeadlinerPending(){
     try{
       if(typeof state==='undefined'||!state||state.mode!=='cpu'||!state.initialHeadlinerPending)return false;
@@ -35,17 +41,58 @@
     return baseBeginBattle.apply(this,arguments);
   };
 
-  /* Defensive recovery for any transition that reaches the rival turn with
-     the legacy flag still alive. This also protects future round-flow changes. */
-  let recoveredKey=null;
+  /* CPU-turn watchdog.
+     A CPU turn has no legitimate long-lived locked state: chooseAttr is
+     synchronous and Headliner selection happens before the attribute timer.
+     If a transition/timer leaves the table displaying “rival escolhendo” for
+     too long, recover the canonical flow. */
+  let cpuKey=null;
+  let cpuSince=0;
+  let lastKick=0;
+
   setInterval(()=>{
     try{
-      if(!state||state.mode!=='cpu'||state.gameOver||state.revealed||state.turn!==P2||!state.initialHeadlinerPending)return;
+      if(!cpuTurnActive()){
+        cpuKey=null;
+        cpuSince=0;
+        lastKick=0;
+        return;
+      }
+
       const key=`${state.gameId}:${state.round}`;
-      clearInitialHeadlinerPending();
-      if(recoveredKey===key)return;
-      recoveredKey=key;
-      if(!state.actionLocked)window.beginBattle();
+      if(cpuKey!==key){
+        cpuKey=key;
+        cpuSince=Date.now();
+        lastKick=0;
+      }
+
+      const elapsed=Date.now()-cpuSince;
+
+      if(state.initialHeadlinerPending)clearInitialHeadlinerPending();
+
+      /* If a previous transition left the lock behind, it is stale by now.
+         There is no async CPU action that should hold this lock this long. */
+      if(state.actionLocked&&elapsed>900){
+        state.actionLocked=false;
+        try{if(typeof renderGame==='function')renderGame()}catch(_){}
+      }
+
+      /* First recovery: re-enter the normal battle starter. This preserves the
+         rival Headliner decision and the normal 700 ms attribute animation. */
+      if(!state.actionLocked&&elapsed>950&&Date.now()-lastKick>850){
+        lastKick=Date.now();
+        try{window.beginBattle()}catch(_){}
+      }
+
+      /* Last-resort recovery: if beginBattle/timers still failed, choose the
+         attribute directly. chooseAttr builds state.current itself, so this is
+         safe even when the starter never completed. */
+      if(cpuTurnActive()&&!state.actionLocked&&elapsed>2200){
+        try{
+          if(typeof window.cpuChooseAttribute==='function')window.cpuChooseAttribute();
+          else if(typeof cpuChooseAttribute==='function')cpuChooseAttribute();
+        }catch(_){}
+      }
     }catch(_){}
-  },250);
+  },180);
 })();
