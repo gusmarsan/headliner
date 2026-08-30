@@ -15,21 +15,48 @@
     return dataUrlPromise;
   }
 
+  function prepareImages(images){
+    images.forEach(img=>{
+      const picture=img.closest('picture');
+      /* Never allow the obsolete mobile artwork to win the <picture> source
+         race while the approved embedded cover is loading. */
+      if(picture)picture.querySelectorAll('source').forEach(source=>source.remove());
+      img.removeAttribute('srcset');
+      img.removeAttribute('sizes');
+
+      /* On phones, hide the legacy bitmap during the very short assembly
+         window instead of flashing the broken/contained mobile poster. */
+      if(window.matchMedia?.('(max-width:760px)').matches && img.dataset.approvedCover!=='1'){
+        img.style.opacity='0';
+      }
+    });
+  }
+
   async function applyApprovedCover(){
     const images=[...document.querySelectorAll('.cover-art')];
     if(!images.length)return;
 
-    const src=await getCoverDataUrl();
-    images.forEach(img=>{
-      if(img.dataset.approvedCover==='1')return;
-      const picture=img.closest('picture');
-      if(picture)picture.querySelectorAll('source').forEach(source=>source.remove());
-      img.removeAttribute('srcset');
-      img.removeAttribute('sizes');
-      img.src=src;
-      img.alt='Headliner';
-      img.dataset.approvedCover='1';
-    });
+    prepareImages(images);
+
+    try{
+      const src=await getCoverDataUrl();
+      images.forEach(img=>{
+        if(img.dataset.approvedCover==='1')return;
+        img.src=src;
+        img.alt='Headliner';
+        img.dataset.approvedCover='1';
+        img.style.opacity='1';
+      });
+    }catch(error){
+      /* Safe visual fallback: desktop art is preferable to the obsolete,
+         damaged mobile asset if the embedded cover cannot be assembled. */
+      images.forEach(img=>{
+        if(img.dataset.approvedCover==='1')return;
+        img.src='assets/cover-official-desktop.png';
+        img.style.opacity='1';
+      });
+      throw error;
+    }
 
     document.querySelectorAll('.cover-final-caption').forEach(el=>{
       el.style.setProperty('display','none','important');
@@ -38,7 +65,9 @@
 
   function sync(){
     if(applying)return;
-    if(!document.querySelector('.cover-art:not([data-approved-cover="1"])'))return;
+    const pending=[...document.querySelectorAll('.cover-art:not([data-approved-cover="1"])')];
+    if(!pending.length)return;
+    prepareImages(pending);
     applying=true;
     applyApprovedCover()
       .catch(error=>console.error('[approved-cover]',error))
