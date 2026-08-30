@@ -4329,7 +4329,7 @@ function cpuLockHeadliner(){
  if(!state||state.mode!=='cpu')return;const owner=player(P2);if(owner.lockedThisRound||owner.head.filter(Boolean).length>=3||!owner.deck.length)return;
  const slot=[0,1,2].find(i=>!owner.head[i]);if(slot===undefined)return;
  const options=owner.deck.map((card,index)=>({card,index,score:card.pub-(card.influence+card.innovation+card.prestige)*120})).sort((a,b)=>b.score-a.score),top=options[0],avg=owner.deck.reduce((sum,card)=>sum+card.pub,0)/owner.deck.length,urgency=state.encore!==null||owner.head.filter(Boolean).length===2,take=top.card.pub>=Math.max(110000,avg*1.12)||urgency;
- if(take){const card=commitHeadliner(P2,top.index,slot);if(!card)return;toast(`O rival fechou ${card.name} como Headliner.`);scheduleGame(()=>{if(state){state.justLocked=null;renderGame()}},760,'cpu')}
+ if(take){const card=commitHeadliner(P2,top.index,slot);if(!card)return;toast(`O rival fechou ${card.name} como Headliner.`)}
 }
 function maybeStartEncore(side){if(state.encore===null&&player(side).head.filter(Boolean).length===3){state.encore=3;toast('Encore! 3 rodadas para o fim.')}}
 function beginBattle(){
