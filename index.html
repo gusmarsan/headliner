@@ -3319,8 +3319,12 @@ button:focus-visible{outline:3px solid #fff1bd;outline-offset:3px}
   box-shadow:0 0 0 3px rgba(255,216,91,.72),0 0 34px rgba(255,200,66,.58),0 16px 28px rgba(0,0,0,.28)!important;
  }
 
- /* Papel dos atributos um pouco mais para fora da margem esquerda. */
- .attr-panel{left:-184px}
+ /* Papel dos atributos: 10% menor e ligeiramente mais à esquerda no mobile. */
+ .attr-panel{
+  left:-190px;
+  transform:scale(.9);
+  transform-origin:left top;
+ }
 }
 /* Galeria isolada das novas cartas. O container organiza a página; a carta
    continua sendo desenhada integralmente pelo cardHTML e pelo card master. */
