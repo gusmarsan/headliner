@@ -24,6 +24,31 @@
   const originalNextRound=window.nextRound;
   if(typeof originalNextRound!=='function')return;
 
+  /* Initial Headliner choice is optional. Keep the five attributes active and
+     treat choosing an attribute as explicitly skipping that opening window. */
+  const originalChooseAttr=window.chooseAttr;
+  function unlockOptionalInitialHeadliner(){
+    try{
+      if(!state||state.mode!=='cpu'||state.gameOver||state.revealed||state.turn!==P1||!state.initialHeadlinerPending)return;
+      document.querySelectorAll('.attr-btn[disabled]').forEach(button=>{button.disabled=false});
+      const instruction=document.querySelector('.result-strip.round-instruction');
+      if(instruction&&/^Escolha seu primeiro Headliner\.?$/i.test((instruction.textContent||'').trim())){
+        instruction.textContent='Escolha 1 atributo à esquerda.';
+      }
+    }catch(_){}
+  }
+  if(typeof originalChooseAttr==='function'){
+    window.chooseAttr=function(attr,fromCpu=false){
+      try{
+        if(!fromCpu&&state?.mode==='cpu'&&state?.round===1&&state?.initialHeadlinerPending&&state?.turn===P1&&!state?.revealed){
+          state.initialHeadlinerPending=false;
+        }
+      }catch(_){}
+      return originalChooseAttr.apply(this,arguments);
+    };
+  }
+  setInterval(unlockOptionalInitialHeadliner,80);
+
   const AUTO_ADVANCE_MS=5000;
   let autoAdvanceKey=null;
   let autoAdvanceTimer=null;
