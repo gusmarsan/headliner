@@ -158,7 +158,7 @@
     autoAdvanceKey=null;
   }
   function armAutoAdvance(){
-    if(!mobile()||!resultReady()||headlinerSelectionDue()){
+    if(!mobile()||!resultReady()){
       if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
       return;
     }
