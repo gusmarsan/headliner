@@ -3630,16 +3630,16 @@ const ARTIST_ART = Object.freeze({
   'Aphex Twin':Object.freeze({src:'assets/card-art/aphex-twin-screenprint-v1.webp',position:'50% 50%',tone:'dark',ink:'light',titleLines:Object.freeze(['Aphex','Twin'])})
 });
 const PREVIEW_ARTIST_ART=Object.freeze({
-  'Weezer':Object.freeze({src:'preview-new-cards/art/weezer-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
-  'Queen':Object.freeze({src:'preview-new-cards/art/queen-screenprint-v2.png',position:'50% 50%',tone:'vivid',ink:'light'}),
-  'Madonna':Object.freeze({src:'preview-new-cards/art/madonna-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
-  "Guns N' Roses":Object.freeze({src:'preview-new-cards/art/guns-n-roses-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark',titleLines:Object.freeze(["Guns N'",'Roses'])}),
-  'Kiss':Object.freeze({src:'preview-new-cards/art/kiss-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
-  'Blondie':Object.freeze({src:'preview-new-cards/art/blondie-screenprint-v2.png',position:'50% 50%',tone:'light',ink:'dark',titleTone:'light'}),
-  'Titãs':Object.freeze({src:'preview-new-cards/art/titas-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
-  'Sepultura':Object.freeze({src:'preview-new-cards/art/sepultura-screenprint-v3.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light'}),
-  'L7':Object.freeze({src:'preview-new-cards/art/l7-screenprint-v2.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light',wash:'green'}),
-  'Portishead':Object.freeze({src:'preview-new-cards/art/portishead-screenprint-v2.png',position:'50% 50%',tone:'dark',ink:'light',wash:'blue'})
+  'Weezer':Object.freeze({src:'assets/card-art/weezer-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
+  'Queen':Object.freeze({src:'assets/card-art/queen-screenprint-v2.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  'Madonna':Object.freeze({src:'assets/card-art/madonna-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  "Guns N' Roses":Object.freeze({src:'assets/card-art/guns-n-roses-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark',titleLines:Object.freeze(["Guns N'",'Roses'])}),
+  'Kiss':Object.freeze({src:'assets/card-art/kiss-screenprint-v3.png',position:'50% 50%',tone:'vivid',ink:'light'}),
+  'Blondie':Object.freeze({src:'assets/card-art/blondie-screenprint-v2.png',position:'50% 50%',tone:'light',ink:'dark',titleTone:'light'}),
+  'Titãs':Object.freeze({src:'assets/card-art/titas-screenprint-v3.png',position:'50% 50%',tone:'light',ink:'dark'}),
+  'Sepultura':Object.freeze({src:'assets/card-art/sepultura-screenprint-v3.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light'}),
+  'L7':Object.freeze({src:'assets/card-art/l7-screenprint-v2.png',position:'50% 50%',tone:'balanced',ink:'dark',titleTone:'light',wash:'green'}),
+  'Portishead':Object.freeze({src:'assets/card-art/portishead-screenprint-v2.png',position:'50% 50%',tone:'dark',ink:'light',wash:'blue'})
 });
 function artistArtwork(card){return PREVIEW_ARTIST_ART[card.name]||ARTIST_ART[card.name]||null}
 const deckTheme=({id,surfaceTheme='dark',paper,a,b,c,ink='#f0ddb6'})=>{
