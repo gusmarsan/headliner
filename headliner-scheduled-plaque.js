@@ -86,10 +86,24 @@
 
   function wire(btn){
     if(!btn)return;
-    btn.classList.add('headliner-scheduled-plaque');
-    btn.textContent='Escolha o Headliner';
-    btn.setAttribute('aria-label','Escolha o Headliner');
-    btn.closest('.round-controls')?.classList.add('headliner-scheduled-plaque-wrap');
+
+    /* Keep this function idempotent. Reassigning textContent on every
+       MutationObserver pass creates another childList mutation and can lock the
+       UI in an observer loop exactly when round 3 becomes revealed. */
+    if(!btn.classList.contains('headliner-scheduled-plaque')){
+      btn.classList.add('headliner-scheduled-plaque');
+    }
+    if((btn.textContent||'').trim()!=='Escolha o Headliner'){
+      btn.textContent='Escolha o Headliner';
+    }
+    if(btn.getAttribute('aria-label')!=='Escolha o Headliner'){
+      btn.setAttribute('aria-label','Escolha o Headliner');
+    }
+    const controls=btn.closest('.round-controls');
+    if(controls&&!controls.classList.contains('headliner-scheduled-plaque-wrap')){
+      controls.classList.add('headliner-scheduled-plaque-wrap');
+    }
+
     if(btn.dataset.scheduledHeadlinerWired==='1')return;
     btn.dataset.scheduledHeadlinerWired='1';
     btn.addEventListener('click',event=>{
