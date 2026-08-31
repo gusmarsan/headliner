@@ -65,9 +65,21 @@
   }
   function headlinerSelectionDue(){
     try{
+      if(window.HeadlinerScheduledGate&&typeof window.HeadlinerScheduledGate.isDue==='function'){
+        return !!window.HeadlinerScheduledGate.isDue();
+      }
       return state?.mode==='cpu'&&state.revealed&&state.round%3===0&&
         state.headlinerSkippedRound!==state.round&&
         player(P1).head.filter(Boolean).length<3&&!player(P1).lockedThisRound;
+    }catch(_){return false}
+  }
+  function scheduledPlaqueReady(){
+    try{
+      if(!headlinerSelectionDue())return true;
+      if(window.HeadlinerScheduledGate&&typeof window.HeadlinerScheduledGate.ensureVisible==='function'){
+        window.HeadlinerScheduledGate.ensureVisible();
+      }
+      return !!document.querySelector('.result-deck-button.headliner-scheduled-plaque, .result-deck-button');
     }catch(_){return false}
   }
   function headlinerModalOpen(){
@@ -128,14 +140,19 @@
     if(!mobile())return originalNextRound.apply(this,arguments);
     if(!resultReady())return;
 
+    /* Never leave a scheduled Headliner result state before the plaque has
+       actually been mounted at least once. This fixes the invisible-gate race. */
+    if(headlinerSelectionDue()&&!scheduledPlaqueReady()){
+      releaseStaleLock();
+      redraw();
+      return;
+    }
+
     releaseStaleLock();
     let beforeRound=null;
     try{beforeRound=state?.round??null}catch(_){}
 
     if(networkGame()&&role()==='guest'){
-      /* Send from the actual open PeerJS connection. The legacy helper also
-         checks network.connected, which can briefly be stale on mobile and used
-         to leave actionLocked=true even though no intent was sent. */
       const sent=sendGuestIntent('nextRound');
       if(!sent){
         try{state.actionLocked=false}catch(_){}
@@ -170,9 +187,6 @@
 
     const result=originalNextRound.apply(this,arguments);
 
-    /* The CPU transition is synchronous. If the original handler returned
-       without advancing despite a valid revealed result, perform the same
-       canonical transition once instead of leaving the game stuck. */
     try{
       if(state?.mode==='cpu'&&state.round===beforeRound&&resultReady())forceCpuAdvance();
       else if(networkGame()&&role()==='host'&&state?.round===beforeRound&&state?.phase==='RESULT'&&state?.revealed){
@@ -192,6 +206,16 @@
       if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
       return;
     }
+
+    /* On rounds 3/6/9..., start the five-second result timer only after the
+       Headliner plaque is truly visible. The user therefore never loses the
+       opportunity because rendering lagged behind the timer. */
+    if(headlinerSelectionDue()&&!scheduledPlaqueReady()){
+      if(autoAdvanceKey!==null||autoAdvanceTimer)clearAutoAdvance();
+      redraw();
+      return;
+    }
+
     const key=resultKey();
     if(!key||key===autoAdvanceKey)return;
     if(autoAdvanceTimer)clearTimeout(autoAdvanceTimer);
@@ -199,11 +223,19 @@
     autoAdvanceTimer=setTimeout(()=>{
       autoAdvanceTimer=null;
       if(!mobile()||!resultReady()||resultKey()!==key)return;
+      if(headlinerModalOpen()){
+        autoAdvanceKey=null;
+        armAutoAdvance();
+        return;
+      }
+      if(headlinerSelectionDue()&&!scheduledPlaqueReady()){
+        autoAdvanceKey=null;
+        redraw();
+        armAutoAdvance();
+        return;
+      }
       window.nextRound();
 
-      /* Network guests advance asynchronously. If the same result somehow
-         remains after the connection recovery window, arm one fresh 5 s cycle
-         instead of leaving the match permanently parked. */
       setTimeout(()=>{
         if(!mobile()||!resultReady()||resultKey()!==key)return;
         autoAdvanceKey=null;
@@ -212,13 +244,8 @@
     },AUTO_ADVANCE_MS);
   }
 
-  /* Detect the exact moment a revealed result becomes stable. The result stays
-     on screen for five seconds, then the same hardened nextRound flow advances
-     to the next attribute-selection state. */
   setInterval(armAutoAdvance,100);
 
-  /* A completed result should never remain locked while it is being shown.
-     Guests use the acknowledgement timers above; host/solo can be safely freed. */
   let lockedSince=0;
   setInterval(()=>{
     if(!mobile()||!resultReady()||(networkGame()&&role()==='guest')){lockedSince=0;return}
