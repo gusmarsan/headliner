@@ -48,7 +48,7 @@ const runtimeScripts=[
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260831b"></script>'],
   ['/multiplayer-connection-hotfix.js','<script src="/multiplayer-connection-hotfix.js?v=20260831c"></script>'],
-  ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260831c"></script>'],
+  ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260831d"></script>'],
   ['/solo-lineup-hard-entry.js','<script src="/solo-lineup-hard-entry.js?v=20260831a"></script>']
 ];
 
