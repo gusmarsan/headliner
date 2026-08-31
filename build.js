@@ -38,7 +38,7 @@ const runtimeScripts=[
   ['/multiplayer-private-deck-card-fixes.js','<script src="/multiplayer-private-deck-card-fixes.js"></script>'],
   ['/mobile-round-fixes.js','<script src="/mobile-round-fixes.js?v=20260831d"></script>'],
   ['/solo-initial-lineup-review.js','<script src="/solo-initial-lineup-review.js?v=20260831f"></script>'],
-  ['/solo-lineup-entry-guard.js','<script src="/solo-lineup-entry-guard.js?v=20260831b"></script>'],
+  ['/solo-lineup-entry-guard.js','<script src="/solo-lineup-entry-guard.js?v=20260831c"></script>'],
   ['/cpu-turn-headliner-hotfix.js','<script src="/cpu-turn-headliner-hotfix.js?v=20260831f"></script>'],
   ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260831a"></script>'],
   ['/headliner-scheduled-plaque.js','<script src="/headliner-scheduled-plaque.js?v=20260831c"></script>'],
