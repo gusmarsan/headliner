@@ -14,8 +14,6 @@
     const gameId=state.gameId;
     if(gameId==null || gameId===handledGameId)return state.__soloLineupReviewPending===true;
 
-    /* Never mark a game as handled before the review has actually mounted.
-       Older cached runtimes can expose the review helper a few ticks later. */
     if(state.__soloLineupReviewPending===true){
       handledGameId=gameId;
       return true;
@@ -43,9 +41,20 @@
     setTimeout(guaranteeReview,220);
   }
 
-  /* Directly bind the canonical solo start action as a second guarantee.
-     reset() still creates the normal 30-card match; immediately afterwards the
-     review phase takes ownership and cancels the legacy 450 ms deck timer. */
+  /* The canonical startGame already has all 15 cards when it returns. Take the
+     solo screen over immediately at that exact point. restoreSoloLineupReview()
+     clears the legacy 450 ms openDeck timer before it can replace this screen. */
+  const baseStartGame=window.startGame;
+  if(typeof baseStartGame==='function'){
+    window.startGame=function(mode='cpu'){
+      const result=baseStartGame.apply(this,arguments);
+      if(mode==='cpu')retryEntry();
+      return result;
+    };
+  }
+
+  /* Keep direct reset/play-again hooks as fallback for browsers whose global
+     function binding was captured before startGame was replaced. */
   const baseReset=window.reset;
   if(typeof baseReset==='function'){
     window.reset=function(){
@@ -72,7 +81,5 @@
     retryEntry();
   },false);
 
-  /* Last-resort watcher: every fresh solo game must enter the review exactly
-     once. It keeps retrying until the review helper reports a real mount. */
   setInterval(guaranteeReview,40);
 })();
