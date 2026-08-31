@@ -44,7 +44,7 @@
 
     aspect-ratio:16 / 9!important;
 
-    /* faz a arte inteira caber */
+    /* Em desktops comuns, prioriza mostrar a arte inteira. */
     width:min(100vw, calc(100dvh * 16 / 9))!important;
     height:min(100dvh, calc(100vw * 9 / 16))!important;
 
@@ -73,11 +73,8 @@
     width:100%!important;
     height:100%!important;
     margin:0!important;
-
-    /* importante: não cortar */
     object-fit:contain!important;
     object-position:50% 50%!important;
-
     user-select:none!important;
     -webkit-user-drag:none!important;
   }
@@ -86,6 +83,16 @@
     display:none!important;
   }
 }
+
+/* Em monitores mais largos que 16:9, a arte cresce até preencher a largura.
+   O excesso vertical fica centralizado e é cortado pelo viewport. */
+@media (min-width:761px) and (min-aspect-ratio:16/9){
+  .cover-frame{
+    width:100vw!important;
+    height:calc(100vw * 9 / 16)!important;
+  }
+}
+
 /* Mobile uses the dedicated portrait artwork (9:16). The artwork keeps its
    native proportions; COVER may trim only a tiny edge on phones that are not
    exactly 9:16, but it never stretches the image. */
