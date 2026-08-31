@@ -12,6 +12,11 @@
     catch(_){return false}
   }
 
+  function choosingHeadliner(){
+    try{return reviewPending()&&state.__soloLineupChoosingHeadliner===true}
+    catch(_){return false}
+  }
+
   function injectStyles(){
     if(document.querySelector('style[data-solo-lineup-review-actions]'))return;
     const style=document.createElement('style');
@@ -29,6 +34,23 @@
         border:2px solid #7d1f1f!important;
         color:#f6e7c7!important;
       }
+      .solo-initial-lineup-review.is-choosing-headliner .private-deck-item{
+        cursor:pointer;
+      }
+      .solo-initial-lineup-review.is-choosing-headliner .private-card-button{
+        cursor:pointer!important;
+      }
+      .solo-initial-lineup-review.is-choosing-headliner .private-deck-item:hover{
+        border-color:rgba(169,45,45,.75)!important;
+        background:rgba(169,45,45,.08)!important;
+        transform:translateY(-3px);
+      }
+      .solo-headliner-choice-note{
+        margin:10px auto 14px!important;
+        color:#8f3329!important;
+        font-weight:900!important;
+        text-align:center!important;
+      }
       @media (max-width:760px){
         .solo-initial-lineup-review .solo-lineup-review-actions{
           gap:8px!important;
@@ -43,8 +65,9 @@
 
   function lineupCardsHTML(){
     const deck=state.players.p1.deck;
+    const selectable=choosingHeadliner();
     return `<div class="private-deck-grid">${deck.map((card,index)=>`
-      <article class="private-deck-item">
+      <article class="private-deck-item" ${selectable?`data-solo-headliner-card="${index}" role="button" tabindex="0" aria-label="Escolher ${card.name} como Headliner"`:''}>
         <div class="position">${index===0?'Próxima carta':`Artista ${index+1}`}</div>
         <div class="private-card-button" aria-label="${card.name}, posição ${index+1}">
           ${typeof liveCardHTML==='function'?liveCardHTML(card,'deck'):''}
@@ -53,10 +76,36 @@
   }
 
   function reviewActionsHTML(){
+    if(choosingHeadliner()){
+      return `<div class="private-round-actions solo-lineup-review-actions">
+        <button type="button" class="secondary" data-solo-lineup-cancel-headliner>Voltar ao line-up</button>
+      </div>`;
+    }
     return `<div class="private-round-actions solo-lineup-review-actions">
       <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
       <button type="button" class="secondary solo-lineup-headliner-action" data-solo-lineup-headliner>Escolher Headliner</button>
     </div>`;
+  }
+
+  function wireReviewActions(app){
+    app.querySelectorAll('[data-solo-lineup-done]').forEach(button=>{
+      button.addEventListener('click',finishReview,{once:true});
+    });
+    app.querySelectorAll('[data-solo-lineup-headliner]').forEach(button=>{
+      button.addEventListener('click',chooseInitialHeadliner,{once:true});
+    });
+    app.querySelectorAll('[data-solo-lineup-cancel-headliner]').forEach(button=>{
+      button.addEventListener('click',cancelInitialHeadlinerChoice,{once:true});
+    });
+    app.querySelectorAll('[data-solo-headliner-card]').forEach(item=>{
+      const activate=()=>previewInitialHeadliner(Number(item.dataset.soloHeadlinerCard));
+      item.addEventListener('click',activate);
+      item.addEventListener('keydown',event=>{
+        if(event.key!=='Enter'&&event.key!==' ')return;
+        event.preventDefault();
+        activate();
+      });
+    });
   }
 
   function renderReview(){
@@ -66,28 +115,55 @@
       if(typeof closeModal==='function')closeModal();
       const app=document.querySelector('#app');
       if(!app)return false;
+      const selecting=choosingHeadliner();
 
-      app.innerHTML=`<main class="private-deck-screen solo-initial-lineup-review" aria-label="Seu line-up inicial">
+      app.innerHTML=`<main class="private-deck-screen solo-initial-lineup-review ${selecting?'is-choosing-headliner':''}" aria-label="Seu line-up inicial">
         <div class="private-deck-shell">
           <div class="private-deck-head">
             <div>
               <span class="privacy-kicker">Consulta inicial</span>
               <h1>SEU LINE-UP</h1>
-              <p>Confira suas 15 cartas. A ordem é fixa e não pode ser alterada.</p>
+              <p>${selecting?'Escolha qualquer uma das suas 15 cartas para ser seu primeiro Headliner.':'Confira suas 15 cartas. A ordem é fixa e não pode ser alterada.'}</p>
             </div>
           </div>
+          ${selecting?'<p class="solo-headliner-choice-note">Toque na carta que você quer reservar como Headliner.</p>':''}
           ${reviewActionsHTML()}
           ${lineupCardsHTML()}
           ${reviewActionsHTML()}
         </div>
       </main>`;
 
-      app.querySelectorAll('[data-solo-lineup-done]').forEach(button=>{
-        button.addEventListener('click',finishReview,{once:true});
-      });
-      app.querySelectorAll('[data-solo-lineup-headliner]').forEach(button=>{
-        button.addEventListener('click',chooseInitialHeadliner,{once:true});
-      });
+      wireReviewActions(app);
+      return true;
+    }catch(_){return false}
+  }
+
+  function renderInitialHeadlinerConfirm(index){
+    if(!choosingHeadliner())return false;
+    try{
+      const owner=player(P1),card=owner?.deck?.[index];
+      if(!card)return false;
+      state.__soloLineupConfirmIndex=index;
+      const app=document.querySelector('#app');
+      if(!app)return false;
+      const audience=typeof fmt==='function'?fmt(card.pub):Number(card.pub||0).toLocaleString('pt-BR');
+      app.innerHTML=`<main class="private-deck-screen solo-initial-lineup-review" aria-label="Confirmar Headliner">
+        <section class="private-confirm solo-initial-headliner-confirm">
+          <span class="privacy-kicker">SEU LINE-UP · PRIMEIRO HEADLINER</span>
+          <h1>Travar como Headliner?</h1>
+          <div class="private-confirm-card">${typeof liveCardHTML==='function'?liveCardHTML(card,'confirm'):''}</div>
+          <p><strong>${card.name}</strong> garante <strong>${audience} pessoas</strong> no seu festival e sai definitivamente do monte.</p>
+          <div class="private-confirm-actions">
+            <button type="button" class="secondary" data-solo-headliner-confirm-back>Voltar</button>
+            <button type="button" class="primary" data-solo-headliner-confirm>Confirmar Headliner</button>
+          </div>
+        </section>
+      </main>`;
+      app.querySelector('[data-solo-headliner-confirm-back]')?.addEventListener('click',()=>{
+        state.__soloLineupConfirmIndex=null;
+        renderReview();
+      },{once:true});
+      app.querySelector('[data-solo-headliner-confirm]')?.addEventListener('click',confirmInitialHeadliner,{once:true});
       return true;
     }catch(_){return false}
   }
@@ -100,6 +176,8 @@
          review phase. No wrapping of startGame/reset is required. */
       if(typeof clearGameTimers==='function')clearGameTimers();
       state.__soloLineupReviewPending=true;
+      state.__soloLineupChoosingHeadliner=false;
+      state.__soloLineupConfirmIndex=null;
       state.__openingHeadlinerResolved=true;
       state.phase='SOLO_INITIAL_REVIEW';
       state.initialHeadlinerPending=false;
@@ -108,40 +186,81 @@
     }catch(_){return false}
   }
 
-  function leaveReview(openHeadliner=false){
+  function leaveReview(){
     if(!reviewPending())return;
     try{
-      /* The opening Headliner opportunity now lives entirely inside this review.
-         Once either action is chosen, never recreate the old blue table plaque. */
       state.__soloLineupReviewPending=false;
+      state.__soloLineupChoosingHeadliner=false;
+      state.__soloLineupConfirmIndex=null;
       state.__openingHeadlinerResolved=true;
       state.phase='ROUND';
       state.initialHeadlinerPending=false;
       state.actionLocked=false;
       if(typeof closeModal==='function')closeModal();
       if(typeof renderGame==='function')renderGame();
-
-      if(openHeadliner){
-        const slot=[0,1,2].find(i=>!player(P1).head[i]);
-        if(slot!==undefined){
-          setTimeout(()=>{
-            try{
-              if(!state||state.mode!=='cpu'||state.gameOver||state.round!==1)return;
-              if(typeof window.openDeck==='function')window.openDeck(false,slot);
-              else if(typeof openDeck==='function')openDeck(false,slot);
-            }catch(_){}
-          },0);
-        }
-      }
     }catch(_){}
   }
 
   function finishReview(){
-    leaveReview(false);
+    leaveReview();
   }
 
   function chooseInitialHeadliner(){
-    leaveReview(true);
+    if(!reviewPending())return;
+    try{
+      state.__soloLineupChoosingHeadliner=true;
+      state.__soloLineupConfirmIndex=null;
+      renderReview();
+    }catch(_){}
+  }
+
+  function cancelInitialHeadlinerChoice(){
+    if(!reviewPending())return;
+    try{
+      state.__soloLineupChoosingHeadliner=false;
+      state.__soloLineupConfirmIndex=null;
+      renderReview();
+    }catch(_){}
+  }
+
+  function previewInitialHeadliner(index){
+    if(!choosingHeadliner())return;
+    renderInitialHeadlinerConfirm(index);
+  }
+
+  function confirmInitialHeadliner(){
+    if(!reviewPending())return;
+    try{
+      const index=Number(state.__soloLineupConfirmIndex);
+      const owner=player(P1);
+      const slot=[0,1,2].find(i=>!owner.head[i]);
+      if(slot===undefined||!Number.isInteger(index)||!owner.deck[index]){
+        state.__soloLineupConfirmIndex=null;
+        renderReview();
+        return;
+      }
+      state.actionLocked=true;
+      const card=typeof commitHeadliner==='function'?commitHeadliner(P1,index,slot):null;
+      if(!card){
+        state.actionLocked=false;
+        state.__soloLineupConfirmIndex=null;
+        renderReview();
+        return;
+      }
+      state.__soloLineupReviewPending=false;
+      state.__soloLineupChoosingHeadliner=false;
+      state.__soloLineupConfirmIndex=null;
+      state.__openingHeadlinerResolved=true;
+      state.phase='ROUND';
+      state.initialHeadlinerPending=false;
+      state.justLocked=null;
+      state.actionLocked=false;
+      if(typeof closeModal==='function')closeModal();
+      if(typeof renderGame==='function')renderGame();
+      if(typeof toast==='function')toast(`${card.name} agora é Headliner. 🔒`);
+    }catch(_){
+      try{state.actionLocked=false}catch(__){}
+    }
   }
 
   window.finishSoloLineupReview=finishReview;
@@ -172,7 +291,10 @@
     try{
       if(!cpuStateReady())return;
       if(state.gameId===seenGameId){
-        if(reviewPending()&&!document.querySelector('.solo-initial-lineup-review'))renderReview();
+        if(reviewPending()&&!document.querySelector('.solo-initial-lineup-review')){
+          if(Number.isInteger(state.__soloLineupConfirmIndex))renderInitialHeadlinerConfirm(state.__soloLineupConfirmIndex);
+          else renderReview();
+        }
         return;
       }
       seenGameId=state.gameId;
