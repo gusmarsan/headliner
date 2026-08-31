@@ -34,7 +34,7 @@ const runtimeScripts=[
   ['/multiplayer-bridge.js','<script src="/multiplayer-bridge.js"></script>'],
   ['/multiplayer-gameplay-fixes.js','<script src="/multiplayer-gameplay-fixes.js"></script>'],
   ['/multiplayer-lineup-hour.js','<script src="/multiplayer-lineup-hour.js"></script>'],
-  ['/multiplayer-initial-cta.js','<script src="/multiplayer-initial-cta.js"></script>'],
+  ['/multiplayer-initial-cta.js','<script src="/multiplayer-initial-cta.js?v=20260831b"></script>'],
   ['/multiplayer-private-deck-card-fixes.js','<script src="/multiplayer-private-deck-card-fixes.js"></script>'],
   ['/mobile-round-fixes.js','<script src="/mobile-round-fixes.js?v=20260831d"></script>'],
   ['/solo-initial-lineup-review.js','<script src="/solo-initial-lineup-review.js?v=20260831f"></script>'],
