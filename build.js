@@ -45,7 +45,7 @@ const runtimeScripts=[
   ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260831b"></script>'],
-  ['/multiplayer-connection-hotfix.js','<script src="/multiplayer-connection-hotfix.js?v=20260831a"></script>'],
+  ['/multiplayer-connection-hotfix.js','<script src="/multiplayer-connection-hotfix.js?v=20260831b"></script>'],
   ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>']
 ];
 
