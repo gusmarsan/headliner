@@ -40,7 +40,7 @@ const runtimeScripts=[
   ['/solo-initial-lineup-review.js','<script src="/solo-initial-lineup-review.js?v=20260831c"></script>'],
   ['/cpu-turn-headliner-hotfix.js','<script src="/cpu-turn-headliner-hotfix.js?v=20260831f"></script>'],
   ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260830c"></script>'],
-  ['/headliner-scheduled-plaque.js','<script src="/headliner-scheduled-plaque.js?v=20260831b"></script>'],
+  ['/headliner-scheduled-plaque.js','<script src="/headliner-scheduled-plaque.js?v=20260831c"></script>'],
   ['/solo-attribute-turn-watchdog.js','<script src="/solo-attribute-turn-watchdog.js?v=20260831a"></script>'],
   ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
