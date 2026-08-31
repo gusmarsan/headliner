@@ -1,4 +1,11 @@
 (()=>{
+  const MOBILE_QUERY='(max-width:760px)';
+
+  function mobileViewport(){
+    try{return !!window.matchMedia?.(MOBILE_QUERY).matches}
+    catch(_){return window.innerWidth<=760}
+  }
+
   function scheduledDue(){
     try{
       return !!state && state.mode==='cpu' && !state.gameOver && state.revealed &&
@@ -29,6 +36,9 @@
         pointer-events:auto!important;
         touch-action:manipulation!important;
       }
+      .headliner-scheduled-mobile-host{
+        display:none;
+      }
       @media (min-width:761px){
         .round-controls.headliner-scheduled-plaque-wrap{
           display:flex!important;
@@ -47,6 +57,31 @@
         }
       }
       @media (max-width:760px){
+        /* On phones the battle layout is heavily transformed and the normal
+           round-controls flow can end up behind the hand/headliner layers.
+           Portal the scheduled CTA to the viewport so rounds 3/6/9 always
+           expose the choice without changing the desktop layout. */
+        .headliner-scheduled-mobile-host{
+          display:flex!important;
+          position:fixed!important;
+          left:50%!important;
+          top:58dvh!important;
+          transform:translate(-50%,-50%)!important;
+          width:max-content!important;
+          max-width:calc(100vw - 24px)!important;
+          justify-content:center!important;
+          margin:0!important;
+          z-index:190!important;
+          pointer-events:auto!important;
+          isolation:isolate!important;
+        }
+        .headliner-scheduled-mobile-host .headliner-scheduled-plaque{
+          min-width:168px!important;
+          max-width:calc(100vw - 24px)!important;
+          left:auto!important;
+          top:auto!important;
+          font-size:12px!important;
+        }
         .round-controls.headliner-scheduled-plaque-wrap{
           display:flex!important;
           position:relative!important;
@@ -63,9 +98,37 @@
     document.head.appendChild(style);
   }
 
+  function scheduledLabel(btn){
+    return !!btn&&/escolher\s+headliner|escolha\s+o\s+headliner/i.test((btn.textContent||'').trim());
+  }
+
+  function mobileHost(){
+    let host=document.querySelector('.headliner-scheduled-mobile-host');
+    if(host)return host;
+    host=document.createElement('div');
+    host.className='headliner-scheduled-mobile-host';
+    host.setAttribute('role','group');
+    host.setAttribute('aria-label','Escolha de Headliner');
+    document.body.appendChild(host);
+    return host;
+  }
+
+  function clearMobileHost(){
+    document.querySelectorAll('.headliner-scheduled-mobile-host').forEach(host=>host.remove());
+  }
+
   function findPlaque(){
-    return [...document.querySelectorAll('.result-deck-button')]
-      .find(btn=>/escolher\s+headliner|escolha\s+o\s+headliner/i.test((btn.textContent||'').trim()))||null;
+    const mobileButton=document.querySelector('.headliner-scheduled-mobile-host .result-deck-button');
+    if(mobileButton&&scheduledLabel(mobileButton))return mobileButton;
+    return [...document.querySelectorAll('.result-deck-button')].find(scheduledLabel)||null;
+  }
+
+  function makePlaque(){
+    const btn=document.createElement('button');
+    btn.type='button';
+    btn.className='secondary ticket-control ticket-compact result-deck-button';
+    btn.textContent='Escolha o Headliner';
+    return btn;
   }
 
   function openScheduled(){
@@ -114,23 +177,48 @@
     });
   }
 
+  function ensureMobilePlaque(){
+    const host=mobileHost();
+    let btn=host.querySelector('.result-deck-button');
+
+    if(!btn){
+      const inline=[...document.querySelectorAll('.screen .battle-zone .round-controls .result-deck-button')]
+        .find(scheduledLabel);
+      btn=inline||makePlaque();
+      host.replaceChildren(btn);
+    }
+
+    /* renderGame can recreate an inline copy while the portal survives.
+       Remove only duplicate scheduled CTAs; opening-round Headliner controls
+       use a different state and are untouched because this runs only when due. */
+    document.querySelectorAll('.screen .battle-zone .round-controls .result-deck-button').forEach(other=>{
+      if(other!==btn&&scheduledLabel(other))other.remove();
+    });
+
+    return btn;
+  }
+
   function ensurePlaque(){
     injectStyles();
     if(!scheduledDue()){
       document.querySelectorAll('.headliner-scheduled-plaque').forEach(btn=>btn.classList.remove('headliner-scheduled-plaque'));
       document.querySelectorAll('.headliner-scheduled-plaque-wrap').forEach(el=>el.classList.remove('headliner-scheduled-plaque-wrap'));
+      clearMobileHost();
       return false;
     }
 
-    let btn=findPlaque();
-    if(!btn){
-      const controls=document.querySelector('.screen .battle-zone .round-controls');
-      if(controls){
-        btn=document.createElement('button');
-        btn.type='button';
-        btn.className='secondary ticket-control ticket-compact result-deck-button';
-        btn.textContent='Escolha o Headliner';
-        controls.appendChild(btn);
+    let btn=null;
+    if(mobileViewport()){
+      btn=ensureMobilePlaque();
+    }else{
+      clearMobileHost();
+      btn=findPlaque();
+      if(!btn){
+        const controls=document.querySelector('.screen .battle-zone .round-controls');
+        if(controls){
+          btn=makePlaque();
+          controls.appendChild(btn);
+        }
       }
     }
     if(!btn)return false;
