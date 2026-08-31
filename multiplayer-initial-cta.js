@@ -45,8 +45,17 @@
     const alreadyReady=!first.querySelector('button');
     if(alreadyReady)return;
 
-    first.innerHTML=`<button class="secondary" type="button" onclick="networkInitialReviewDecision(false)">Entendi meu line-up</button><button class="primary" type="button" onclick="networkInitialReviewDecision(true)">Escalar</button>`;
-    actionRows.slice(1).forEach(row=>row.remove());
+    /* Idempotent on purpose: this function also runs from a MutationObserver.
+       Rewriting innerHTML on every observer callback creates a self-triggering
+       render loop that can freeze the guest immediately after state sync. */
+    if(first.dataset.multiplayerInitialCta!=='1'){
+      first.dataset.multiplayerInitialCta='1';
+      first.innerHTML='<button class="secondary" type="button" onclick="networkInitialReviewDecision(false)">Entendi meu line-up</button><button class="primary" type="button" onclick="networkInitialReviewDecision(true)">Escalar</button>';
+    }
+
+    for(const row of actionRows.slice(1)){
+      if(row.isConnected)row.remove();
+    }
   }
 
   function applyInitialDecision(){
