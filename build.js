@@ -47,6 +47,7 @@ const runtimeScripts=[
   ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260831b"></script>'],
+  ['/multiplayer-turn-fallback.js','<script src="/multiplayer-turn-fallback.js?v=20260831a"></script>'],
   ['/multiplayer-connection-hotfix.js','<script src="/multiplayer-connection-hotfix.js?v=20260831c"></script>'],
   ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260831d"></script>'],
   ['/solo-lineup-hard-entry.js','<script src="/solo-lineup-hard-entry.js?v=20260831a"></script>']
@@ -86,6 +87,7 @@ fs.copyFileSync(path.join(root,'solo-attribute-turn-watchdog.js'),path.join(out,
 fs.copyFileSync(path.join(root,'approved-cover-loader.js'),path.join(out,'approved-cover-loader.js'));
 fs.copyFileSync(path.join(root,'final-poster-actions.js'),path.join(out,'final-poster-actions.js'));
 fs.copyFileSync(path.join(root,'multiplayer-festival-privacy.js'),path.join(out,'multiplayer-festival-privacy.js'));
+fs.copyFileSync(path.join(root,'multiplayer-turn-fallback.js'),path.join(out,'multiplayer-turn-fallback.js'));
 fs.copyFileSync(path.join(root,'multiplayer-connection-hotfix.js'),path.join(out,'multiplayer-connection-hotfix.js'));
 fs.copyFileSync(path.join(root,'multiplayer-invite-hotfix.js'),path.join(out,'multiplayer-invite-hotfix.js'));
 fs.copyFileSync(path.join(root,'solo-lineup-hard-entry.js'),path.join(out,'solo-lineup-hard-entry.js'));
