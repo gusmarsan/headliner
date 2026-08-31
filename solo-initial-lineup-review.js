@@ -49,6 +49,7 @@
     if(!reviewPending())return;
     try{
       state.__soloLineupReviewPending=false;
+      state.__openingHeadlinerResolved=false;
       state.phase='ROUND';
       state.initialHeadlinerPending=true;
       if(typeof closeModal==='function')closeModal();
@@ -68,6 +69,7 @@
          line-up review so the first Headliner offer remains a separate choice. */
       if(typeof clearGameTimers==='function')clearGameTimers();
       state.__soloLineupReviewPending=true;
+      state.__openingHeadlinerResolved=true;
       state.phase='SOLO_INITIAL_REVIEW';
       state.initialHeadlinerPending=false;
       renderReview();
