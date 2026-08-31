@@ -47,14 +47,14 @@
   // Vercel preview/deployment URL, the guest must not inherit that private URL.
   window.copyNetworkInvite=async function(){
     const room=sanitizeRoom(network.room);
-    if(room.length!==6)return;
+    if(room.length!==6||!network.ready)return;
     const ok=await copyText(publicInviteUrl(room));
     feedback(ok?'Link copiado · convite pronto para enviar':'Não consegui copiar o link. Use o código da sala.');
   };
 
   window.shareNetworkInvite=async function(){
     const room=sanitizeRoom(network.room);
-    if(room.length!==6)return;
+    if(room.length!==6||!network.ready)return;
     const url=publicInviteUrl(room);
     const data={
       title:'Headliner — duelo',
@@ -80,7 +80,9 @@
   let inviteCancelled=false;
   let inviteRetryTimer=0;
   let inviteAttempt=0;
-  const MAX_INVITE_ATTEMPTS=15;
+  let attemptStartedAt=0;
+  const MAX_INVITE_ATTEMPTS=8;
+  const ATTEMPT_GRACE_MS=10500;
 
   function guestConnected(){
     return Boolean(network.connected||network.conn?.open||network.started);
@@ -98,7 +100,9 @@
   function scheduleInviteAttempt(delay){
     clearInviteRetry();
     if(inviteCancelled||inviteRoom.length!==6||guestConnected()||inviteAttempt>=MAX_INVITE_ATTEMPTS)return;
-    inviteRetryTimer=setTimeout(runInviteAttempt,delay);
+    const elapsed=attemptStartedAt?Date.now()-attemptStartedAt:ATTEMPT_GRACE_MS;
+    const safeDelay=Math.max(delay,attemptStartedAt?ATTEMPT_GRACE_MS-elapsed:0);
+    inviteRetryTimer=setTimeout(runInviteAttempt,Math.max(0,safeDelay));
   }
 
   function runInviteAttempt(){
@@ -110,13 +114,20 @@
     }
     if(typeof baseJoin!=='function')return;
 
+    const elapsed=attemptStartedAt?Date.now()-attemptStartedAt:ATTEMPT_GRACE_MS;
+    if(attemptStartedAt&&elapsed<ATTEMPT_GRACE_MS){
+      scheduleInviteAttempt(ATTEMPT_GRACE_MS-elapsed);
+      return;
+    }
+
     inviteAttempt+=1;
+    attemptStartedAt=Date.now();
     baseJoin(inviteRoom);
 
-    // A native share action can briefly suspend the host browser on mobile.
-    // Keep trying from the invite URL so the guest connects automatically as
-    // soon as the host returns, instead of falling back to manual code entry.
-    scheduleInviteAttempt(inviteAttempt<3?5500:8000);
+    // Let the canonical PeerJS attempt finish before trying again. Starting a
+    // second guest Peer too early destroys the first one and can manufacture a
+    // false "sala não encontrada" result.
+    scheduleInviteAttempt(12000);
   }
 
   function startInviteFlow(){
