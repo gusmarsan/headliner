@@ -37,6 +37,7 @@ const runtimeScripts=[
   ['/multiplayer-initial-cta.js','<script src="/multiplayer-initial-cta.js"></script>'],
   ['/multiplayer-private-deck-card-fixes.js','<script src="/multiplayer-private-deck-card-fixes.js"></script>'],
   ['/mobile-round-fixes.js','<script src="/mobile-round-fixes.js"></script>'],
+  ['/solo-initial-lineup-review.js','<script src="/solo-initial-lineup-review.js?v=20260831a"></script>'],
   ['/cpu-turn-headliner-hotfix.js','<script src="/cpu-turn-headliner-hotfix.js?v=20260830e"></script>'],
   ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260830c"></script>'],
   ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
@@ -69,6 +70,7 @@ fs.copyFileSync(path.join(root,'multiplayer-lineup-hour.js'),path.join(out,'mult
 fs.copyFileSync(path.join(root,'multiplayer-initial-cta.js'),path.join(out,'multiplayer-initial-cta.js'));
 fs.copyFileSync(path.join(root,'multiplayer-private-deck-card-fixes.js'),path.join(out,'multiplayer-private-deck-card-fixes.js'));
 fs.copyFileSync(path.join(root,'mobile-round-fixes.js'),path.join(out,'mobile-round-fixes.js'));
+fs.copyFileSync(path.join(root,'solo-initial-lineup-review.js'),path.join(out,'solo-initial-lineup-review.js'));
 fs.copyFileSync(path.join(root,'cpu-turn-headliner-hotfix.js'),path.join(out,'cpu-turn-headliner-hotfix.js'));
 fs.copyFileSync(path.join(root,'initial-headliner-click-fix.js'),path.join(out,'initial-headliner-click-fix.js'));
 fs.copyFileSync(path.join(root,'approved-cover-loader.js'),path.join(out,'approved-cover-loader.js'));
