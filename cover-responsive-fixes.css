@@ -13,8 +13,6 @@
     width:100vw!important;
     height:100vh!important;
     height:100dvh!important;
-    min-height:100vh!important;
-    min-height:100dvh!important;
     overflow:hidden!important;
     background:
       linear-gradient(180deg,#087db5 0%,#1189bd 56%,#24596a 73%,#172f34 100%)!important;
@@ -31,9 +29,6 @@
     width:100vw!important;
     height:100vh!important;
     height:100dvh!important;
-    min-width:100vw!important;
-    min-height:100vh!important;
-    min-height:100dvh!important;
     overflow:hidden!important;
     display:block!important;
     margin:0!important;
@@ -44,21 +39,18 @@
     position:absolute!important;
     top:50%!important;
     left:50%!important;
-    right:auto!important;
-    bottom:auto!important;
     transform:translate3d(-50%,-50%,0)!important;
     transform-origin:50% 50%!important;
 
-    width:max(100vw,149.9024dvh)!important;
-    height:max(100dvh,66.7101vw)!important;
-    min-width:max(100vw,149.9024dvh)!important;
-    min-height:max(100dvh,66.7101vw)!important;
+    aspect-ratio:16 / 9!important;
+
+    /* faz a arte inteira caber */
+    width:min(100vw, calc(100dvh * 16 / 9))!important;
+    height:min(100dvh, calc(100vw * 9 / 16))!important;
+
     max-width:none!important;
     max-height:none!important;
-    aspect-ratio:1535 / 1024!important;
-
     display:block!important;
-    flex:none!important;
     margin:0!important;
     padding:0!important;
     overflow:visible!important;
@@ -80,13 +72,12 @@
     display:block!important;
     width:100%!important;
     height:100%!important;
-    min-width:100%!important;
-    min-height:100%!important;
-    max-width:none!important;
-    max-height:none!important;
     margin:0!important;
-    object-fit:cover!important;
+
+    /* importante: não cortar */
+    object-fit:contain!important;
     object-position:50% 50%!important;
+
     user-select:none!important;
     -webkit-user-drag:none!important;
   }
@@ -95,17 +86,6 @@
     display:none!important;
   }
 }
-
-/* Wide desktop safety: preserve the complete approved artwork vertically. */
-@media (min-width:761px) and (min-aspect-ratio:8/5){
-  .cover-frame{
-    width:149.9024dvh!important;
-    height:100dvh!important;
-    min-width:149.9024dvh!important;
-    min-height:100dvh!important;
-  }
-}
-
 /* Mobile uses the dedicated portrait artwork (9:16). The artwork keeps its
    native proportions; COVER may trim only a tiny edge on phones that are not
    exactly 9:16, but it never stretches the image. */
