@@ -12,6 +12,35 @@
     catch(_){return false}
   }
 
+  function injectStyles(){
+    if(document.querySelector('style[data-solo-lineup-review-actions]'))return;
+    const style=document.createElement('style');
+    style.dataset.soloLineupReviewActions='1';
+    style.textContent=`
+      .solo-initial-lineup-review .solo-lineup-review-actions{
+        display:flex!important;
+        align-items:center!important;
+        justify-content:center!important;
+        gap:10px!important;
+        flex-wrap:wrap!important;
+      }
+      .solo-initial-lineup-review .solo-lineup-headliner-action{
+        background:#a92d2d!important;
+        border:2px solid #7d1f1f!important;
+        color:#f6e7c7!important;
+      }
+      @media (max-width:760px){
+        .solo-initial-lineup-review .solo-lineup-review-actions{
+          gap:8px!important;
+        }
+        .solo-initial-lineup-review .solo-lineup-review-actions button{
+          min-height:42px!important;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function lineupCardsHTML(){
     const deck=state.players.p1.deck;
     return `<div class="private-deck-grid">${deck.map((card,index)=>`
@@ -23,9 +52,17 @@
       </article>`).join('')}</div>`;
   }
 
+  function reviewActionsHTML(){
+    return `<div class="private-round-actions solo-lineup-review-actions">
+      <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
+      <button type="button" class="secondary solo-lineup-headliner-action" data-solo-lineup-headliner>Escolher Headliner</button>
+    </div>`;
+  }
+
   function renderReview(){
     if(!reviewPending())return false;
     try{
+      injectStyles();
       if(typeof closeModal==='function')closeModal();
       const app=document.querySelector('#app');
       if(!app)return false;
@@ -39,18 +76,17 @@
               <p>Confira suas 15 cartas. A ordem é fixa e não pode ser alterada.</p>
             </div>
           </div>
-          <div class="private-round-actions">
-            <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
-          </div>
+          ${reviewActionsHTML()}
           ${lineupCardsHTML()}
-          <div class="private-round-actions">
-            <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
-          </div>
+          ${reviewActionsHTML()}
         </div>
       </main>`;
 
       app.querySelectorAll('[data-solo-lineup-done]').forEach(button=>{
         button.addEventListener('click',finishReview,{once:true});
+      });
+      app.querySelectorAll('[data-solo-lineup-headliner]').forEach(button=>{
+        button.addEventListener('click',chooseInitialHeadliner,{once:true});
       });
       return true;
     }catch(_){return false}
@@ -72,20 +108,44 @@
     }catch(_){return false}
   }
 
-  function finishReview(){
+  function leaveReview(openHeadliner=false){
     if(!reviewPending())return;
     try{
+      /* The opening Headliner opportunity now lives entirely inside this review.
+         Once either action is chosen, never recreate the old blue table plaque. */
       state.__soloLineupReviewPending=false;
-      state.__openingHeadlinerResolved=false;
+      state.__openingHeadlinerResolved=true;
       state.phase='ROUND';
-      state.initialHeadlinerPending=true;
+      state.initialHeadlinerPending=false;
       state.actionLocked=false;
       if(typeof closeModal==='function')closeModal();
       if(typeof renderGame==='function')renderGame();
+
+      if(openHeadliner){
+        const slot=[0,1,2].find(i=>!player(P1).head[i]);
+        if(slot!==undefined){
+          setTimeout(()=>{
+            try{
+              if(!state||state.mode!=='cpu'||state.gameOver||state.round!==1)return;
+              if(typeof window.openDeck==='function')window.openDeck(false,slot);
+              else if(typeof openDeck==='function')openDeck(false,slot);
+            }catch(_){}
+          },0);
+        }
+      }
     }catch(_){}
   }
 
+  function finishReview(){
+    leaveReview(false);
+  }
+
+  function chooseInitialHeadliner(){
+    leaveReview(true);
+  }
+
   window.finishSoloLineupReview=finishReview;
+  window.chooseSoloInitialHeadliner=chooseInitialHeadliner;
   window.restoreSoloLineupReview=takeOverFreshSolo;
 
   /* The original 1-player button runs reset() synchronously on the target.
