@@ -46,7 +46,8 @@ const runtimeScripts=[
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260831b"></script>'],
   ['/multiplayer-connection-hotfix.js','<script src="/multiplayer-connection-hotfix.js?v=20260831b"></script>'],
-  ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>']
+  ['/multiplayer-invite-hotfix.js','<script src="/multiplayer-invite-hotfix.js?v=20260830a"></script>'],
+  ['/multiplayer-transport-diagnostics.js','<script src="/multiplayer-transport-diagnostics.js?v=20260831a"></script>']
 ];
 
 for(const [src] of runtimeScripts){
@@ -83,4 +84,5 @@ fs.copyFileSync(path.join(root,'final-poster-actions.js'),path.join(out,'final-p
 fs.copyFileSync(path.join(root,'multiplayer-festival-privacy.js'),path.join(out,'multiplayer-festival-privacy.js'));
 fs.copyFileSync(path.join(root,'multiplayer-connection-hotfix.js'),path.join(out,'multiplayer-connection-hotfix.js'));
 fs.copyFileSync(path.join(root,'multiplayer-invite-hotfix.js'),path.join(out,'multiplayer-invite-hotfix.js'));
+fs.copyFileSync(path.join(root,'multiplayer-transport-diagnostics.js'),path.join(out,'multiplayer-transport-diagnostics.js'));
 console.log('Headliner build pronto em dist/');
