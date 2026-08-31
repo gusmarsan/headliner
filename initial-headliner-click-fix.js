@@ -142,10 +142,25 @@
     const controls=btn.closest('.round-controls');
     if(controls){
       controls.style.setProperty('display','flex','important');
-      controls.style.setProperty('position','relative','important');
       controls.style.setProperty('z-index','1000','important');
       controls.style.setProperty('pointer-events','auto','important');
       controls.style.setProperty('isolation','isolate','important');
+
+      /* Desktop: park the opening Headliner plaque beside the right-hand cup,
+         away from the central battle area. Use percentages so it follows the
+         tabletop composition across common desktop aspect ratios. */
+      if(window.matchMedia?.('(min-width:761px)').matches){
+        controls.style.setProperty('position','absolute','important');
+        controls.style.setProperty('left','78%','important');
+        controls.style.setProperty('top','58%','important');
+        controls.style.setProperty('transform','translate(-50%,-50%)','important');
+        controls.style.setProperty('margin','0','important');
+      }else{
+        controls.style.setProperty('position','relative','important');
+        controls.style.removeProperty('left');
+        controls.style.removeProperty('top');
+        controls.style.removeProperty('transform');
+      }
     }
     btn.style.setProperty('display','inline-flex','important');
     btn.style.setProperty('position','relative','important');
