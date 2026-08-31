@@ -63,26 +63,82 @@
     document.head.appendChild(style);
   }
 
-  function sync(){
-    injectStyles();
-    const buttons=[...document.querySelectorAll('.result-deck-button')]
-      .filter(btn=>/escolher\s+headliner|escolha\s+o\s+headliner/i.test((btn.textContent||'').trim()));
-
-    for(const btn of buttons){
-      const controls=btn.closest('.round-controls');
-      if(scheduledDue()){
-        btn.classList.add('headliner-scheduled-plaque');
-        btn.textContent='Escolha o Headliner';
-        btn.setAttribute('aria-label','Escolha o Headliner');
-        controls?.classList.add('headliner-scheduled-plaque-wrap');
-      }else{
-        btn.classList.remove('headliner-scheduled-plaque');
-        controls?.classList.remove('headliner-scheduled-plaque-wrap');
-      }
-    }
+  function findPlaque(){
+    return [...document.querySelectorAll('.result-deck-button')]
+      .find(btn=>/escolher\s+headliner|escolha\s+o\s+headliner/i.test((btn.textContent||'').trim()))||null;
   }
 
-  new MutationObserver(sync).observe(document.documentElement,{childList:true,subtree:true});
-  setInterval(sync,100);
-  sync();
+  function openScheduled(){
+    if(!scheduledDue())return false;
+    try{
+      if(typeof window.openScheduledHeadliner==='function'){
+        window.openScheduledHeadliner();
+        return true;
+      }
+      const slot=[0,1,2].find(i=>!player(P1).head[i]);
+      if(slot!==undefined&&typeof window.openDeck==='function'){
+        window.openDeck(false,slot);
+        return true;
+      }
+    }catch(_){}
+    return false;
+  }
+
+  function wire(btn){
+    if(!btn)return;
+    btn.classList.add('headliner-scheduled-plaque');
+    btn.textContent='Escolha o Headliner';
+    btn.setAttribute('aria-label','Escolha o Headliner');
+    btn.closest('.round-controls')?.classList.add('headliner-scheduled-plaque-wrap');
+    if(btn.dataset.scheduledHeadlinerWired==='1')return;
+    btn.dataset.scheduledHeadlinerWired='1';
+    btn.addEventListener('click',event=>{
+      if(!scheduledDue())return;
+      event.preventDefault();
+      event.stopPropagation();
+      openScheduled();
+    });
+  }
+
+  function ensurePlaque(){
+    injectStyles();
+    if(!scheduledDue()){
+      document.querySelectorAll('.headliner-scheduled-plaque').forEach(btn=>btn.classList.remove('headliner-scheduled-plaque'));
+      document.querySelectorAll('.headliner-scheduled-plaque-wrap').forEach(el=>el.classList.remove('headliner-scheduled-plaque-wrap'));
+      return false;
+    }
+
+    let btn=findPlaque();
+    if(!btn){
+      const controls=document.querySelector('.screen .battle-zone .round-controls');
+      if(controls){
+        btn=document.createElement('button');
+        btn.type='button';
+        btn.className='secondary ticket-control ticket-compact result-deck-button';
+        btn.textContent='Escolha o Headliner';
+        controls.appendChild(btn);
+      }
+    }
+    if(!btn)return false;
+
+    wire(btn);
+    try{
+      if(state.__scheduledPlaqueShownRound!==state.round){
+        state.__scheduledPlaqueShownRound=state.round;
+        state.__scheduledPlaqueShownAt=Date.now();
+      }
+    }catch(_){}
+    return true;
+  }
+
+  window.HeadlinerScheduledGate={
+    isDue:scheduledDue,
+    ensureVisible:ensurePlaque,
+    isVisible(){return scheduledDue()&&!!findPlaque()},
+    shownAt(){try{return state?.__scheduledPlaqueShownAt||0}catch(_){return 0}}
+  };
+
+  new MutationObserver(ensurePlaque).observe(document.documentElement,{childList:true,subtree:true});
+  setInterval(ensurePlaque,100);
+  ensurePlaque();
 })();
