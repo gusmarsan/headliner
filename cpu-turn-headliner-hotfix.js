@@ -1,6 +1,7 @@
 (function(){
   const baseChooseAttr=window.chooseAttr;
   const baseBeginBattle=window.beginBattle;
+  const baseCpuLockHeadliner=window.cpuLockHeadliner;
   if(typeof baseChooseAttr!=='function'||typeof baseBeginBattle!=='function')return;
 
   function cpuTurnActive(){
@@ -16,9 +17,6 @@
       if(window.HeadlinerInitialGate&&typeof window.HeadlinerInitialGate.isDue==='function'){
         return !!window.HeadlinerInitialGate.isDue();
       }
-      /* Safe fallback for the tiny interval before the opening-gate helper has
-         loaded: never consume round-one pending merely because that helper is
-         not available yet. */
       return state.selectedAttr==null&&player(P1).head.filter(Boolean).length<3;
     }catch(_){return false}
   }
@@ -33,6 +31,20 @@
     }catch(_){return false}
   }
 
+  /* Rival gets the same cadence as the player: one opening opportunity, then
+     only at the start of a round that follows a completed block of three. */
+  if(typeof baseCpuLockHeadliner==='function'){
+    window.cpuLockHeadliner=function(){
+      try{
+        if(state?.mode==='cpu'){
+          const scheduled=state.round===1||(state.round>1&&(state.round-1)%3===0);
+          if(!scheduled)return;
+        }
+      }catch(_){}
+      return baseCpuLockHeadliner.apply(this,arguments);
+    };
+  }
+
   window.chooseAttr=function(attr,fromCpu=false){
     try{
       if(!fromCpu&&state?.mode==='cpu'&&state.turn===P1&&state.initialHeadlinerPending){
@@ -44,8 +56,6 @@
 
   window.beginBattle=function(){
     try{
-      /* The rival/CPU flow is not allowed to consume the opening plaque. Once
-         the opening decision is genuinely resolved, stale pending can be freed. */
       if(state?.mode==='cpu'&&state.turn===P2&&state.initialHeadlinerPending&&!openingHeadlinerStillDue()){
         clearInitialHeadlinerPending();
       }
@@ -66,7 +76,6 @@
         return;
       }
 
-      /* Opening Headliner is a legitimate pre-battle state, not a stall. */
       if(openingHeadlinerStillDue()){
         cpuKey=null;
         cpuSince=0;
