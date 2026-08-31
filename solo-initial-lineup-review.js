@@ -47,7 +47,7 @@
       }
       .solo-headliner-choice-note{
         margin:10px auto 14px!important;
-        color:#8f3329!important;
+        color:#ffffff!important;
         font-weight:900!important;
         text-align:center!important;
       }
@@ -259,7 +259,7 @@
       if(typeof renderGame==='function')renderGame();
       if(typeof toast==='function')toast(`${card.name} agora é Headliner. 🔒`);
     }catch(_){
-      try{state.actionLocked=false}catch(__){}
+      try{state.actionLocked=false}catch(__){}}
     }
   }
 
@@ -267,9 +267,6 @@
   window.chooseSoloInitialHeadliner=chooseInitialHeadliner;
   window.restoreSoloLineupReview=takeOverFreshSolo;
 
-  /* The original 1-player button runs reset() synchronously on the target.
-     This bubbling listener runs immediately afterwards, when the shuffled state
-     already exists, so the review cannot be skipped by global-binding issues. */
   document.addEventListener('click',event=>{
     const button=event.target?.closest?.('.start-actions .ticket-mode');
     if(!button)return;
@@ -283,9 +280,6 @@
     },0);
   },false);
 
-  /* Replays can invoke startGame without passing through the start screen.
-     If a brand-new CPU match is detected with the legacy opening pending and no
-     selected attribute/headliner yet, convert it to the same review once. */
   let seenGameId=null;
   setInterval(()=>{
     try{
