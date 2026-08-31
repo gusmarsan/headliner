@@ -1,43 +1,75 @@
 (()=>{
-  const baseStartGame=window.startGame;
-  if(typeof baseStartGame!=='function')return;
+  let takeoverTimer=null;
 
-  let rendering=false;
-  let starting=false;
-
-  function reviewPending(){
+  function cpuStateReady(){
     try{
-      return !!(state&&state.mode==='cpu'&&!state.gameOver&&state.round===1&&state.__soloLineupReviewPending===true);
+      return !!(state&&state.mode==='cpu'&&!state.gameOver&&state.round===1&&state.players?.p1?.deck?.length);
     }catch(_){return false}
   }
 
+  function reviewPending(){
+    try{return cpuStateReady()&&state.__soloLineupReviewPending===true}
+    catch(_){return false}
+  }
+
+  function lineupCardsHTML(){
+    const deck=state.players.p1.deck;
+    return `<div class="private-deck-grid">${deck.map((card,index)=>`
+      <article class="private-deck-item">
+        <div class="position">${index===0?'Próxima carta':`Artista ${index+1}`}</div>
+        <div class="private-card-button" aria-label="${card.name}, posição ${index+1}">
+          ${typeof liveCardHTML==='function'?liveCardHTML(card,'deck'):''}
+        </div>
+      </article>`).join('')}</div>`;
+  }
+
   function renderReview(){
-    if(rendering||!reviewPending())return;
-    rendering=true;
+    if(!reviewPending())return false;
     try{
-      if(typeof window.openDeck==='function')window.openDeck(false);
-      else if(typeof openDeck==='function')openDeck(false);
+      if(typeof closeModal==='function')closeModal();
+      const app=document.querySelector('#app');
+      if(!app)return false;
 
-      const root=document.querySelector('#modal-root');
-      const card=root?.querySelector('.deck-modal-card');
-      if(!card)return;
+      app.innerHTML=`<main class="private-deck-screen solo-initial-lineup-review" aria-label="Seu line-up inicial">
+        <div class="private-deck-shell">
+          <div class="private-deck-head">
+            <div>
+              <span class="privacy-kicker">Consulta inicial</span>
+              <h1>SEU LINE-UP</h1>
+              <p>Confira suas 15 cartas. A ordem é fixa e não pode ser alterada.</p>
+            </div>
+          </div>
+          <div class="private-round-actions">
+            <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
+          </div>
+          ${lineupCardsHTML()}
+          <div class="private-round-actions">
+            <button type="button" class="primary" data-solo-lineup-done>Entendi meu line-up</button>
+          </div>
+        </div>
+      </main>`;
 
-      const title=card.querySelector('.modal-head h2');
-      if(title)title.textContent='Seu line-up';
-      const help=card.querySelector('.modal-head .help');
-      if(help)help.textContent='Confira suas 15 cartas. A ordem é fixa e não pode ser alterada.';
+      app.querySelectorAll('[data-solo-lineup-done]').forEach(button=>{
+        button.addEventListener('click',finishReview,{once:true});
+      });
+      return true;
+    }catch(_){return false}
+  }
 
-      card.querySelector('.modal-head .close')?.remove();
-      card.querySelector('.solo-lineup-review-footer')?.remove();
-
-      const footer=document.createElement('div');
-      footer.className='deck-modal-footer solo-lineup-review-footer';
-      footer.innerHTML='<div class="deck-modal-cta-stack"><button type="button" class="primary deck-modal-cta" data-solo-lineup-done>Entendi meu line-up</button></div>';
-      card.appendChild(footer);
-      footer.querySelector('[data-solo-lineup-done]')?.addEventListener('click',finishReview,{once:true});
-    }catch(_){}finally{
-      rendering=false;
-    }
+  function takeOverFreshSolo(){
+    if(!cpuStateReady())return false;
+    try{
+      /* reset()/startGame() have already created the canonical 30-card match.
+         Stop only the legacy opening timer, then replace the table with a real
+         review phase. No wrapping of startGame/reset is required. */
+      if(typeof clearGameTimers==='function')clearGameTimers();
+      state.__soloLineupReviewPending=true;
+      state.__openingHeadlinerResolved=true;
+      state.phase='SOLO_INITIAL_REVIEW';
+      state.initialHeadlinerPending=false;
+      state.actionLocked=false;
+      return renderReview();
+    }catch(_){return false}
   }
 
   function finishReview(){
@@ -47,65 +79,48 @@
       state.__openingHeadlinerResolved=false;
       state.phase='ROUND';
       state.initialHeadlinerPending=true;
+      state.actionLocked=false;
       if(typeof closeModal==='function')closeModal();
       if(typeof renderGame==='function')renderGame();
     }catch(_){}
   }
 
-  function startSoloWithReview(){
-    if(starting)return;
-    starting=true;
-    try{
-      /* Start from the canonical game setup, then immediately replace the old
-         startup modal/timer with the dedicated 15-card line-up review. */
-      baseStartGame.call(window,'cpu');
-      if(typeof clearGameTimers==='function')clearGameTimers();
-      if(!state||state.mode!=='cpu')return;
-
-      state.__soloLineupReviewPending=true;
-      state.__openingHeadlinerResolved=true;
-      state.phase='SOLO_INITIAL_REVIEW';
-      state.initialHeadlinerPending=false;
-      renderReview();
-    }catch(_){}finally{
-      starting=false;
-    }
-  }
-
   window.finishSoloLineupReview=finishReview;
-  window.startSoloWithReview=startSoloWithReview;
+  window.restoreSoloLineupReview=takeOverFreshSolo;
 
-  /* Keep programmatic solo starts on the same path. */
-  window.startGame=function(mode='cpu'){
-    if(mode==='cpu')return startSoloWithReview();
-    return baseStartGame.apply(this,arguments);
-  };
-  window.reset=startSoloWithReview;
-
-  /* Most important: the original start-screen button has inline onclick=reset().
-     Capture it before the legacy inline handler, so the first tap always enters
-     the restored review even if an old global reset binding survives in cache. */
+  /* The original 1-player button runs reset() synchronously on the target.
+     This bubbling listener runs immediately afterwards, when the shuffled state
+     already exists, so the review cannot be skipped by global-binding issues. */
   document.addEventListener('click',event=>{
     const button=event.target?.closest?.('.start-actions .ticket-mode');
     if(!button)return;
     const text=(button.textContent||'').replace(/\s+/g,' ').trim();
     if(!/1\s*jogador/i.test(text))return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    startSoloWithReview();
-  },true);
 
-  const baseRenderCurrentState=window.renderCurrentState;
-  if(typeof baseRenderCurrentState==='function'){
-    window.renderCurrentState=function(){
-      if(reviewPending())return renderReview();
-      return baseRenderCurrentState.apply(this,arguments);
-    };
-  }
+    clearTimeout(takeoverTimer);
+    takeoverTimer=setTimeout(()=>{
+      takeoverTimer=null;
+      takeOverFreshSolo();
+    },0);
+  },false);
 
-  /* Protect the review from unrelated table renders until the user confirms. */
+  /* Replays can invoke startGame without passing through the start screen.
+     If a brand-new CPU match is detected with the legacy opening pending and no
+     selected attribute/headliner yet, convert it to the same review once. */
+  let seenGameId=null;
   setInterval(()=>{
-    if(!reviewPending())return;
-    if(!document.querySelector('#modal-root .solo-lineup-review-footer'))renderReview();
-  },120);
+    try{
+      if(!cpuStateReady())return;
+      if(state.gameId===seenGameId){
+        if(reviewPending()&&!document.querySelector('.solo-initial-lineup-review'))renderReview();
+        return;
+      }
+      seenGameId=state.gameId;
+      if(state.selectedAttr==null&&state.revealed===false&&
+         state.players.p1.head.filter(Boolean).length===0&&
+         state.initialHeadlinerPending===true){
+        takeOverFreshSolo();
+      }
+    }catch(_){}
+  },80);
 })();
