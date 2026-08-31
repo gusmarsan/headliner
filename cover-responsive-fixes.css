@@ -1,201 +1,69 @@
-/* Headliner — approved cover deployment.
-   Never distort the approved artwork. Each viewport uses the matching artwork
-   geometry and fills the screen by cropping only the unavoidable excess. */
-
-@media (min-width:761px){
-  html,body{
-    overflow:hidden!important;
-  }
-
-  .cover-screen{
-    position:fixed!important;
-    inset:0!important;
-    width:100vw!important;
-    height:100vh!important;
-    height:100dvh!important;
-    overflow:hidden!important;
-    background:
-      linear-gradient(180deg,#087db5 0%,#1189bd 56%,#24596a 73%,#172f34 100%)!important;
-  }
-
-  .cover-screen::before{
-    display:none!important;
-    content:none!important;
-  }
-
-  .cover-art-button{
-    position:absolute!important;
-    inset:0!important;
-    width:100vw!important;
-    height:100vh!important;
-    height:100dvh!important;
-    overflow:hidden!important;
-    display:block!important;
-    margin:0!important;
-    padding:0!important;
-  }
-
-  .cover-frame{
-    position:absolute!important;
-    top:50%!important;
-    left:50%!important;
-    transform:translate3d(-50%,-50%,0)!important;
-    transform-origin:50% 50%!important;
-
-    aspect-ratio:16 / 9!important;
-
-    /* Em desktops comuns, prioriza mostrar a arte inteira. */
-    width:min(100vw, calc(100dvh * 16 / 9))!important;
-    height:min(100dvh, calc(100vw * 9 / 16))!important;
-
-    max-width:none!important;
-    max-height:none!important;
-    display:block!important;
-    margin:0!important;
-    padding:0!important;
-    overflow:visible!important;
-  }
-
-  .cover-art-button picture{
-    position:absolute!important;
-    inset:0!important;
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
-    margin:0!important;
-    padding:0!important;
-  }
-
-  .cover-art{
-    position:absolute!important;
-    inset:0!important;
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
-    margin:0!important;
-    object-fit:contain!important;
-    object-position:50% 50%!important;
-    user-select:none!important;
-    -webkit-user-drag:none!important;
-  }
-
-  .cover-final-caption{
-    display:none!important;
-  }
+/* Headliner — single approved cover artwork.
+   Every viewport is filled by a centered crop without stretching the image. */
+html,body,#app{
+  width:100%!important;
+  height:100%!important;
+  min-height:100%!important;
+  overflow:hidden!important;
 }
 
-/* Em monitores mais largos que 16:9, a arte cresce até preencher a largura.
-   O excesso vertical fica centralizado e é cortado pelo viewport. */
-@media (min-width:761px) and (min-aspect-ratio:16/9){
-  .cover-frame{
-    width:100vw!important;
-    height:calc(100vw * 9 / 16)!important;
-  }
+.cover-screen{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  overflow:hidden!important;
+  background:#087db5!important;
+  isolation:isolate!important;
 }
 
-/* Mobile uses the dedicated portrait artwork (9:16). The artwork keeps its
-   native proportions; COVER may trim only a tiny edge on phones that are not
-   exactly 9:16, but it never stretches the image. */
-@media (max-width:760px){
-  html,body,#app{
-    width:100%!important;
-    height:100%!important;
-    min-height:100%!important;
-    overflow:hidden!important;
-    background:#087db5!important;
-  }
+.cover-screen::before,
+.cover-screen::after{
+  display:none!important;
+  content:none!important;
+  background:none!important;
+  filter:none!important;
+}
 
-  .cover-screen{
-    position:fixed!important;
-    inset:0!important;
-    width:100vw!important;
-    height:100svh!important;
-    height:100dvh!important;
-    min-height:100svh!important;
-    min-height:100dvh!important;
-    overflow:hidden!important;
-    background:#087db5!important;
-    isolation:isolate!important;
-  }
+.cover-art{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  object-fit:cover!important;
+  object-position:center center!important;
+  user-select:none!important;
+  -webkit-user-drag:none!important;
+}
 
-  .cover-screen::before,
-  .cover-screen::after{
-    display:none!important;
-    content:none!important;
-    background:none!important;
-    filter:none!important;
-  }
+.cover-art-button{
+  position:absolute!important;
+  inset:0!important;
+  z-index:1!important;
+  display:block!important;
+  width:100vw!important;
+  height:100vh!important;
+  height:100dvh!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  overflow:hidden!important;
+  touch-action:manipulation!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
 
-  .cover-art-button{
-    position:absolute!important;
-    inset:0!important;
-    display:block!important;
-    width:100vw!important;
-    height:100svh!important;
-    height:100dvh!important;
-    min-width:100vw!important;
-    min-height:100svh!important;
-    min-height:100dvh!important;
-    margin:0!important;
-    padding:0!important;
-    border:0!important;
-    border-radius:0!important;
-    background:#087db5!important;
-    overflow:hidden!important;
-  }
-
-  .cover-frame{
-    position:absolute!important;
-    top:50%!important;
-    left:50%!important;
-    right:auto!important;
-    bottom:auto!important;
-    transform:translate3d(-50%,-50%,0)!important;
-    transform-origin:50% 50%!important;
-
-    width:max(100vw,calc(100dvh * 9 / 16))!important;
-    height:max(100dvh,calc(100vw * 16 / 9))!important;
-    min-width:max(100vw,calc(100dvh * 9 / 16))!important;
-    min-height:max(100dvh,calc(100vw * 16 / 9))!important;
-    max-width:none!important;
-    max-height:none!important;
-    aspect-ratio:9 / 16!important;
-
-    display:block!important;
-    margin:0!important;
-    padding:0!important;
-    overflow:hidden!important;
-  }
-
-  .cover-art-button picture{
-    position:absolute!important;
-    inset:0!important;
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
-    margin:0!important;
-    padding:0!important;
-  }
-
-  .cover-art{
-    position:absolute!important;
-    inset:0!important;
-    display:block!important;
-    width:100%!important;
-    height:100%!important;
-    min-width:100%!important;
-    min-height:100%!important;
-    max-width:none!important;
-    max-height:none!important;
-    margin:0!important;
-    object-fit:cover!important;
-    object-position:50% 50%!important;
-    user-select:none!important;
-    -webkit-user-drag:none!important;
-  }
-
-  .cover-final-copy,
-  .cover-final-caption{
-    display:none!important;
-  }
+.cover-frame,
+.cover-final-copy,
+.cover-final-caption{
+  display:none!important;
 }

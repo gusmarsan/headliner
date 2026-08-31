@@ -24,7 +24,7 @@ function ensureStylesheet(baseHref,tag){
 }
 
 ensureStylesheet('/mobile-ui-fixes.css','<link rel="stylesheet" href="/mobile-ui-fixes.css">');
-ensureStylesheet('/cover-responsive-fixes.css','<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260831-wide-crop-a">');
+ensureStylesheet('/cover-responsive-fixes.css','<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260831-single-cover-a">');
 
 /* Always rebuild the supplemental runtime tail from a canonical ordered list.
    The previous all-or-nothing `/multiplayer.js` check could leave newer fixes
@@ -44,7 +44,7 @@ const runtimeScripts=[
   ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260831a"></script>'],
   ['/headliner-scheduled-plaque.js','<script src="/headliner-scheduled-plaque.js?v=20260831c"></script>'],
   ['/solo-attribute-turn-watchdog.js','<script src="/solo-attribute-turn-watchdog.js?v=20260831a"></script>'],
-  ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
+  ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260831-single-cover-a"></script>'],
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260831b"></script>'],
   ['/multiplayer-turn-fallback.js','<script src="/multiplayer-turn-fallback.js?v=20260831a"></script>'],
