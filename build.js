@@ -40,6 +40,7 @@ const runtimeScripts=[
   ['/solo-initial-lineup-review.js','<script src="/solo-initial-lineup-review.js?v=20260831c"></script>'],
   ['/cpu-turn-headliner-hotfix.js','<script src="/cpu-turn-headliner-hotfix.js?v=20260830e"></script>'],
   ['/initial-headliner-click-fix.js','<script src="/initial-headliner-click-fix.js?v=20260830c"></script>'],
+  ['/headliner-scheduled-plaque.js','<script src="/headliner-scheduled-plaque.js?v=20260831a"></script>'],
   ['/approved-cover-loader.js','<script src="/approved-cover-loader.js?v=20260830-approved-clean-b"></script>'],
   ['/final-poster-actions.js','<script src="/final-poster-actions.js"></script>'],
   ['/multiplayer-festival-privacy.js','<script src="/multiplayer-festival-privacy.js?v=20260830a"></script>'],
@@ -73,6 +74,7 @@ fs.copyFileSync(path.join(root,'mobile-round-fixes.js'),path.join(out,'mobile-ro
 fs.copyFileSync(path.join(root,'solo-initial-lineup-review.js'),path.join(out,'solo-initial-lineup-review.js'));
 fs.copyFileSync(path.join(root,'cpu-turn-headliner-hotfix.js'),path.join(out,'cpu-turn-headliner-hotfix.js'));
 fs.copyFileSync(path.join(root,'initial-headliner-click-fix.js'),path.join(out,'initial-headliner-click-fix.js'));
+fs.copyFileSync(path.join(root,'headliner-scheduled-plaque.js'),path.join(out,'headliner-scheduled-plaque.js'));
 fs.copyFileSync(path.join(root,'approved-cover-loader.js'),path.join(out,'approved-cover-loader.js'));
 fs.copyFileSync(path.join(root,'final-poster-actions.js'),path.join(out,'final-poster-actions.js'));
 fs.copyFileSync(path.join(root,'multiplayer-festival-privacy.js'),path.join(out,'multiplayer-festival-privacy.js'));
