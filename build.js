@@ -24,7 +24,7 @@ function ensureStylesheet(baseHref,tag){
 }
 
 ensureStylesheet('/mobile-ui-fixes.css','<link rel="stylesheet" href="/mobile-ui-fixes.css">');
-ensureStylesheet('/cover-responsive-fixes.css','<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260830e">');
+ensureStylesheet('/cover-responsive-fixes.css','<link rel="stylesheet" href="/cover-responsive-fixes.css?v=20260831-wide-crop-a">');
 
 /* Always rebuild the supplemental runtime tail from a canonical ordered list.
    The previous all-or-nothing `/multiplayer.js` check could leave newer fixes
